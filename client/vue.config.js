@@ -1,4 +1,19 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
-  transpileDependencies: true
-})
+    transpileDependencies: true,
+
+    devServer: {
+        //反向代理
+        proxy: {
+            "/adminapi": {
+                target: "http://localhost:3000",
+                changeOrigin: true
+            }
+        },
+
+        //报错显示
+        client: {
+            overlay: false
+        }
+    }
+});
