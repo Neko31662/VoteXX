@@ -28,15 +28,16 @@
                 <el-menu-item index="/user-manage/userlist">用户列表</el-menu-item>
             </el-sub-menu>
 
-            <el-sub-menu index="/news-manage">
+            <el-sub-menu index="/vote-manage">
                 <template #title>
                     <el-icon>
                         <MessageBox />
                     </el-icon>
-                    <span>新闻管理</span>
+                    <span>投票管理</span>
                 </template>
-                <el-menu-item index="/news-manage/addnews">创建新闻</el-menu-item>
-                <el-menu-item index="/news-manage/newslist">新闻列表</el-menu-item>
+                <el-menu-item index="/vote-manage/addvote">创建投票</el-menu-item>
+                <el-menu-item index="/vote-manage/votelist">参加中的投票</el-menu-item>
+                <el-menu-item index="/vote-manage/myvote">我创建的投票</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="/product-manage">

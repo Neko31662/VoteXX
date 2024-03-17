@@ -2,8 +2,9 @@ import Home from "../views/home/Home.vue";
 import Center from "../views/center/Center.vue";
 import UserAdd from "../views/user-manage/UserAdd.vue";
 import UserList from "../views/user-manage/UserList.vue";
-import NewsAdd from "../views/news-manage/NewsAdd.vue";
-import NewsList from "../views/news-manage/NewsList.vue";
+import AddVote from "../views/vote-manage/AddVote.vue";
+import VoteList from "../views/vote-manage/VoteList.vue";
+import MyVote from "@/views/vote-manage/MyVote.vue";
 import ProductAdd from "../views/product-manage/ProductAdd.vue";
 import ProductList from "../views/product-manage/ProductList.vue";
 import NotFound from "../views/notfound/NotFound.vue";
@@ -17,15 +18,22 @@ const routes = [
     },
     {
         path: "/center",
-        component: Center
+        component: Center,
+        meta: {
+            title: "个人中心"
+        }
     },
     {
-        path: "/news-manage/addnews",
-        component: NewsAdd
+        path: "/vote-manage/addvote",
+        component: AddVote
     },
     {
-        path: "/news-manage/newslist",
-        component: NewsList
+        path: "/vote-manage/votelist",
+        component: VoteList
+    },
+    {
+        path: "/vote-manage/myvote",
+        component: MyVote
     },
     {
         path: "/user-manage/adduser",

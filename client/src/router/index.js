@@ -10,12 +10,18 @@ const routes = [
     {
         path: "/login",
         name: "login",
-        component: Login
+        component: Login,
+        meta: {
+            title: "欢迎使用VoteXX投票系统"
+        }
     },
     {
         path: "/mainbox",
         name: "mainbox",
-        component: MainBox
+        component: MainBox,
+        meta: {
+            title: "主页"
+        }
         //嵌套路由在后面动态添加
     }
 ];
@@ -35,6 +41,20 @@ const ConfigRouter = () => {
     //调用store中方法修改全局变量
     store.commit("changeGetterRouter", true);
 };
+
+
+//根据路由设置中的meta.title字段设置标题
+router.beforeEach((to, from, next) => {
+    //设置过标题，则使用该标题
+    if (to.meta.title) {
+        document.title = to.meta.title;
+    }
+    //未设置标题，使用默认标题
+    else {
+        document.title = "VoteXX投票系统";
+    }
+    next();
+});
 
 //路由守卫（路由跳转前，进行判断）
 router.beforeEach((to, from, next) => {

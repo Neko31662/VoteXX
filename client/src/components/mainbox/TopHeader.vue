@@ -4,7 +4,7 @@
             <el-icon @click="handleCollapsed"> <!-- 用于修改折叠 -->
                 <Menu />
             </el-icon>
-            <span style="margin-left: 10px">企业门户网站管理系统</span>
+            <span style="margin-left: 10px">VoteXX投票系统</span>
         </div>
 
         <div class="right">

@@ -2,7 +2,7 @@
     <div>
         <vue-particles id="tsparticles" :options="options" :particlesLoaded="particlesLoaded" />
         <div class="formContainer">
-            <h3>企业门户管理系统</h3>
+            <h3>VoteXX投票系统</h3>
             <el-form ref="loginFormRef" :model="loginForm" status-icon :rules="loginRules" label-width="80px" class="loginform">
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="loginForm.username" autocomplete="off" />

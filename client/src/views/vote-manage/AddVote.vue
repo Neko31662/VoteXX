@@ -1,5 +1,5 @@
 <template>
     <div>
-        newslist
+        新建投票
     </div>
 </template>

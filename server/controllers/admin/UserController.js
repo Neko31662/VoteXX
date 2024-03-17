@@ -6,7 +6,7 @@ const UserController = {
 
         //拆解出数据后，调用Service层的方法来处理
         var result = await UserService.login(req.body);
-        if (result.length === 0) {
+        if (!result) {
             res.send({
                 code: "-1",
                 error: "用户名密码不匹配"
