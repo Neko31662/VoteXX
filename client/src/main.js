@@ -14,12 +14,12 @@ import { loadFull } from "tsparticles";
 import "./util/axios.config";
 
 createApp(App)
-    .use(Particles, {
-        init: async engine => {
-            await loadFull(engine);
-        },
-    })
     .use(ElementPlus)
     .use(store)
     .use(router)
+    .use(Particles, {
+        init: async engine => {
+            loadFull(engine);
+        },
+    })
     .mount('#app');
