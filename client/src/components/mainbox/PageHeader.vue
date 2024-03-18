@@ -22,8 +22,4 @@ const goBack = () => {
 </script>
 
 <style lang="scss" scoped>
-.el-page-header {
-    margin-top: 15px;
-    margin-left: 15px;
-}
 </style>

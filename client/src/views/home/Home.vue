@@ -60,8 +60,6 @@ const welcomeText = computed(() => new Date().getHours() < 12
 /*---卡片组件样式设置---*/
 .box-card {
     margin-top: 50px;
-    margin-left: 30px;
-    margin-right: 30px;
 }
 /*---卡片组件样式设置---*/
 

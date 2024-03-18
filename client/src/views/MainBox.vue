@@ -4,7 +4,9 @@
         <SideMenu />
         <el-container direction="vertical">
             <TopHeader />
-            <router-view></router-view>
+            <el-main>
+                <router-view></router-view>
+            </el-main>
         </el-container>
     </el-container>
 </template>
