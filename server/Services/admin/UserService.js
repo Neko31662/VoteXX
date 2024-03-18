@@ -32,7 +32,7 @@ const UserService = {
     },
 
 
-    addUser: async({username,password}) =>{
+    addUser: async ({ username, password }) => {
         //首先查找是否存在该用户名，存在则返回 -1
         var result = await UserModel.findOne({
             username

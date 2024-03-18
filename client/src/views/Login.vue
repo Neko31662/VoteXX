@@ -3,7 +3,8 @@
         <vue-particles id="tsparticles" :options="options" :particlesLoaded="particlesLoaded" />
         <div class="formContainer">
             <h3>VoteXX投票系统</h3>
-            <el-form ref="loginFormRef" :model="loginForm" status-icon :rules="loginRules" label-width="80px" class="loginform">
+            <el-form ref="loginFormRef" :model="loginForm" status-icon :rules="loginRules" label-width="80px"
+                class="loginform">
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="loginForm.username" autocomplete="off" />
                 </el-form-item>
@@ -28,6 +29,8 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { ElMessage } from "element-plus"; //消息弹框
+import { useStore } from "vuex";
+const store = useStore();
 
 //表单绑定的响应式对象
 const loginForm = reactive({
@@ -73,8 +76,10 @@ const submitForm = () => {
             //2.提交后台
             axios.post("/adminapi/user/login", loginForm).then((res) => {
                 if (res.data.ActionType === "ok") {
-                    //3.提供token(这一步在axios拦截器中实现)
-                    //4.跳转
+                    //3.服务器返回token(这一步在axios拦截器中实现)
+                    //4.服务器返回用户相关信息
+                    store.commit("changeUserInfo", res.data.data);
+                    //5.跳转
                     router.push("/index");
                 } else {
                     ElMessage.error("用户名和密码不匹配");
@@ -175,6 +180,7 @@ const options = {
     h3 {
         font-size: 20px;
     }
+
     .loginform {
         margin-top: 20px;
     }

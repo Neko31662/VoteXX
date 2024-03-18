@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 //限制集合中每个文档的属性以及类型
 const UserType = {
     username: {
-        type:String,
-        unique:true,//用户名不可重复
-        required:true 
+        type: String,
+        unique: true,//用户名不可重复
+        required: true
     },
     password: String,
     salt: String,

@@ -1,0 +1,12 @@
+{
+    "workbench.editor.languageDetection": false,
+    "formatFiles.excludedFolders":[
+        "node_modules",
+        ".vscode",
+        ".git",
+        "dist",
+        ".chrome",
+        "client/node_modules",
+        "server/node_modules",
+    ]
+}

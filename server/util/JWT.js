@@ -3,7 +3,7 @@ const secret = "kerwin";
 
 const JWT = {
     //常量，token有效期
-    EXPIRES : "1d",
+    EXPIRES: "1d",
 
     //生成token，传入：值，有效期长度
     generate: (value, expires) => {

@@ -15,7 +15,7 @@ const routes = [
         meta: {
             title: "欢迎使用VoteXX投票系统"
         }
-    }, 
+    },
     {
         path: "/register",
         name: "register",

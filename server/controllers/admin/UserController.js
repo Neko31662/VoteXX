@@ -19,10 +19,17 @@ const UserController = {
             }, `${JWT.EXPIRES}`);
 
             //挂在res的header上
-            res.header("Authorization",token);
+            res.header("Authorization", token);
 
             res.send({
-                ActionType: "ok"
+                ActionType: "ok",
+                data: {
+                    username: result[0].username,
+                    gender: result[0].gender,
+                    introduction: result[0].introduction,
+                    avatar: result[0].avatar,
+                    role: result[0].role
+                }
             });
         }
     }
