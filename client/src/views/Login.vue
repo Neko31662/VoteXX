@@ -8,13 +8,16 @@
                     <el-input v-model="loginForm.username" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input v-model="loginForm.password" autocomplete="off" />
+                    <el-input v-model="loginForm.password" autocomplete="off" type="password" />
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm()">
                         登录
                     </el-button>
                 </el-form-item>
+                <div>
+                    <el-link href="/#/register" type="primary">default</el-link>
+                </div>
             </el-form>
         </div>
     </div>
@@ -56,7 +59,10 @@ const loginRules = reactive({
 });
 
 const router = useRouter();
-//提交表单的函数
+
+/**
+ * 提交表单
+ */
 const submitForm = () => {
     //1.校验
     loginFormRef.value.validate((valid) => {
@@ -153,6 +159,7 @@ const options = {
 </script>
 
 <style lang="scss" scoped>
+//登录框样式
 .formContainer {
     width: 500px;
     height: 300px;

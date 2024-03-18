@@ -2,6 +2,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Login from "../views/Login.vue";
 import MainBox from "../views/MainBox.vue";
+import Register from '../views/Register.vue';
 import routesConfig from './config.js';//需要动态添加的路由从此处引入
 import store from "../store/index.js";//引入全局变量
 
@@ -13,6 +14,14 @@ const routes = [
         component: Login,
         meta: {
             title: "欢迎使用VoteXX投票系统"
+        }
+    }, 
+    {
+        path: "/register",
+        name: "register",
+        component: Register,
+        meta: {
+            title: "注册新账户"
         }
     },
     {
@@ -59,7 +68,7 @@ router.beforeEach((to, from, next) => {
 //路由守卫（路由跳转前，进行判断）
 router.beforeEach((to, from, next) => {
     //to为login，直接跳转
-    if (to.name === "login") {
+    if (to.name === "login" || to.name === "register") {
         next();//调用next()跳转到to
         return;
     }
