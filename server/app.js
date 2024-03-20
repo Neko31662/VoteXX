@@ -7,7 +7,6 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const UserRouter = require('./routes/UserRouter');
-const PublicRouter = require('./routes/PublicRouter');
 const JWT = require('./util/JWT');
 
 var app = express();
@@ -66,9 +65,7 @@ app.use((req, res, next) => {
 
 //注册路由中间件
 app.use(UserRouter);
-app.use('/serverapi', PublicRouter);
-// app.use("http://localhost:3000",PublicRouter);
-// express.static(path.join(__dirname, 'public'))
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
