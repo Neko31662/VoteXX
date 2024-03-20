@@ -1,0 +1,1 @@
+export const ServerPublicUrl = "/serverapi/public";

@@ -43,10 +43,11 @@ const store = useStore();
 //计算属性
 import { computed } from 'vue';
 import PageHeader from "@/components/mainbox/PageHeader.vue";
+import { ServerPublicUrl } from '@/config/config';
 
 //头像Url，无头像时使用默认头像
 const avatarUrl = computed(() => store.state.userInfo.avatar
-    ? store.state.userInfo.avatar
+    ? ServerPublicUrl+store.state.userInfo.avatar
     : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
 
 //根据时间计算提示词

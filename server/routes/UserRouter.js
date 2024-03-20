@@ -1,6 +1,6 @@
 var express = require('express');
-const UserController = require('../controllers/UserController');
 var UserRouter = express.Router();
+const UserController = require('../controllers/UserController');
 
 //文件上传
 const multer = require("multer");

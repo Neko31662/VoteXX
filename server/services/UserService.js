@@ -3,6 +3,8 @@ const md5 = require("md5");
 //引入随机值产生器库
 const Chance = require("chance");
 const chance = new Chance();
+//引入文件模块
+const fs = require("fs");
 
 const UserModel = require("../models/UserModel");
 
@@ -57,7 +59,7 @@ const UserService = {
      * 
      * @returns _id字段校验出错，返回-1；
      * 新用户名已经被他人使用，返回-2；
-     * 校验成功返回promise对象
+     * 校验成功返回0
      */
     upload: async ({ _id, username, introduction, gender, avatar }) => {
         //检查_id字段是否存在
@@ -76,10 +78,26 @@ const UserService = {
                 return -2;
             }
         }
-
-        return UserModel.updateOne({ _id }, {
-            username, introduction, gender, avatar
-        });
+        
+        //如果avatar不为null，说明头像被修改，需要删除原头像
+        if (avatar) {
+            const old = await UserModel.findById(_id);
+            const oldAvatar=old.avatar; 
+            await UserModel.updateOne({ _id }, {
+                username, introduction, gender, avatar
+            });
+            fs.unlink("./public" + oldAvatar,(err)=>{
+                console.log(err);
+            })
+            return 0;
+        }
+        //如果avatar为null，不更新该字段
+        else {
+            await UserModel.updateOne({ _id }, {
+                username, introduction, gender
+            });
+            return 0;
+        }
     }
 };
 

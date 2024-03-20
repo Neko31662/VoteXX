@@ -60,8 +60,10 @@
 import { useStore } from "vuex";
 const store = useStore();
 import { ref, reactive } from "vue";
-import { Plus } from "@element-plus/icons-vue"; //导入图标
 import axios from "axios";
+import { Plus } from "@element-plus/icons-vue";
+import { ElMessage } from "element-plus";
+import { ServerPublicUrl } from "@/config/config";
 
 //表单的响应式对象
 const userFormRef = ref();
@@ -72,7 +74,7 @@ const userForm = reactive({
     username,
     gender,
     introduction,
-    avatar,
+    avatar: avatar ? ServerPublicUrl + avatar : "",
     avatarFile: null,
 });
 
@@ -159,6 +161,12 @@ const submitForm = () => {
                 })
                 .then((res) => {
                     console.log(res.data);
+                    if (res.data.error) {
+                        ElMessage.error(res.data.error);
+                    } else if (res.data.ActionType === "ok") {
+                        store.commit("changeUserInfo", res.data.data);
+                        ElMessage.success("修改成功");
+                    }
                 });
         }
         //校验不通过
@@ -169,7 +177,6 @@ const submitForm = () => {
 </script>
 
 <style lang="scss" scoped>
-
 /*---图像上传样式设置---*/
 .avatar-uploader .avatar {
     width: 178px;

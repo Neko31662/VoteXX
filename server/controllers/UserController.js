@@ -53,8 +53,7 @@ const UserController = {
             avatar = "";
         }
 
-
-        let result = await UserService.upload({
+        const result = await UserService.upload({
             _id, username, introduction, gender: Number(gender), avatar
         });
         if (result === -1) {
@@ -62,7 +61,12 @@ const UserController = {
         } else if (result === -2) {
             res.send({ error: "用户名已被使用" });
         } else {
-            res.send({ ActionType: "OK" });
+            const data = { username, introduction, gender: Number(gender) };
+            if (avatar) data.avatar = avatar;
+            res.send({
+                ActionType: "ok",
+                data
+            });
         }
     }
 };
