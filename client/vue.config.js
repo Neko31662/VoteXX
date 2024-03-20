@@ -5,7 +5,7 @@ module.exports = defineConfig({
     devServer: {
         //反向代理
         proxy: {
-            "/adminapi": {
+            "/serverapi": {
                 target: "http://localhost:3000",
                 changeOrigin: true
             }

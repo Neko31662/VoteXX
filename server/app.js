@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const UserRouter = require('./routes/admin/UserRouter');
+const UserRouter = require('./routes/UserRouter');
 const JWT = require('./util/JWT');
 const { log } = require('console');
 
@@ -26,15 +26,14 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 
-/*
-  /adminapi/* : 后台系统用的
-  /webapi/* : 企业系统用的
-*/
-
 //检测前端传来的token的有效性
+const urlNoNeedToken=[
+    "/serverapi/user/login",
+]
+
 app.use((req, res, next) => {
     //如果是不需要token的api则跳过
-    if (req.url === "/adminapi/user/login") {
+    if (urlNoNeedToken.includes(req.url)) {
         next();
         return;
     }

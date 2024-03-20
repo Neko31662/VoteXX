@@ -47,6 +47,7 @@ const handleCenter = () => {
 
 const handleLogout = () => {
     localStorage.removeItem("token");//清除token
+    store.commit("clearUserInfo");//清除用户信息
     router.push("/login");
 };
 </script>

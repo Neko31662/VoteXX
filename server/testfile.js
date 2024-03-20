@@ -1,7 +1,16 @@
-const Chance = require("chance");
-const chance = Chance();
-const md5 = require("md5");
+require("./config/db.config");
+const UserController = require("./controllers/UserController");
 
-const salt = chance.string({ length: 16 });
-console.log(salt);
-console.log(md5("12345678" + salt));
+var req = {};
+req.body = {
+    username: "admin2",
+    gender: 1,
+    introduction: "管理员"
+};
+req.file = {
+    filename: "test_file_name"
+};
+
+var res = {};
+
+UserController.upload(req, res);
