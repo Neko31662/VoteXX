@@ -1,6 +1,10 @@
 <template>
     <el-aside width="auto">
-        <el-menu :collapse="$store.state.isCollapsed" :router="true" :default-active="route.fullPath">
+        <el-menu
+            :collapse="$store.state.isCollapsed"
+            :router="true"
+            :default-active="route.fullPath"
+        >
             <el-menu-item index="/index">
                 <!-- 使用图标的方式：el-icon里套图标名称
                 需要在"@element-plus/icons-vue"中引入图标名 -->
@@ -24,8 +28,12 @@
                     </el-icon>
                     <span>用户管理</span>
                 </template>
-                <el-menu-item index="/user-manage/adduser">添加用户</el-menu-item>
-                <el-menu-item index="/user-manage/userlist">用户列表</el-menu-item>
+                <el-menu-item index="/user-manage/adduser">
+                    添加用户
+                </el-menu-item>
+                <el-menu-item index="/user-manage/userlist">
+                    用户列表
+                </el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="/vote-manage">
@@ -35,9 +43,15 @@
                     </el-icon>
                     <span>投票管理</span>
                 </template>
-                <el-menu-item index="/vote-manage/addvote">创建投票</el-menu-item>
-                <el-menu-item index="/vote-manage/votelist">参加中的投票</el-menu-item>
-                <el-menu-item index="/vote-manage/myvote">我创建的投票</el-menu-item>
+                <el-menu-item index="/vote-manage/addvote">
+                    创建投票
+                </el-menu-item>
+                <el-menu-item index="/vote-manage/votelist">
+                    参加中的投票
+                </el-menu-item>
+                <el-menu-item index="/vote-manage/myvote">
+                    我创建的投票
+                </el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="/product-manage">
@@ -47,8 +61,12 @@
                     </el-icon>
                     <span>产品管理</span>
                 </template>
-                <el-menu-item index="/product-manage/addproduct">添加产品</el-menu-item>
-                <el-menu-item index="/product-manage/productlist">产品列表</el-menu-item>
+                <el-menu-item index="/product-manage/addproduct">
+                    添加产品
+                </el-menu-item>
+                <el-menu-item index="/product-manage/productlist">
+                    产品列表
+                </el-menu-item>
             </el-sub-menu>
         </el-menu>
     </el-aside>

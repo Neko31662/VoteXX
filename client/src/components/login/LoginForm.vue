@@ -22,7 +22,7 @@
             <el-button type="primary" @click="submitForm()">登录</el-button>
         </el-form-item>
         <div>
-            <el-link href="/#/register" type="primary">还没有账号？</el-link>
+            <el-link href="/#/signup" type="primary">还没有账号？</el-link>
         </div>
     </el-form>
 </template>

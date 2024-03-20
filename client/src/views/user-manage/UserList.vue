@@ -1,5 +1,3 @@
 <template>
-    <div>
-        userlist
-    </div>
+    <div>userlist</div>
 </template>

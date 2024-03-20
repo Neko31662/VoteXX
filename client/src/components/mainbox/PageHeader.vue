@@ -1,19 +1,19 @@
 <template>
     <el-page-header icon="" title="VoteXX投票系统" @back="goBack">
         <template #content>
-            <span> {{ content }} </span>
+            <span>{{ content }}</span>
         </template>
     </el-page-header>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 const router = useRouter();
 
 //声明传入组件的props
 defineProps({
-    content:String
-})
+    content: String,
+});
 
 //点击页头后触发该函数回到首页
 const goBack = () => {
@@ -21,5 +21,4 @@ const goBack = () => {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

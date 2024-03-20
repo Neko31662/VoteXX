@@ -78,17 +78,17 @@ const UserService = {
                 return -2;
             }
         }
-        
+
         //如果avatar不为null，说明头像被修改，需要删除原头像
         if (avatar) {
             const old = await UserModel.findById(_id);
-            const oldAvatar=old.avatar; 
+            const oldAvatar = old.avatar;
             await UserModel.updateOne({ _id }, {
                 username, introduction, gender, avatar
             });
-            fs.unlink("./public" + oldAvatar,(err)=>{
+            fs.unlink("./public" + oldAvatar, (err) => {
                 console.log(err);
-            })
+            });
             return 0;
         }
         //如果avatar为null，不更新该字段

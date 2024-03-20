@@ -3,15 +3,14 @@
         <Particle />
         <div class="formContainer">
             <h3>VoteXX投票系统</h3>
-            <LoginForm/>
+            <LoginForm />
         </div>
     </div>
 </template>
 
 <script setup>
 import Particle from "@/components/Particle.vue"; //粒子效果
-import LoginForm from "@/components/login/LoginForm.vue"//登录表单
-
+import LoginForm from "@/components/login/LoginForm.vue"; //登录表单
 </script>
 
 <style lang="scss" scoped>

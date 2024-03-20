@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Particle/>
+        <Particle />
         注册账号
     </div>
 </template>

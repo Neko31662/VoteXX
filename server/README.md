@@ -1,6 +1,6 @@
 ## bin
 
-express后端程序的入口
+express 后端程序的入口
 
 ## config
 

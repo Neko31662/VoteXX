@@ -1,5 +1,9 @@
 <template>
-    <vue-particles id="tsparticles" :options="options" :particlesLoaded="particlesLoaded" />
+    <vue-particles
+        id="tsparticles"
+        :options="options"
+        :particlesLoaded="particlesLoaded"
+    />
 </template>
 
 <script setup>

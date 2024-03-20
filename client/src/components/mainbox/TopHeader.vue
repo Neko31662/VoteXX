@@ -1,7 +1,8 @@
 <template>
     <el-header>
         <div class="left">
-            <el-icon @click="handleCollapsed"> <!-- 用于修改折叠 -->
+            <el-icon @click="handleCollapsed">
+                <!-- 用于修改折叠 -->
                 <Menu />
             </el-icon>
             <span style="margin-left: 10px">VoteXX投票系统</span>
@@ -17,13 +18,16 @@
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="handleCenter">个人中心</el-dropdown-item>
-                        <el-dropdown-item @click="handleLogout">退出</el-dropdown-item>
+                        <el-dropdown-item @click="handleCenter">
+                            个人中心
+                        </el-dropdown-item>
+                        <el-dropdown-item @click="handleLogout">
+                            退出
+                        </el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
         </div>
-
     </el-header>
 </template>
 
@@ -46,8 +50,8 @@ const handleCenter = () => {
 };
 
 const handleLogout = () => {
-    localStorage.removeItem("token");//清除token
-    store.commit("clearUserInfo");//清除用户信息
+    localStorage.removeItem("token"); //清除token
+    store.commit("clearUserInfo"); //清除用户信息
     router.push("/login");
 };
 </script>

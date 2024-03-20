@@ -1,5 +1,3 @@
 <template>
-    <div>
-        useradd
-    </div>
+    <div>useradd</div>
 </template>
