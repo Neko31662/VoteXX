@@ -31,10 +31,6 @@ import LoginForm from "@/components/login/LoginForm.vue"; //登录表单
         font-size: 20px;
     }
 
-    .loginform {
-        margin-top: 20px;
-    }
 }
-
 /*---登录框样式---*/
 </style>

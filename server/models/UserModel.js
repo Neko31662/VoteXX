@@ -8,12 +8,33 @@ const UserType = {
         unique: true,//用户名不可重复
         required: true
     },
-    password: String,
-    salt: String,
-    gender: Number, //未指定0，男1，女2
-    introduction: String,
-    avatar: String, // 头像
-    role: Number //角色：根管理员0，普通管理员1，普通用户2，EA3
+    password: {
+        type: String,
+        required: true
+    },
+    salt: {
+        type: String,
+        required: true
+    },
+    //性别，未指定0，男1，女2
+    gender: {
+        type: Number,
+        default: 0
+    },
+    introduction: {
+        type: String,
+        default: ""
+    },
+    //头像
+    avatar: {
+        type: String,
+        default: ""
+    },
+    //角色：管理员1，普通用户2，EA3
+    role: {
+        type: Number,
+        required: true
+    }
 };
 
 //创建的模型为"user"，则对应的mongoDB集合名称为"users"

@@ -6,7 +6,7 @@
         :rules="loginRules"
         label-width="80px"
         hide-required-asterisk="true"
-        class="loginform"
+        class="login-form"
     >
         <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username" autocomplete="off" />
@@ -72,7 +72,6 @@ const submitForm = () => {
     //1.校验
     loginFormRef.value.validate((valid) => {
         //全部通过校验，valid为true，反之为false
-        // console.log("表单校验：" + valid);
         if (valid) {
             //2.提交后台
             axios.post("/serverapi/user/login", loginForm).then((res) => {
@@ -92,6 +91,10 @@ const submitForm = () => {
 </script>
 
 <style lang="scss" scoped>
+.login-form {
+    margin-top: 20px;
+}
+
 ::v-deep .el-form-item__label {
     color: white;
 }

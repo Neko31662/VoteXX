@@ -21,6 +21,30 @@ const checkExist = async (filter) => {
     return Boolean(result);
 };
 
+/**
+ * 判断用户名是否合法
+ * @param {*} username 用户名
+ * @returns 布尔值
+ */
+const checkUsernameLegal = (username) => {
+    if (!username || username.length > 32) return false;
+    return true;
+};
+
+/**
+ * 判断密码是否合法
+ * @param {*} password 
+ * @returns 布尔值
+ */
+const checkPasswordLegal = (password) => {
+    if (!password || password.length < 8 || password.length > 64) return false;
+    const hasDigit = /[0-9]/.test(password);
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasNonASCII = /[^\x00-\x7F]/.test(password);
+    if (!hasDigit || !hasLetter || hasNonASCII) return false;
+    return true;
+};
+
 const UserService = {
 
     /**
@@ -44,14 +68,31 @@ const UserService = {
         }
     },
 
+    /**
+     * 向数据库添加用户信息
+     * @returns 根据添加信息的情况返回值
+     * 用户名或密码不合法返回-1
+     * 用户名重复返回-2
+     * 成功返回0
+     */
     addUser: async ({ username, password }) => {
-        //首先查找是否存在该用户名，存在则返回 -1
-        var result = await UserModel.findOne({
-            username
-        });
-        if (result.length !== 0) return -1;
+        //验证用户名和密码是否合法
+        if (!checkUsernameLegal(username) || !checkPasswordLegal(password)) return -1;
 
-        //添加用户信息，待完善
+        //查找是否存在该用户名，存在则返回 -2
+        var result = await checkExist({ username });
+        if (result) return -2;
+
+        //添加用户信息
+        const salt = chance.string({ length: 64 });
+        const password_hash = md5(password + salt);
+        await UserModel.create({
+            username,
+            salt,
+            password: password_hash,
+            role: 2,
+        });
+        return 0;
     },
 
     /**
@@ -59,9 +100,12 @@ const UserService = {
      * 
      * @returns _id字段校验出错，返回-1；
      * 新用户名已经被他人使用，返回-2；
+     * 新用户名不合法，返回-3；
      * 校验成功返回0
      */
     upload: async ({ _id, username, introduction, gender, avatar }) => {
+        if (!checkUsernameLegal(username)) return -3;
+
         //检查_id字段是否存在
         let exist = await checkExist({ _id });
         if (!exist) {
@@ -86,9 +130,11 @@ const UserService = {
             await UserModel.updateOne({ _id }, {
                 username, introduction, gender, avatar
             });
-            fs.unlink("./public" + oldAvatar, (err) => {
-                console.log(err);
-            });
+            if (oldAvatar) {
+                fs.unlink("./public" + oldAvatar, (err) => {
+                    console.log(err);
+                });
+            }
             return 0;
         }
         //如果avatar为null，不更新该字段
@@ -98,6 +144,14 @@ const UserService = {
             });
             return 0;
         }
+    },
+
+    /**
+     * 查询某一用户名是否可用（不存在），返回bool值
+     * @param {*} username 待查询用户名
+     */
+    checkUsernameValid: async (username) => {
+        return ! await checkExist({ username });
     }
 };
 

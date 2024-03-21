@@ -1,3 +1,4 @@
+const UserModel = require("../models/UserModel");
 const UserService = require("../services/UserService");
 const JWT = require("../util/JWT");
 
@@ -60,6 +61,8 @@ const UserController = {
             res.send({ error: "未找到该用户" });
         } else if (result === -2) {
             res.send({ error: "用户名已被使用" });
+        }else if (result === -3) {
+            res.send({ error: "用户名长度过长" });
         } else {
             const data = { username, introduction, gender: Number(gender) };
             if (avatar) data.avatar = avatar;
@@ -67,6 +70,36 @@ const UserController = {
                 ActionType: "ok",
                 data
             });
+        }
+    },
+
+    /**
+     * 处理查询用户名是否存在的请求
+     */
+    checkUsernameValid: async (req, res) => {
+        const { username } = req.query;
+
+        //用户名字段为空直接判否，正常流程下不会进入这一分支
+        if (!username) {
+            res.send({ UsernameValid: false });
+            return;
+        }
+
+        const result = await UserService.checkUsernameValid(username);
+        res.send({ UsernameValid: result });
+        return;
+    },
+
+    /**
+     * 处理注册用户的请求
+     */
+    signup: async (req, res) => {
+
+        const result = await UserService.addUser(req.body);
+        if (result === 0) {
+            res.send({ ActionType: "ok" });
+        } else {
+            res.send({ ActionType: "fail" });
         }
     }
 };

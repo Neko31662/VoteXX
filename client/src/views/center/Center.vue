@@ -50,8 +50,6 @@ const avatarUrl = computed(() =>
  */
 const getRole = (role) => {
     switch (role) {
-        case 0:
-            return "根管理员";
         case 1:
             return "管理员";
         case 2:
@@ -59,7 +57,7 @@ const getRole = (role) => {
         case 3:
             return "EA";
         default:
-            return "错误";
+            return "用户权限信息错误";
     }
 };
 </script>

@@ -83,7 +83,12 @@ const userFormRules = reactive({
     username: [
         {
             required: true,
-            message: "请输入名字",
+            message: "请输入用户名",
+            trigger: "blur",
+        },
+        {
+            max: 32,
+            message: "用户名长度请勿超过32",
             trigger: "blur",
         },
     ],
@@ -91,20 +96,6 @@ const userFormRules = reactive({
         {
             required: true,
             message: "请输入性别",
-            trigger: "blur",
-        },
-    ],
-    introduction: [
-        {
-            required: true,
-            message: "请输入介绍",
-            trigger: "blur",
-        },
-    ],
-    avatar: [
-        {
-            required: true,
-            message: "请上传头像",
             trigger: "blur",
         },
     ],
@@ -160,7 +151,6 @@ const submitForm = () => {
                     },
                 })
                 .then((res) => {
-                    console.log(res.data);
                     if (res.data.error) {
                         ElMessage.error(res.data.error);
                     } else if (res.data.ActionType === "ok") {
