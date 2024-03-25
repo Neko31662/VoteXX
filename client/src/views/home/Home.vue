@@ -6,9 +6,9 @@
         <!-- 卡片1：头像+欢迎 -->
         <el-card class="box-card">
             <el-row>
-                <!-- 头像 -->
+                <!-- 24栅格系统 -->
                 <el-col :span="4">
-                    <!-- 24栅格系统 -->
+                    <!-- 头像 -->
                     <el-avatar :size="100" :src="avatarUrl" />
                 </el-col>
                 <!-- 欢迎 -->
@@ -86,5 +86,5 @@ const welcomeText = computed(() =>
     background-color: #d3dce6;
 }
 
-/*---carousel走马灯组件样式设置---*/
+/*---走马灯组件样式设置---*/
 </style>

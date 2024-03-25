@@ -129,7 +129,7 @@ const handleChange = (file) => {
 };
 
 /**
- * 提交更新的信息
+ * 提交更新的个人信息
  */
 const submitForm = () => {
     //校验，校验通过valid === true，否则为false

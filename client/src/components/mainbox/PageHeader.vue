@@ -1,5 +1,5 @@
 <template>
-    <el-page-header icon="" title="VoteXX投票系统" @back="goBack">
+    <el-page-header icon="" title="返回首页" @back="goBack">
         <template #content>
             <span>{{ content }}</span>
         </template>

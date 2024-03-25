@@ -1,4 +1,3 @@
-const UserModel = require("../models/UserModel");
 const UserService = require("../services/UserService");
 const JWT = require("../util/JWT");
 
@@ -12,7 +11,6 @@ const UserController = {
         var result = await UserService.login(req.body);
         if (!result) {
             res.send({
-                code: "-1",
                 error: "用户名密码不匹配"
             });
         } else {
@@ -43,9 +41,7 @@ const UserController = {
      */
     upload: async (req, res) => {
         const { username, introduction, gender } = req.body;
-        const token = req.headers["authorization"].split(" ")[1];
-        const payload = JWT.verify(token);
-        const _id = payload ? payload._id : "###";
+        const _id = req.payload ? req.payload._id : "###";
 
         let avatar = null;
         try {
@@ -64,12 +60,21 @@ const UserController = {
         }else if (result === -3) {
             res.send({ error: "用户名长度过长" });
         } else {
+            //token中的内容变化，更新token
+            const newToken = JWT.generate({
+                _id,
+                username
+            }, `${JWT.EXPIRES}`);
+            res.header("Authorization", newToken);
+
+            //返回新的用户数据
             const data = { username, introduction, gender: Number(gender) };
             if (avatar) data.avatar = avatar;
             res.send({
                 ActionType: "ok",
                 data
             });
+            return;
         }
     },
 

@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const UserRouter = require('./routes/UserRouter');
+const VoteRouter = require('./routes/VoteRouter');
 const JWT = require('./util/JWT');
 
 var app = express();
@@ -29,13 +30,13 @@ app.use('/users', usersRouter);
 //设置静态资源目录
 app.use("/serverapi/public", express.static(path.join(__dirname, 'public')));
 
-//检测前端传来的token的有效性
+//不需要验证token的api
 const urlNoNeedToken = [
     "/serverapi/user/login",
     "/serverapi/user/check-username-valid",
     "/serverapi/user/signup",
 ];
-
+//检测前端传来的token的有效性
 app.use((req, res, next) => {
     //如果是不需要token的api则跳过
     if (urlNoNeedToken.includes(req.path)) {
@@ -47,7 +48,7 @@ app.use((req, res, next) => {
     try {
         token = req.headers.authorization.split(" ")[1];
     } catch (err) {
-        res.status(401).send({ errCode: "-1", errInfo: "无token" });
+        res.status(401).send({ error: "无token" });
         return;
     }
     var payload = false;
@@ -56,20 +57,25 @@ app.use((req, res, next) => {
     }
     if (payload) {
         //token有效，放行
+        //生成新的token
         const newToken = JWT.generate({
             _id: payload._id,
             username: payload.username
         }, `${JWT.EXPIRES}`);
         res.header("Authorization", newToken);
+        //将token信息挂载到req
+        req.payload=payload;
         next();
     } else {
-        res.status(401).send({ errCode: "-1", errInfo: "token过期" });
         //token无效，返回401
+        res.status(401).send({ error: "token过期" });
+        return;
     }
 });
 
 //注册路由中间件
 app.use(UserRouter);
+app.use(VoteRouter);
 
 
 // catch 404 and forward to error handler

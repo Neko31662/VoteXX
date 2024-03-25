@@ -1,5 +1,3 @@
+var a = new Date();
 
-const Chance = require("chance");
-const chance = new Chance();
-
-console.log(chance.string({length:10}));
+console.log(a instanceof Date);
