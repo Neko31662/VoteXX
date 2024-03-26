@@ -13,15 +13,19 @@ const JWT = {
      * @returns 生成的token
      */
     generate: (value, expires) => {
-        if(expires){
+        if (expires) {
             return jsonwebtoken.sign(value, secret, { expiresIn: expires });
-        }else{
+        } else {
             return jsonwebtoken.sign(value, secret, {});
         }
-        
+
     },
 
-    //验证token，传入token，验证成功返回解密后token，否则返回false
+    /**
+     * 验证token
+     * @param {*} token token的值
+     * @returns 验证成功返回解密后token，否则返回false
+     */
     verify: (token) => {
         try {
             return jsonwebtoken.verify(token, secret);

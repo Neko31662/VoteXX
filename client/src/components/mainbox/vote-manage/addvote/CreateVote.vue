@@ -20,11 +20,12 @@
             <el-card>
                 <!-- 卡片header：当前步骤名称 -->
                 <template #header>
-                    <h3
-                        v-for="(message, index) in filteredStepMessages"
-                        :key="index"
-                    >
-                        {{ message }}
+                    <h3>
+                        {{
+                            active !== stepNumber
+                                ? stepMessages[active]
+                                : "创建成功"
+                        }}
                     </h3>
                 </template>
 
@@ -134,12 +135,40 @@
                 <!-- 创建完成 -->
                 <el-form
                     v-show="active === stepNumber"
-                    class="create-vote-form"
                     label-width="auto"
                     status-icon
                 >
                     <el-form-item>
-                        <h3>创建投票成功</h3>
+                        <el-text>
+                            <p>
+                                创建投票成功，用户可在
+                                <strong>创建/加入投票</strong>
+                                界面输入该凭证以加入投票：
+                                <br />
+                            </p>
+                        </el-text>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-card shadow="never">
+                            <p style="word-break: break-all">
+                                {{ joinVoteToken }}
+                            </p>
+
+                            <template #footer>
+                                <!-- 复制按钮 -->
+                                <el-tooltip
+                                    :content="joinVoteTokenCopyTipContent"
+                                    placement="bottom"
+                                >
+                                    <el-button
+                                        :icon="DocumentCopy"
+                                        link
+                                        @click="copyToken"
+                                    />
+                                </el-tooltip>
+                            </template>
+                        </el-card>
                     </el-form-item>
                 </el-form>
 
@@ -189,13 +218,23 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import axios from "axios";
 import { ElMessage } from "element-plus";
+import { DocumentCopy } from "@element-plus/icons-vue";
 import TimeTips from "@/components/mainbox/vote-manage/addvote/TimeTips.vue";
 
-const active = ref(0);
-const stepNumber = 3;
+const active = ref(0); //当前完成的步骤
+const stepNumber = 3; //总步数
+
+//创建投票各个步骤的名称
+const stepMessages = ["填写投票信息", "选择时间", "确认EA数量"];
+
+//创建投票后生成的投票凭证
+const joinVoteToken = ref("joinVoteToken");
+
+//鼠标悬停在复制投票凭证的按钮上时，显示的提示文字
+const joinVoteTokenCopyTipContent = ref("复制凭证");
 
 //表单的响应式对象
 const createVoteFormRef = [];
@@ -330,12 +369,6 @@ createVoteRules[2] = reactive({
     ],
 });
 
-//创建投票各个步骤的名称
-const stepMessages = ["填写投票信息", "选择时间", "确认EA数量"];
-const filteredStepMessages = computed(() => {
-    return stepMessages.filter((message, index) => index === active.value);
-});
-
 /**
  * 校验当前步骤的内容，然后前往下一步
  */
@@ -373,7 +406,8 @@ const validatePromise = (index) => {
 
 const formSubmitting = ref(false); //表单是否正在提交
 /**
- * 校验并提交创建新投票的表单，处理返回结果
+ * 校验并提交创建新投票的表单，处理返回结果。
+ * 创建成功后，同时生成投票凭证，用户可输入此凭证来加入投票
  */
 const submitForm = async () => {
     const arr = Array.from({ length: stepNumber }, (_, index) => index);
@@ -396,9 +430,22 @@ const submitForm = async () => {
             ElMessage.error(res.data.error);
         } else if (res.data.ActionType === "ok") {
             ElMessage.success("创建投票成功");
+            joinVoteToken.value = btoa(res.data.data.token);
             active.value = stepNumber;
         }
         formSubmitting.value = false;
+    });
+};
+
+/**
+ * 点击复制键复制凭证
+ */
+const copyToken = () => {
+    navigator.clipboard.writeText(joinVoteToken.value).then(() => {
+        joinVoteTokenCopyTipContent.value = "已复制到剪贴板";
+        setTimeout(() => {
+            joinVoteTokenCopyTipContent.value = "复制凭证";
+        }, 2000);
     });
 };
 </script>
@@ -406,5 +453,14 @@ const submitForm = async () => {
 <style lang="scss" scoped>
 .create-vote-form {
     max-width: 600px;
+}
+
+::v-deep .el-card .el-card__footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.el-card{
+    max-width: 700px;
 }
 </style>

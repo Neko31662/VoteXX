@@ -1,4 +1,5 @@
 const VoteModel = require("../models/VoteModel");
+const JWT = require("../util/JWT");
 
 /**
  * 验证创建投票数据的合法性，返回布尔值
@@ -41,28 +42,51 @@ const checkVoteParamsValid = ({
 
 
 const VoteService = {
-
     /**
      * 创建投票
      * @param {*} params 投票参数的集合
      * @returns 
-     * 创建成功，返回0
-     * 投票参数不合法，返回-1
-     * 创建失败，返回-2
+     * 创建成功，返回投票结构体;
+     * 投票参数不合法，返回-1;
+     * 创建失败，返回-2;
      */
     create: async (params) => {
         if (!checkVoteParamsValid(params)) {
             return -1;
         };
 
-        try{
-            await VoteModel.create(params);
-            return 0;
-        }catch(err){
+        try {
+            let result = await VoteModel.create(params);
+            return result;
+        } catch (err) {
             console.log(err);
             return -2;
         }
-        
+
+    },
+
+    /**
+     * 加入投票
+     * @param {*} params {joinVoteToken: 加入投票的凭证, userID: 用户在数据库中的“_id”值}
+     * @returns 
+     * 成功返回相关信息;
+     * joinVoteToken验证失败返回-1;
+     * joinVoteToken验证成功，但数据库中未查询到该投票返回-2;
+     */
+    join: async (params) => {
+        let valid = JWT.verify(params.joinVoteToken);
+        if (!valid) return -1;
+
+        let voteID = valid._id ? valid._id : "###";
+        try {
+            let exist = await VoteModel.findById(voteID);
+            console.log(exist);
+            if (!exist) return -2;
+        } catch (err) {
+            return -2;
+        }
+
+        return 0;
     }
 
 };

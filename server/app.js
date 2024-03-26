@@ -48,7 +48,7 @@ app.use((req, res, next) => {
     try {
         token = req.headers.authorization.split(" ")[1];
     } catch (err) {
-        res.status(401).send({ error: "无token" });
+        res.status(401).send({ error: "token过期" });
         return;
     }
     var payload = false;

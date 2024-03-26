@@ -57,7 +57,7 @@ const UserController = {
             res.send({ error: "未找到该用户" });
         } else if (result === -2) {
             res.send({ error: "用户名已被使用" });
-        }else if (result === -3) {
+        } else if (result === -3) {
             res.send({ error: "用户名长度过长" });
         } else {
             //token中的内容变化，更新token
@@ -103,8 +103,10 @@ const UserController = {
         const result = await UserService.addUser(req.body);
         if (result === 0) {
             res.send({ ActionType: "ok" });
+            return;
         } else {
             res.send({ ActionType: "fail" });
+            return;
         }
     }
 };

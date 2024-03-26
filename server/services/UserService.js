@@ -70,29 +70,29 @@ const UserService = {
 
     /**
      * 向数据库添加用户信息
-     * @returns 根据添加信息的情况返回值
-     * 用户名或密码不合法返回-1
-     * 用户名重复返回-2
-     * 成功返回0
+     * @returns 
+     * 成功返回添加后的结构体;
+     * 用户名或密码不合法返回-1;
+     * 用户名重复返回-2;
      */
     addUser: async ({ username, password }) => {
         //验证用户名和密码是否合法
         if (!checkUsernameLegal(username) || !checkPasswordLegal(password)) return -1;
 
         //查找是否存在该用户名，存在则返回 -2
-        var result = await checkExist({ username });
+        let result = await checkExist({ username });
         if (result) return -2;
 
         //添加用户信息
         const salt = chance.string({ length: 64 });
         const password_hash = md5(password + salt);
-        await UserModel.create({
+        let result2 = await UserModel.create({
             username,
             salt,
             password: password_hash,
             role: 2,
         });
-        return 0;
+        return result2;
     },
 
     /**

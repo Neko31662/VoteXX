@@ -44,7 +44,7 @@
                     <span>投票管理</span>
                 </template>
                 <el-menu-item index="/vote-manage/addvote">
-                    创建投票
+                    创建/加入投票
                 </el-menu-item>
                 <el-menu-item index="/vote-manage/votelist">
                     参加中的投票
