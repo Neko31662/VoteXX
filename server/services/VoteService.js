@@ -72,19 +72,46 @@ const VoteService = {
      * 成功返回相关信息;
      * joinVoteToken验证失败返回-1;
      * joinVoteToken验证成功，但数据库中未查询到该投票返回-2;
+     * 已经加入该投票返回-3;
+     * 数据库查询时出错返回-100;
      */
     join: async (params) => {
-        let valid = JWT.verify(params.joinVoteToken);
+        let valid = JWT.verify(params.joinVoteToken,"vote");
         if (!valid) return -1;
 
         let voteID = valid._id ? valid._id : "###";
         try {
             let exist = await VoteModel.findById(voteID);
-            console.log(exist);
             if (!exist) return -2;
         } catch (err) {
-            return -2;
+            return -100;
         }
+
+        let userID = params.userID;
+        try {
+            let joined = await VoteModel.findOne({
+                _id: voteID,
+                voter: {
+                    $in: [userID]
+                }
+            });
+            if(joined){
+                return -3;
+            }
+        }catch(err){
+            return -100;
+        }
+
+        try{
+            await VoteModel.updateOne({_id:voteID},{
+                $push:{
+                    voter:userID
+                }
+            })
+        }catch(err){
+            return -100;
+        }
+        
 
         return 0;
     }

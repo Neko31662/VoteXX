@@ -19,10 +19,10 @@ const VoteController = {
         } else if (result === -2) {
             res.send({ error: "数据库出错" });
         } else {
-            let token = JWT.generate({_id:result._id});
-            res.send({ 
+            let token = JWT.generate({ _id: result._id },"vote");
+            res.send({
                 ActionType: "ok",
-                data:{
+                data: {
                     token
                 }
             });
@@ -32,20 +32,26 @@ const VoteController = {
     /**
      * 处理加入投票的请求
      */
-    join: async(req,res)=>{
+    join: async (req, res) => {
         let params = {
             ...req.body,
             userID: req.payload._id
         };
         let result = await VoteService.join(params);
-        if(result === -1){
+        if (result === -1) {
             res.send({ error: "凭证无效" });
-        }else if(result === -2){
+        } else if (result === -2) {
             res.send({ error: "投票不存在或已经结束" });
-        }else{
-            res.send({ActionType:"ok"});
+        } else if (result === -3) {
+            res.send({ info: "已加入该投票" });
         }
-        
+        else if (result === -100) {
+            res.send({ error: "数据库错误" });
+        }
+        else {
+            res.send({ ActionType: "ok" });
+        }
+
     }
 };
 

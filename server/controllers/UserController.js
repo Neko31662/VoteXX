@@ -18,7 +18,7 @@ const UserController = {
             const token = JWT.generate({
                 _id: result[0]._id,
                 username: result[0].username
-            }, `${JWT.EXPIRES}`);
+            }, "user");
 
             //挂在res的header上
             res.header("Authorization", token);
@@ -64,7 +64,7 @@ const UserController = {
             const newToken = JWT.generate({
                 _id,
                 username
-            }, `${JWT.EXPIRES}`);
+            }, "user");
             res.header("Authorization", newToken);
 
             //返回新的用户数据

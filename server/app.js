@@ -53,7 +53,7 @@ app.use((req, res, next) => {
     }
     var payload = false;
     if (token) {
-        payload = JWT.verify(token);
+        payload = JWT.verify(token,"user");
     }
     if (payload) {
         //token有效，放行
@@ -61,7 +61,7 @@ app.use((req, res, next) => {
         const newToken = JWT.generate({
             _id: payload._id,
             username: payload.username
-        }, `${JWT.EXPIRES}`);
+        }, "user");
         res.header("Authorization", newToken);
         //将token信息挂载到req
         req.payload=payload;

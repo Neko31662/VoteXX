@@ -33,7 +33,13 @@ const VoteType = {
     },
     owner:{
         required:true,
-        type:mongoose.ObjectId
+        type:mongoose.ObjectId,
+    },
+    voter:{
+        required:true,
+        type:[mongoose.ObjectId],
+        index:true,
+        default:[],
     }
 };
 
