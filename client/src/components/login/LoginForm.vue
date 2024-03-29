@@ -5,7 +5,7 @@
         status-icon
         :rules="loginRules"
         label-width="80px"
-        hide-required-asterisk="true"
+        :hide-required-asterisk="true"
         class="login-form"
     >
         <el-form-item label="用户名" prop="username">

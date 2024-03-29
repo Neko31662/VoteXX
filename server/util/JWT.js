@@ -4,7 +4,7 @@ const chance = new Chance();
 
 
 //常量，token有效期，单位：秒
-const userTokenExpires = 60*60*24; //1d
+const userTokenExpires = 60 * 60 * 24; //1d
 const voteTokenExpires = 0;//不过期
 
 //token密钥，根据有效期时间轮换

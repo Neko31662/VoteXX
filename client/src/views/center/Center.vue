@@ -55,7 +55,7 @@ const getRole = (role) => {
         case 2:
             return "用户";
         case 3:
-            return "EA";
+            return "trustee";
         default:
             return "用户权限信息错误";
     }

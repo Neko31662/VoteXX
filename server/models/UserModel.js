@@ -30,7 +30,7 @@ const UserType = {
         type: String,
         default: ""
     },
-    //角色：管理员1，普通用户2，EA3
+    //角色：管理员1，普通用户2，trustee3
     role: {
         type: Number,
         required: true

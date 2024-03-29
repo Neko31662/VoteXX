@@ -76,7 +76,7 @@ const VoteService = {
      * 数据库查询时出错返回-100;
      */
     join: async (params) => {
-        let valid = JWT.verify(params.joinVoteToken,"vote");
+        let valid = JWT.verify(params.joinVoteToken, "vote");
         if (!valid) return -1;
 
         let voteID = valid._id ? valid._id : "###";
@@ -95,26 +95,71 @@ const VoteService = {
                     $in: [userID]
                 }
             });
-            if(joined){
+            if (joined) {
                 return -3;
             }
-        }catch(err){
+        } catch (err) {
             return -100;
         }
 
-        try{
-            await VoteModel.updateOne({_id:voteID},{
-                $push:{
-                    voter:userID
+        try {
+            await VoteModel.updateOne({ _id: voteID }, {
+                $push: {
+                    voter: userID
                 }
-            })
-        }catch(err){
+            });
+        } catch (err) {
             return -100;
         }
-        
+
 
         return 0;
-    }
+    },
+
+    /**
+     * 查询用户创建的投票数量
+     * @param {*} params 
+     * @returns 
+     * 成功返回投票数量;
+     * 数据库查询时出错返回-100;
+     */
+    countOwnedVote: async (params) => {
+        try {
+            let result = await VoteModel.countDocuments({ owner: params.userID });
+            return result;
+        } catch (err) {
+            return -100;
+        }
+    },
+
+    /**
+     * 按条件返回用户创建的投票
+     * @param {*} params {page, size}，代表请求的页码数以及每页的显示个数
+     * @returns 若干个投票的信息
+     */
+    showOwnedVote: async (params) => {
+        let page = Number(params.page);
+        let size = Number(params.size);
+        let skipNumber = size * (page - 1);
+        try {
+            let result = await VoteModel.find({ owner: params.userID }).skip(skipNumber).limit(size);
+            return result;
+        } catch (err) {
+            return -100;
+        }
+    },
+
+    /**
+     * 查询集合内是否存在某一元素，返回布尔值
+     */
+    checkExist: async (filter) => {
+        try {
+            var result = await VoteModel.findOne(filter);
+        } catch (err) {
+            result = null;
+        }
+        return Boolean(result);
+    },
 
 };
 

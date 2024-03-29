@@ -1,17 +1,14 @@
-const mongoose = require("mongoose");
-const VoteModel = require("./models/VoteModel");
-
-mongoose.connect("mongodb://127.0.0.1:27017/VoteXX_Database");
-
-const main = async () => {
-    await VoteModel.updateOne({ voteName: '7' }, {
-        $push:{
-            voter: "65fb04313f74426b3b4e3fc6"
-        }
-    });
-    console.log("ok");
+const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
 };
 
-main();
+var date = new Date();
+const dateString = date.toLocaleString(date, options);
+
+console.log(dateString);
 
 

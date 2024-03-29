@@ -133,7 +133,7 @@ const submitForm = () => {
                     ElMessage.error("注册失败");
                 }
             });
-        }else{
+        } else {
             console.log("fail!!!!!!!!!");
         }
     });

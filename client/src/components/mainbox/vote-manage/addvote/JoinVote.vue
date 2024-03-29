@@ -22,11 +22,7 @@
             </el-form>
 
             <template #footer>
-                <el-button
-                    @click="$emit('cancelJoin')"
-                >
-                    取消
-                </el-button>
+                <el-button @click="$emit('cancelJoin')">取消</el-button>
                 <el-button
                     type="primary"
                     @click="submitForm"
@@ -73,7 +69,7 @@ const submitForm = async () => {
             axios.post("/serverapi/vote/join", params).then((res) => {
                 if (res.data.error) {
                     ElMessage.error(res.data.error);
-                }else if(res.data.info){
+                } else if (res.data.info) {
                     ElMessage.info(res.data.info);
                 } else if (res.data.ActionType === "ok") {
                     ElMessage.success("加入投票成功");
@@ -97,8 +93,11 @@ const submitForm = async () => {
     display: flex;
     justify-content: center;
 }
-::v-deep .el-card .el-card__footer {
+
+/*---卡片尾部右对齐---*/
+::v-deep .el-card__footer {
     display: flex;
     justify-content: flex-end;
 }
+/*---卡片尾部右对齐---*/
 </style>

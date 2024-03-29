@@ -1,10 +1,9 @@
 <template>
-    <el-row style="margin-top: 50px">
+    <el-row class="create-vote-container">
         <!-- 进度条 -->
-        <el-col :span="4">
+        <el-col :span="4" class="steps-container">
             <el-steps
                 direction="vertical"
-                style="height: 75vh"
                 :active="active"
                 finish-status="success"
             >
@@ -114,7 +113,7 @@
                     label-width="auto"
                     status-icon
                 >
-                    <el-form-item label="确认EA数量" prop="EACount">
+                    <el-form-item label="确认trustee数量" prop="EACount">
                         <el-input-number
                             v-model.number="createVoteForm[2].EACount"
                             :min="2"
@@ -125,9 +124,11 @@
 
                     <el-form-item>
                         <el-text>
-                            EA的数量越多，投票越安全，但投票用时也会越长
+                            trustee的数量越多，投票越安全，但投票用时也会越长
                             <br />
-                            需要确保EA之间不会相互串通
+                            trustee的集合称为EA
+                            <br />
+                            需要确保trustee之间不会相互串通
                         </el-text>
                     </el-form-item>
                 </el-form>
@@ -139,13 +140,11 @@
                     status-icon
                 >
                     <el-form-item>
-                        <el-text>
-                            <p>
-                                创建投票成功，用户可在
-                                <strong>创建/加入投票</strong>
-                                界面输入该凭证以加入投票：
-                                <br />
-                            </p>
+                        <el-text tag="p">
+                            创建投票成功，用户可在
+                            <strong>创建/加入投票</strong>
+                            界面输入该凭证以加入投票：
+                            <br />
                         </el-text>
                     </el-form-item>
 
@@ -228,7 +227,7 @@ const active = ref(0); //当前完成的步骤
 const stepNumber = 3; //总步数
 
 //创建投票各个步骤的名称
-const stepMessages = ["填写投票信息", "选择时间", "确认EA数量"];
+const stepMessages = ["填写投票信息", "选择时间", "确认trustee数量"];
 
 //创建投票后生成的投票凭证
 const joinVoteToken = ref("joinVoteToken");
@@ -356,14 +355,14 @@ createVoteRules[2] = reactive({
     EACount: [
         {
             required: true,
-            message: "请选择正确的EA数量",
+            message: "请选择正确的trustee数量",
             trigger: "blur",
         },
         {
             validator: (rule, value) => {
                 return value >= 2 && value <= 5;
             },
-            message: "请选择正确的EA数量",
+            message: "请选择正确的trustee数量",
             trigger: "blur",
         },
     ],
@@ -451,16 +450,28 @@ const copyToken = () => {
 </script>
 
 <style lang="scss" scoped>
+/*---元素宽度---*/
 .create-vote-form {
     max-width: 600px;
 }
 
-::v-deep .el-card .el-card__footer {
+.el-card {
+    max-width: 700px;
+}
+/*---元素宽度---*/
+
+/*---卡片尾部右对齐---*/
+::v-deep .el-card__footer {
     display: flex;
     justify-content: flex-end;
 }
+/*---卡片尾部右对齐---*/
 
-.el-card{
-    max-width: 700px;
+.create-vote-container {
+    margin-top: 50px;
+}
+
+.steps-container {
+    height: calc(100vh - 200px);
 }
 </style>

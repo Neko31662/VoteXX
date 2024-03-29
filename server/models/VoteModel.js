@@ -3,43 +3,43 @@ const Schema = mongoose.Schema;
 
 //限制集合中每个文档的属性以及类型
 const VoteType = {
-    voteName:{
-        required:true,
+    voteName: {
+        required: true,
         type: String,
     },
-    voteIntro:{
-        required:true,
+    voteIntro: {
+        required: true,
         type: String,
     },
     regEndTime: {
-        required:true,
+        required: true,
         type: Date,
     },
     voteEndTime: {
-        required:true,
+        required: true,
         type: Date,
     },
     nulStartTime: {
-        required:true,
+        required: true,
         type: Date,
     },
     nulEndTime: {
-        required:true,
+        required: true,
         type: Date,
     },
-    EACount:{
-        required:true,
+    EACount: {
+        required: true,
         type: Number,
     },
-    owner:{
-        required:true,
-        type:mongoose.ObjectId,
+    owner: {
+        required: true,
+        type: mongoose.ObjectId,
     },
-    voter:{
-        required:true,
-        type:[mongoose.ObjectId],
-        index:true,
-        default:[],
+    voter: {
+        required: true,
+        type: [mongoose.ObjectId],
+        index: true,
+        default: [],
     }
 };
 

@@ -53,7 +53,7 @@ app.use((req, res, next) => {
     }
     var payload = false;
     if (token) {
-        payload = JWT.verify(token,"user");
+        payload = JWT.verify(token, "user");
     }
     if (payload) {
         //token有效，放行
@@ -64,7 +64,7 @@ app.use((req, res, next) => {
         }, "user");
         res.header("Authorization", newToken);
         //将token信息挂载到req
-        req.payload=payload;
+        req.payload = payload;
         next();
     } else {
         //token无效，返回401

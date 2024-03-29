@@ -30,7 +30,6 @@ import SignUpForm from "@/components/signup/SignUpForm.vue";
     h3 {
         font-size: 20px;
     }
-
 }
 /*---登录框样式---*/
 </style>

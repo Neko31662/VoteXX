@@ -19,7 +19,7 @@ const VoteController = {
         } else if (result === -2) {
             res.send({ error: "数据库出错" });
         } else {
-            let token = JWT.generate({ _id: result._id },"vote");
+            let token = JWT.generate({ _id: result._id }, "vote");
             res.send({
                 ActionType: "ok",
                 data: {
@@ -52,6 +52,78 @@ const VoteController = {
             res.send({ ActionType: "ok" });
         }
 
+    },
+
+    /**
+     * 统计用户创建的投票数量
+     */
+    countOwnedVote: async (req, res) => {
+        let params = {
+            userID: req.payload._id
+        };
+        let result = await VoteService.countOwnedVote(params);
+        if (result === -100) {
+            res.send({ error: "数据库错误" });
+        }
+        else {
+            let totalVotes = result;
+            res.send({
+                ActionType: "ok", data: {
+                    totalVotes
+                }
+            });
+        }
+    },
+
+    /**
+     * 按参数返回用户创建的投票数据
+     */
+    showOwnedVote: async (req, res) => {
+        let params = {
+            ...req.query,
+            userID: req.payload._id
+        };
+        let result = await VoteService.showOwnedVote(params);
+        if (result === -100) {
+            res.send({ error: "数据库错误" });
+        } else {
+            console.log(result[0]);
+            let responseData = [];
+            await result.forEach((value, index) => {
+                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount } = value;
+                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount };
+            });
+            res.send({
+                ActionType: "ok",
+                data: {
+                    responseData
+                }
+            });
+        }
+    },
+
+    /**
+     * 获取投票凭证
+     */
+    getVoteToken: async (req, res) => {
+        let params = {
+            ...req.query,
+            owner: req.payload._id
+        };
+        let exist = VoteService.checkExist(params);
+        if (!exist) {
+            res.send({
+                error: "请求参数错误"
+            });
+        } else {
+            let token = JWT.generate({ _id: params._id }, "vote");
+            res.send({
+                ActionType: "ok",
+                data: {
+                    token
+                }
+            });
+        }
     }
 };
 

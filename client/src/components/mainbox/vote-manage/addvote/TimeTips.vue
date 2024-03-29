@@ -1,16 +1,11 @@
 <template>
     <el-tooltip
-        :visible="visible[index]"
         placement="right-end"
         effect="light"
         :content="timeTipsHTML[index]"
         raw-content
     >
-        <el-icon
-            class="tip-icon"
-            @mouseenter="visible[index] = true"
-            @mouseleave="visible[index] = false"
-        >
+        <el-icon class="tip-icon">
             <Warning />
         </el-icon>
     </el-tooltip>
@@ -24,10 +19,7 @@ defineProps({
     index: Number,
 });
 
-//控制第二步的提示框是否显示
-const visible = Array.from({ length: 4 }, () => ref(false));
-
-const timeTips = [
+const timeTipsContent = [
     "创建投票成功至注册时间结束为开放注册时间，所有参与投票的用户须在注册时间结束前注册，注册时间结束后，投票将在短时间内开始",
     "所有成功注册的用户均可在投票结束时间前投票",
     "在弃票阶段中，投票者（或知晓了投票者密钥的代理人）可以废弃原本的投票，注意，若弃票阶段开始后EA仍未完成第一次计票，弃票阶段的启动将被推迟",
@@ -52,7 +44,7 @@ const TipsFormater = (tips) => {
 };
 
 const timeTipsHTML = [];
-timeTips.forEach((tips, index) => {
+timeTipsContent.forEach((tips, index) => {
     timeTipsHTML[index] = TipsFormater(tips);
 });
 </script>
