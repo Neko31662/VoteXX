@@ -1,18 +1,22 @@
 <template>
     <el-header>
         <div class="left">
-            <el-icon @click="handleCollapsed">
-                <!-- 用于修改折叠 -->
-                <Menu />
-            </el-icon>
+            <!-- 用于修改折叠 -->
+            <el-button link @click="handleCollapsed">
+                <el-icon color="#409efc" size="large">
+                    <CaretLeft v-if="!store.state.isCollapsed" />
+                    <CaretRight v-else />
+                </el-icon>
+            </el-button>
+
             <span style="margin-left: 10px">VoteXX投票系统</span>
         </div>
 
         <div class="right">
-            <span>欢迎 {{ store.state.userInfo.username }} 回来</span>
+            <span>欢迎 {{ store.state.userInfo.username }} 回来 </span>
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    <el-icon :size="30" color="white">
+                    <el-icon :size="30" color="white" style="cursor: pointer">
                         <User />
                     </el-icon>
                 </span>
@@ -33,7 +37,7 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { Menu, User } from "@element-plus/icons-vue";
+import { CaretLeft, CaretRight, User } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 
 const store = useStore();

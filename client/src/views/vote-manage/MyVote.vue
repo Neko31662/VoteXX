@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import PageHeader from "@/components/mainbox/PageHeader.vue";
@@ -53,6 +53,7 @@ const currentPage = ref(1);
 const pageSize = ref(10);
 const ownedVoteCardArray = [];
 
+//刚进入页面时，统计符合条件的投票数量
 axios
     .get("/serverapi/vote/count-owned-vote")
     .then((res) => {
@@ -67,6 +68,10 @@ axios
         console.log(err);
     });
 
+/**
+ * 页面更新时，执行该函数，在该函数内处理相关逻辑并最终更新当前页码
+ * @param {number} newPage 
+ */
 const changePage = (newPage) => {
     loading.value = true;
     axios

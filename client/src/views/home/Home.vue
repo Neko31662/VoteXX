@@ -14,30 +14,12 @@
                 <!-- 欢迎 -->
                 <el-col :span="20" style="display: flex; align-items: center">
                     <h3>
-                        欢迎回来，{{ store.state.userInfo.username }}，{{
-                            welcomeText
-                        }}
+                        欢迎回来，{{ store.state.userInfo.username }}
                     </h3>
                 </el-col>
             </el-row>
         </el-card>
 
-        <!-- 卡片2：产品轮播 -->
-        <el-card class="box-card">
-            <!-- 卡片头 -->
-            <template #header>
-                <div class="card-header">
-                    <span>公司产品</span>
-                </div>
-            </template>
-
-            <!-- 走马灯 -->
-            <el-carousel :interval="4000" type="card" height="200px">
-                <el-carousel-item v-for="item in 6" :key="item">
-                    <h3 text="2xl" justify="center">{{ item }}</h3>
-                </el-carousel-item>
-            </el-carousel>
-        </el-card>
     </div>
 </template>
 
@@ -57,9 +39,9 @@ const avatarUrl = computed(() =>
 );
 
 //根据时间计算提示词
-const welcomeText = computed(() =>
-    new Date().getHours() < 12 ? "要开心每一天" : "喝杯咖啡提提神吧"
-);
+// const welcomeText = computed(() =>
+//     new Date().getHours() < 12 ? "要开心每一天" : "喝杯咖啡提提神吧"
+// );
 </script>
 
 <style lang="scss" scoped>
@@ -69,22 +51,4 @@ const welcomeText = computed(() =>
 }
 /*---卡片组件样式设置---*/
 
-/*---走马灯组件样式设置---*/
-.el-carousel__item h3 {
-    color: #475669;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-    text-align: center;
-}
-
-.el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-}
-
-/*---走马灯组件样式设置---*/
 </style>

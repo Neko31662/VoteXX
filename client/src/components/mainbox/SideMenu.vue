@@ -26,13 +26,13 @@
                     <el-icon>
                         <UserFilled />
                     </el-icon>
-                    <span>用户管理</span>
+                    <span>测试路径</span>
                 </template>
                 <el-menu-item index="/user-manage/adduser">
-                    添加用户
+                    测试路径1
                 </el-menu-item>
                 <el-menu-item index="/user-manage/userlist">
-                    用户列表
+                    测试路径2
                 </el-menu-item>
             </el-sub-menu>
 
@@ -54,20 +54,6 @@
                 </el-menu-item>
             </el-sub-menu>
 
-            <el-sub-menu index="/product-manage">
-                <template #title>
-                    <el-icon>
-                        <Reading />
-                    </el-icon>
-                    <span>产品管理</span>
-                </template>
-                <el-menu-item index="/product-manage/addproduct">
-                    添加产品
-                </el-menu-item>
-                <el-menu-item index="/product-manage/productlist">
-                    产品列表
-                </el-menu-item>
-            </el-sub-menu>
         </el-menu>
     </el-aside>
 </template>

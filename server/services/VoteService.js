@@ -133,6 +133,27 @@ const VoteService = {
     },
 
     /**
+     * 查询用户参与的投票数量
+     * @param {*} params 
+     * @returns 
+     * 成功返回投票数量;
+     * 数据库查询时出错返回-100;
+     */
+    countJoinedVote: async (params) => {
+        try {
+            let result = await VoteModel.countDocuments({
+                voter: {
+                    $in: [params.userID]
+                }
+            });
+            return result;
+        } catch (err) {
+            console.log(err);
+            return -100;
+        }
+    },
+
+    /**
      * 按条件返回用户创建的投票
      * @param {*} params {page, size}，代表请求的页码数以及每页的显示个数
      * @returns 若干个投票的信息
@@ -143,6 +164,27 @@ const VoteService = {
         let skipNumber = size * (page - 1);
         try {
             let result = await VoteModel.find({ owner: params.userID }).skip(skipNumber).limit(size);
+            return result;
+        } catch (err) {
+            return -100;
+        }
+    },
+
+    /**
+     * 按条件返回用户参与的投票
+     * @param {*} params {page, size}，代表请求的页码数以及每页的显示个数
+     * @returns 若干个投票的信息
+     */
+    showJoinedVote: async (params) => {
+        let page = Number(params.page);
+        let size = Number(params.size);
+        let skipNumber = size * (page - 1);
+        try {
+            let result = await VoteModel.find({
+                voter: {
+                    $in: [params.userID]
+                }
+            }).skip(skipNumber).limit(size);
             return result;
         } catch (err) {
             return -100;

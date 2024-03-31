@@ -76,6 +76,27 @@ const VoteController = {
     },
 
     /**
+     * 统计用户加入的投票数量
+     */
+    countJoinedVote: async (req, res) => {
+        let params = {
+            userID: req.payload._id
+        };
+        let result = await VoteService.countJoinedVote(params);
+        if (result === -100) {
+            res.send({ error: "数据库错误" });
+        }
+        else {
+            let totalVotes = result;
+            res.send({
+                ActionType: "ok", data: {
+                    totalVotes
+                }
+            });
+        }
+    },
+
+    /**
      * 按参数返回用户创建的投票数据
      */
     showOwnedVote: async (req, res) => {
@@ -87,7 +108,32 @@ const VoteController = {
         if (result === -100) {
             res.send({ error: "数据库错误" });
         } else {
-            console.log(result[0]);
+            let responseData = [];
+            await result.forEach((value, index) => {
+                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount } = value;
+                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount };
+            });
+            res.send({
+                ActionType: "ok",
+                data: {
+                    responseData
+                }
+            });
+        }
+    },
+
+    /**
+     * 按参数返回用户参加的投票数据
+     */
+    showJoinedVote: async (req, res) => {
+        let params = {
+            ...req.query,
+            userID: req.payload._id
+        };
+        let result = await VoteService.showJoinedVote(params);
+        if (result === -100) {
+            res.send({ error: "数据库错误" });
+        } else {
             let responseData = [];
             await result.forEach((value, index) => {
                 let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount } = value;

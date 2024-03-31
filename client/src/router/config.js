@@ -5,8 +5,6 @@ import UserList from "../views/user-manage/UserList.vue";
 import AddVote from "../views/vote-manage/AddVote.vue";
 import VoteList from "../views/vote-manage/VoteList.vue";
 import MyVote from "@/views/vote-manage/MyVote.vue";
-import ProductAdd from "../views/product-manage/ProductAdd.vue";
-import ProductList from "../views/product-manage/ProductList.vue";
 import NotFound from "../views/notfound/NotFound.vue";
 
 const routes = [
@@ -42,14 +40,6 @@ const routes = [
     {
         path: "/user-manage/userlist",
         component: UserList
-    },
-    {
-        path: "/product-manage/addproduct",
-        component: ProductAdd
-    },
-    {
-        path: "/product-manage/productlist",
-        component: ProductList
     },
     //重定向与错误处理
     {
