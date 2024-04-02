@@ -5,6 +5,7 @@ import UserList from "../views/user-manage/UserList.vue";
 import AddVote from "../views/vote-manage/AddVote.vue";
 import VoteList from "../views/vote-manage/VoteList.vue";
 import MyVote from "@/views/vote-manage/MyVote.vue";
+import Vote from "@/views/vote/Vote.vue";
 import NotFound from "../views/notfound/NotFound.vue";
 
 const routes = [
@@ -40,6 +41,10 @@ const routes = [
     {
         path: "/user-manage/userlist",
         component: UserList
+    }, 
+    {
+        path: "/vote",
+        component: Vote
     },
     //重定向与错误处理
     {

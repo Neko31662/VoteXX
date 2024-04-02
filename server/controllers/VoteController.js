@@ -1,7 +1,9 @@
 const VoteService = require("../services/VoteService");
 const JWT = require("../util/JWT");
 
-
+const generateVoteToken = (params) => {
+    return JWT.generate(params, "vote");
+};
 
 const VoteController = {
     /**
@@ -19,7 +21,7 @@ const VoteController = {
         } else if (result === -2) {
             res.send({ error: "数据库出错" });
         } else {
-            let token = JWT.generate({ _id: result._id }, "vote");
+            let token = generateVoteToken({ _id: result._id });
             res.send({
                 ActionType: "ok",
                 data: {
@@ -162,11 +164,37 @@ const VoteController = {
                 error: "请求参数错误"
             });
         } else {
-            let token = JWT.generate({ _id: params._id }, "vote");
+            let token = generateVoteToken({ _id: params._id });
             res.send({
                 ActionType: "ok",
                 data: {
                     token
+                }
+            });
+        }
+    },
+
+    /**
+     * 获得一个特定投票的详细信息
+     */
+    getVoteDetails: async (req, res) => {
+        let params = {
+            voteID: req.query._id,
+            userID: req.payload._id
+        };
+        let result = await VoteService.getVoteDetails(params);
+        if (result === -1) {
+            res.send({ error: "未找到投票" });
+        } else if (result === -100) {
+            res.send({ error: "数据库错误" });
+        } else {
+            let responseData = [];
+            let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state } = result;
+            responseData = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state };
+            res.send({
+                ActionType: "ok",
+                data: {
+                    responseData
                 }
             });
         }

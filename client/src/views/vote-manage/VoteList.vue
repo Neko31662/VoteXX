@@ -61,7 +61,6 @@ axios
             ElMessage.error(res.data.error);
         } else {
             totalVotes.value = res.data.data.totalVotes;
-            console.log(totalVotes.value);
             changePage(currentPage.value);
         }
     })

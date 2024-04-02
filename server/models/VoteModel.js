@@ -40,6 +40,11 @@ const VoteType = {
         type: [mongoose.ObjectId],
         index: true,
         default: [],
+    },
+    state: {
+        required: true,
+        type: Number,
+        default: 0,
     }
 };
 

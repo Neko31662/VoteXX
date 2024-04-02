@@ -25,7 +25,9 @@
         </el-form>
         <template #footer>
             <el-button @click="dialogVisible = true">详细信息</el-button>
-            <el-button type="primary">进入投票</el-button>
+            <el-button type="primary" @click="toVote" :disabled="goingToVote">
+                进入投票
+            </el-button>
         </template>
     </el-card>
 
@@ -80,6 +82,8 @@ import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { DocumentCopy } from "@element-plus/icons-vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const props = defineProps({
     voteName: String,
@@ -93,6 +97,7 @@ const props = defineProps({
 });
 
 const dialogVisible = ref(false);
+const goingToVote = ref(false);
 
 //日期转换为字符串的格式
 const options = {
@@ -109,6 +114,16 @@ const options = {
  */
 const dateToString = (date) => {
     return date.toLocaleString(date, options);
+};
+
+const toVote = () => {
+    goingToVote.value = true;
+    router.push({
+        path: "/vote",
+        query: {
+            _id: props._id,
+        },
+    });
 };
 </script>
 

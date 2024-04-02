@@ -203,6 +203,23 @@ const VoteService = {
         return Boolean(result);
     },
 
+    /**
+     * 返回某个特定投票的信息
+     * @param {*} params 
+     */
+    getVoteDetails: async (params) => {
+        try {
+            let result = await VoteModel.findOne({
+                _id: params.voteID,
+                voter: params.userID
+            });
+            if (!result) return -1;
+            return result;
+        } catch (err) {
+            return -100;
+        }
+    },
+
 };
 
 module.exports = VoteService;

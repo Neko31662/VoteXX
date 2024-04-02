@@ -9,5 +9,6 @@ VoteRouter.get("/serverapi/vote/show-owned-vote", VoteController.showOwnedVote);
 VoteRouter.get("/serverapi/vote/get-vote-token", VoteController.getVoteToken);
 VoteRouter.get("/serverapi/vote/count-joined-vote", VoteController.countJoinedVote);
 VoteRouter.get("/serverapi/vote/show-joined-vote", VoteController.showJoinedVote);
+VoteRouter.get("/serverapi/vote/get-vote-details", VoteController.getVoteDetails);
 
 module.exports = VoteRouter;

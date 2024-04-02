@@ -1,7 +1,7 @@
 <template>
     <el-row class="create-vote-container">
         <!-- 进度条 -->
-        <el-col :span="4" class="steps-container">
+        <el-col :span="4" class="steps-container" :offset="1">
             <el-steps
                 direction="vertical"
                 :active="active"
@@ -471,7 +471,9 @@ const copyToken = () => {
     margin-top: 50px;
 }
 
+/*---进度条高度---*/
 .steps-container {
     height: calc(100vh - 200px);
 }
+/*---进度条高度---*/
 </style>

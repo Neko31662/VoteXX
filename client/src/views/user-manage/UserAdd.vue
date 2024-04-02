@@ -1,21 +1,18 @@
 <template>
-    <ul
-        v-infinite-scroll="load"
-        class="infinite-list"
-        style="overflow: auto"
-        :infinite-scroll-disabled="true"
-    >
-        <li v-for="i in count" :key="i" class="infinite-list-item">{{ i }}</li>
-    </ul>
+    <el-skeleton />
+    <br />
+    <el-skeleton style="--el-skeleton-circle-size: 100px">
+        <template #template>
+            <el-skeleton-item variant="caption" />
+        </template>
+    </el-skeleton>
 </template>
 
 <script setup>
 import { ref } from "vue";
-const count = ref(10);
-const load = () => {
-    count.value += 0;
-    console.log("111");
-};
+import { useRoute } from "vue-router";
+const route = useRoute();
+
 </script>
 
 <style>

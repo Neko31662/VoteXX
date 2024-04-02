@@ -3,7 +3,7 @@
         <div class="left">
             <!-- 用于修改折叠 -->
             <el-button link @click="handleCollapsed">
-                <el-icon color="#409efc" size="large">
+                <el-icon color="#EBEDF0" size="large">
                     <CaretLeft v-if="!store.state.isCollapsed" />
                     <CaretRight v-else />
                 </el-icon>
