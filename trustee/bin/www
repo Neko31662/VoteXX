@@ -23,7 +23,7 @@ var port = normalizePort(process.env.PORT || args[0]);
 app.set('port', port);
 
 //向服务器发出请求，更新自身的地址与端口号
-require("../config/address.config");
+require("../config/register.config");
 /**
  * Create HTTP server.
  */

@@ -17,10 +17,13 @@ const TrusteeController = {
         const { port, username, password } = req.body;
 
         const params = { ip, port, username, password };
+
         const result = await TrusteeService.register(params);
 
         if (result === -1) {
-            res.send({ ActionType: "failed" });
+            res.send({ error: "连接失败" });
+        }else if(result === -2){
+            res.send({ error: "认证失败，账户名或密码错误" });
         } else {
             //生成token
             const token = JWT.generate({

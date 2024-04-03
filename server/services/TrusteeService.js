@@ -31,18 +31,24 @@ const TrusteeService = {
                 username
             });
         } catch (err) {
-            return -2;
+            return -100;
         }
         if (!result) return -2;
 
         //若存在该用户，则比对密码的加盐哈希
         let salt = result.salt;
         let password_hash = result.password;
-        if (md5(password + salt) === password_hash) {
-            return result;
-        } else {
+        if (md5(password + salt) !== password_hash) {
             return -2;
         }
+
+        //在数据库中更新该trustee的地址
+        try {
+            await TrusteeModel.updateOne({ _id: result._id }, { address });
+        } catch (err) {
+            return -100;
+        }
+        return result;
     }
 };
 
