@@ -62,7 +62,6 @@ const VoteService = {
         try {
             var result = await VoteModel.create(params);
         } catch (err) {
-            console.log(err);
             return -100;
         }
 
@@ -75,7 +74,7 @@ const VoteService = {
 
             //依次遍历表中每个trustee账户
             try {
-                trusteeInfo = await TrusteeModel.findOne().skip(loc-1).limit(1);
+                trusteeInfo = await TrusteeModel.findOne().skip(loc - 1).limit(1);
             } catch (err) {
                 console.log(err);
                 continue;
@@ -89,9 +88,9 @@ const VoteService = {
 
             //询问该trustee是否能负责该投票
             const address = trusteeInfo.address;
-            console.log(address);
             try {
-                let res = await axios.get(address + "/ping");
+                let res = await axios.post(address + "/ea-vote/join-vote", { voteID: result._id });
+                if (res.data.error) continue;
                 if (res.data.ActionType !== "ok") {
                     continue;
                 }
@@ -107,17 +106,16 @@ const VoteService = {
                     continue;
                 }
             } catch (err) {
-                console.log(err);
                 continue;
             }
         }
 
-        if(success){
+        if (success) {
             return result;
-        }else{
-            try{
-                await VoteModel.deleteOne({_id:result._id});
-            }catch(err){
+        } else {
+            try {
+                await VoteModel.deleteOne({ _id: result._id });
+            } catch (err) {
             }
             return -2;
         }

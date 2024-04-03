@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const PingRouter = require('./routes/PingRouter');
+const EAVoteRouter = require('./routes/EAVoteRouter');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.use(PingRouter);
+app.use(EAVoteRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
