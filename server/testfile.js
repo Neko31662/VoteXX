@@ -1,14 +1,17 @@
-const options = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
+const tryToSuccess = require("./util/TryToSuccess");
+
+
+const myfunc = () => {
+    let v1 = Math.random();
+    let v2 = Math.random();
+    let n = 10;
+    console.log(n * v2, v1, (n + 1) * v2);
+    if (v1 > n * v2 && v1 < (n + 1) * v2) {
+        return;
+    }
+    throw ("err!");
 };
 
-var date = new Date();
-const dateString = date.toLocaleString(date, options);
 
-console.log(dateString);
-
+tryToSuccess(myfunc, 20, "err!");
 

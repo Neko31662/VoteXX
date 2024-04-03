@@ -46,10 +46,29 @@ const VoteType = {
         type: [mongoose.ObjectId],
         default: [],
     },
+    /**
+     * state的取值代表：
+     * 0：注册前准备阶段——计算完成后更新到下一阶段；
+     * 1：注册阶段——时间到后更新到下一阶段；
+     * 2：投票前准备阶段——计算完成后更新到下一阶段；
+     * 3：投票阶段——时间到后更新到下一阶段；
+     * 4：初步计票阶段——计算完成且时间到后更新到下一阶段；
+     * 5：弃票阶段——时间到后更新到下一阶段；
+     * 6：最终统计阶段——计算完成后更新到下一阶段；
+     * 7：最终统计阶段完成
+     */
     state: {
         required: true,
         type: Number,
         default: 0,
+    },
+    /**
+     * 代表初步计票是否完成
+     */
+    provisionalTallyFinished:{
+        required: true,
+        type: Boolean,
+        default: false,
     }
 };
 
