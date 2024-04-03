@@ -1,4 +1,7 @@
+const axios = require("axios");
+
 const VoteModel = require("../models/VoteModel");
+const TrusteeModel = require("../models/TrusteeModel");
 const JWT = require("../util/JWT");
 
 /**
@@ -48,7 +51,8 @@ const VoteService = {
      * @returns 
      * 创建成功，返回投票结构体;
      * 投票参数不合法，返回-1;
-     * 创建失败，返回-2;
+     * 由于trustee不足创建失败，返回-2;
+     * 数据库错误返回-100;
      */
     create: async (params) => {
         if (!checkVoteParamsValid(params)) {
@@ -56,10 +60,65 @@ const VoteService = {
         };
 
         try {
-            let result = await VoteModel.create(params);
-            return result;
+            var result = await VoteModel.create(params);
         } catch (err) {
             console.log(err);
+            return -100;
+        }
+
+        let EACount = params.EACount;
+        let i = 0, loc = 0;//目前找到了i个trustee，正在找第loc个trustee
+        let success = true;//成功标志
+        while (i < EACount) {
+            loc++;
+            let trusteeInfo = null;
+
+            //依次遍历表中每个trustee账户
+            try {
+                trusteeInfo = await TrusteeModel.findOne().skip(loc-1).limit(1);
+            } catch (err) {
+                console.log(err);
+                continue;
+            }
+
+            //如果遍历完整个trustees集合也没找齐，则break
+            if (!trusteeInfo) {
+                success = false;
+                break;
+            }
+
+            //询问该trustee是否能负责该投票
+            const address = trusteeInfo.address;
+            console.log(address);
+            try {
+                let res = await axios.get(address + "/ping");
+                if (res.data.ActionType !== "ok") {
+                    continue;
+                }
+                //若能，将其_id添加至数组
+                try {
+                    await VoteModel.updateOne({ _id: result._id }, {
+                        $push: {
+                            trustee: trusteeInfo._id
+                        }
+                    });
+                    i++;
+                } catch (err) {
+                    continue;
+                }
+            } catch (err) {
+                console.log(err);
+                continue;
+            }
+        }
+
+        if(success){
+            return result;
+        }else{
+            try{
+                await VoteModel.deleteOne({_id:result._id});
+            }catch(err){
+            }
             return -2;
         }
 

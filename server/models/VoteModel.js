@@ -41,6 +41,11 @@ const VoteType = {
         index: true,
         default: [],
     },
+    trustee: {
+        required: true,
+        type: [mongoose.ObjectId],
+        default: [],
+    },
     state: {
         required: true,
         type: Number,

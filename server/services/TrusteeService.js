@@ -17,8 +17,8 @@ const TrusteeService = {
         //首先验证提供的ip、端口号能否ping通
         const address = "http://" + ip + ":" + port;
         try {
-            let res = await axios.get(address + "/test");
-            if (res.data.ActionType !== 1) {
+            let res = await axios.get(address + "/ping");
+            if (res.data.ActionType !== "ok") {
                 return -1;
             }
         } catch (err) {
