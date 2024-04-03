@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const UserRouter = require('./routes/UserRouter');
 const VoteRouter = require('./routes/VoteRouter');
+const TrusteeRouter = require('./routes/TrusteeRouter');
 const JWT = require('./util/JWT');
 
 var app = express();
@@ -35,6 +36,7 @@ const urlNoNeedToken = [
     "/serverapi/user/login",
     "/serverapi/user/check-username-valid",
     "/serverapi/user/signup",
+    "/trusteeapi/trustee/register",
 ];
 //检测前端传来的token的有效性
 app.use((req, res, next) => {
@@ -76,6 +78,7 @@ app.use((req, res, next) => {
 //注册路由中间件
 app.use(UserRouter);
 app.use(VoteRouter);
+app.use(TrusteeRouter);
 
 
 // catch 404 and forward to error handler

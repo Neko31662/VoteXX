@@ -101,12 +101,13 @@ const UserController = {
     signup: async (req, res) => {
 
         const result = await UserService.addUser(req.body);
-        if (result === 0) {
+        if (result === -1) {
+            res.send({ error: "校验错误" });
+        } else if (result === -2) {
+            res.send({ error: "用户名重复" });
+        }
+        else {
             res.send({ ActionType: "ok" });
-            return;
-        } else {
-            res.send({ ActionType: "fail" });
-            return;
         }
     }
 };
