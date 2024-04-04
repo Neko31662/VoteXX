@@ -5,13 +5,15 @@
  * @param {*} err 定义函数执行失败时抛出的错误，仅当func抛出的错误与该参数严格匹配时才会重新执行，避免因未预料到的bug导致无限循环
  * @param  {...any} params func接收的参数
  */
-const tryToSuccess = async (func, delay, err, ...params) => {
+const tryUntilSuccess = async (func, delay, err, ...params) => {
     try {
         await func(...params);
     } catch (throwErr) {
         if (throwErr === err)
             setTimeout(() => { tryToSuccess(func, delay, err, ...params); }, delay);
+        else
+            throw throwErr;
     }
 };
 
-module.exports = tryToSuccess;
+module.exports = tryUntilSuccess;
