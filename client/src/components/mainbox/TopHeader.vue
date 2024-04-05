@@ -13,7 +13,7 @@
         </div>
 
         <div class="right">
-            <span>欢迎 {{ store.state.userInfo.username }} 回来 </span>
+            <span>欢迎 {{ store.state.userInfo.username }} 回来</span>
             <el-dropdown>
                 <span class="el-dropdown-link">
                     <el-icon :size="30" color="white" style="cursor: pointer">

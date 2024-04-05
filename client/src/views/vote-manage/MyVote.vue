@@ -70,7 +70,7 @@ axios
 
 /**
  * 页面更新时，执行该函数，在该函数内处理相关逻辑并最终更新当前页码
- * @param {number} newPage 
+ * @param {number} newPage
  */
 const changePage = (newPage) => {
     loading.value = true;

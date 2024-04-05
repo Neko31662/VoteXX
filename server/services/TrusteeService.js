@@ -49,6 +49,24 @@ const TrusteeService = {
             return -100;
         }
         return result;
+    },
+
+    /**
+     * 获取一个trustee服务进程的地址
+     * @param {{userID:String}} params 
+     * 成功时返回地址;
+     * 未找到返回-1;
+     * 数据库错误返回-100; 
+     */
+    getAddress: async (params) => {
+        if (!params.userID) return -1;
+        try {
+            let result = await TrusteeModel.findOne({ _id: params.userID });
+            if (!result) return -1;
+            return result.address;
+        } catch (err) {
+            return -100;
+        }
     }
 };
 

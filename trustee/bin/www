@@ -13,7 +13,7 @@ var http = require('http');
 require("../config/db.config");
 
 //获取运行时传入的参数
-const args = process.argv.slice(2)
+const args = process.argv.slice(2);
 
 /**
  * Get port from environment and store in Express.

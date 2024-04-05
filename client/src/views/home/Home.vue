@@ -13,13 +13,10 @@
                 </el-col>
                 <!-- 欢迎 -->
                 <el-col :span="20" style="display: flex; align-items: center">
-                    <h3>
-                        欢迎回来，{{ store.state.userInfo.username }}
-                    </h3>
+                    <h3>欢迎回来，{{ store.state.userInfo.username }}</h3>
                 </el-col>
             </el-row>
         </el-card>
-
     </div>
 </template>
 
@@ -50,5 +47,4 @@ const avatarUrl = computed(() =>
     margin-top: 50px;
 }
 /*---卡片组件样式设置---*/
-
 </style>

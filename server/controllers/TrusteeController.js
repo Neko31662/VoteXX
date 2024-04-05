@@ -22,7 +22,7 @@ const TrusteeController = {
 
         if (result === -1) {
             res.send({ error: "连接失败" });
-        }else if(result === -2){
+        } else if (result === -2) {
             res.send({ error: "认证失败，账户名或密码错误" });
         } else {
             //生成token
@@ -33,7 +33,7 @@ const TrusteeController = {
 
             //挂在res的header上
             res.header("Authorization", token);
-            
+
             res.send({ ActionType: "ok" });
         }
 

@@ -8,5 +8,7 @@
         ".chrome",
         "client/node_modules",
         "server/node_modules",
+        "trustee/node_modules",
+        "crypt/node_modules",
     ]
 }

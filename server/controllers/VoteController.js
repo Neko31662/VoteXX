@@ -20,7 +20,7 @@ const VoteController = {
             res.send({ error: "参数合法性校验出错" });
         } else if (result === -2) {
             res.send({ error: "资源不足，请尝试减少trustee数量或稍后再创建投票" });
-        }else if (result === -100) {
+        } else if (result === -100) {
             res.send({ error: "数据库错误" });
         } else {
             let token = generateVoteToken({ _id: result._id });

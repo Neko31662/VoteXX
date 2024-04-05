@@ -65,7 +65,7 @@ const VoteType = {
     /**
      * 代表初步计票是否完成
      */
-    provisionalTallyFinished:{
+    provisionalTallyFinished: {
         required: true,
         type: Boolean,
         default: false,

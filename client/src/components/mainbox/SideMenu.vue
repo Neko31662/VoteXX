@@ -53,7 +53,6 @@
                     我创建的投票
                 </el-menu-item>
             </el-sub-menu>
-
         </el-menu>
     </el-aside>
 </template>

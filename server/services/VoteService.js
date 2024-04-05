@@ -3,6 +3,7 @@ const axios = require("axios");
 const VoteModel = require("../models/VoteModel");
 const TrusteeModel = require("../models/TrusteeModel");
 const JWT = require("../util/JWT");
+const createVoteQuery = require("../querys/CreateVoteQuery");
 
 /**
  * 验证创建投票数据的合法性，返回布尔值
@@ -55,60 +56,19 @@ const VoteService = {
      * 数据库错误返回-100;
      */
     create: async (params) => {
+        //检查投票参数合法性
         if (!checkVoteParamsValid(params)) {
             return -1;
         };
 
+        //在数据库中创建投票
         try {
             var result = await VoteModel.create(params);
         } catch (err) {
             return -100;
         }
 
-        let EACount = params.EACount;
-        let i = 0, loc = 0;//目前找到了i个trustee，正在找第loc个trustee
-        let success = true;//成功标志
-        while (i < EACount) {
-            loc++;
-            let trusteeInfo = null;
-
-            //依次遍历表中每个trustee账户
-            try {
-                trusteeInfo = await TrusteeModel.findOne().skip(loc - 1).limit(1);
-            } catch (err) {
-                console.log(err);
-                continue;
-            }
-
-            //如果遍历完整个trustees集合也没找齐，则break
-            if (!trusteeInfo) {
-                success = false;
-                break;
-            }
-
-            //询问该trustee是否能负责该投票
-            const address = trusteeInfo.address;
-            try {
-                let res = await axios.post(address + "/ea-vote/join-vote", { voteID: result._id });
-                if (res.data.error) continue;
-                if (res.data.ActionType !== "ok") {
-                    continue;
-                }
-                //若能，将其_id添加至数组
-                try {
-                    await VoteModel.updateOne({ _id: result._id }, {
-                        $push: {
-                            trustee: trusteeInfo._id
-                        }
-                    });
-                    i++;
-                } catch (err) {
-                    continue;
-                }
-            } catch (err) {
-                continue;
-            }
-        }
+        let success = await createVoteQuery(result);
 
         if (success) {
             return result;
@@ -255,7 +215,7 @@ const VoteService = {
         try {
             var result = await VoteModel.findOne(filter);
         } catch (err) {
-            result = null;
+            result = false;
         }
         return Boolean(result);
     },
@@ -263,6 +223,9 @@ const VoteService = {
     /**
      * 返回某个特定投票的信息
      * @param {*} params 
+     * 成功时返回该信息;
+     * 未找到返回-1;
+     * 数据库错误返回-100;
      */
     getVoteDetails: async (params) => {
         try {
@@ -276,6 +239,30 @@ const VoteService = {
             return -100;
         }
     },
+
+    /**
+     * 获得该投票的EA名单
+     * @param {{voteID:String}} params
+     * 成功时返回该信息;
+     * 未找到返回-1;
+     * trustee列表长度与记录数量不匹配返回-2;
+     * 数据库错误返回-100; 
+     */
+    getTrusteeList: async (params) => {
+        if (!params.voteID) return -1;
+
+        let voteInfo = {};
+        try {
+            voteInfo = await VoteModel.findOne({ _id: params.voteID });
+        } catch (err) {
+            return -100;
+        }
+        if (!voteInfo) return -1;
+
+        let { EACount, trustee } = voteInfo;
+        if (trustee.length != EACount) return -2;
+        return trustee;
+    }
 
 };
 

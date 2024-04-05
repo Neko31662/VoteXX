@@ -41,7 +41,7 @@ const routes = [
     {
         path: "/user-manage/userlist",
         component: UserList
-    }, 
+    },
     {
         path: "/vote",
         component: Vote
