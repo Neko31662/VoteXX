@@ -104,7 +104,7 @@ function serialize(obj) {
 function reloadObject(obj) {
     //如果序列化的obj或其子对象包含了某个特定类，需要在此处require
     //不在最顶层require的原因是避免循环引用
-    const { DKG, DKGSchnorrNIZKProof, DKGProof } = require("../protocol/DKG");
+    const { DKG, DKGSchnorrNIZKProof, DKGProof } = require("../protocol/DKG/dkg");
 
     // 检查obj是否为对象，不是对象直接返回
     if (typeof obj !== 'object' || obj === null) {

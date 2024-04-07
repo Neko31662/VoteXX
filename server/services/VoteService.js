@@ -4,6 +4,7 @@ const VoteModel = require("../models/VoteModel");
 const TrusteeModel = require("../models/TrusteeModel");
 const JWT = require("../util/JWT");
 const createVoteQuery = require("../querys/CreateVoteQuery");
+const DKGQuery = require("../querys/DKGQuery");
 
 /**
  * 验证创建投票数据的合法性，返回布尔值
@@ -69,10 +70,8 @@ const VoteService = {
         }
 
         let success = await createVoteQuery(result);
-
-        if (success) {
-            return result;
-        } else {
+        success &= !(await DKGQuery(result._id));
+        if (!success) {
             try {
                 await VoteModel.deleteOne({ _id: result._id });
             } catch (err) {
@@ -80,6 +79,8 @@ const VoteService = {
             return -2;
         }
 
+
+        return result;
     },
 
     /**
@@ -128,7 +129,6 @@ const VoteService = {
         } catch (err) {
             return -100;
         }
-
 
         return 0;
     },

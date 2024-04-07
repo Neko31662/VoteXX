@@ -1,9 +1,10 @@
 var express = require('express');
 var EAVoteRouter = express.Router();
-var EAVoteController = require("../controllers/EAVoteController.js");
+var EAVoteController = require("../controllers/EAVoteController");
+
+const DKGRouter = require("./DKGRouter");
 
 EAVoteRouter.post("/ea-vote/join-vote", EAVoteController.joinVote);
-
-EAVoteRouter.post("/ea-vote/dkg/step1", EAVoteController.DKG_step1);
+EAVoteRouter.use(DKGRouter);
 
 module.exports = EAVoteRouter;
