@@ -4,8 +4,6 @@ const EC = elliptic.ec;
 const crypto = require('crypto');
 var SHA256 = require('crypto-js/sha256');
 
-// const methods = require("../../methods");
-
 //  generate random BN number in curve field
 /**
  * 在椭圆曲线上生成随机大数

@@ -52,8 +52,6 @@ const doDKGQuery = async (voteID) => {
         return -2;
     }
     response1.forEach((res, index) => {
-        console.log("-------------------------------------------");
-        console.log(res);
         if (res.data.ActionType !== "ok") return -2;
         yiList_serialized[index] = res.data.data.yi_serialized;
         proofList_serialized[index] = res.data.data.proof_serialized;
@@ -125,7 +123,7 @@ const doDKGQuery = async (voteID) => {
 const DKGQuery = async (voteID) => {
     let result = await doDKGQuery(voteID);
     console.log("DKGQuery result:", result);
-    return result;
+    if(result <= -2) throw "DKGQueryErr";
 };
 
 module.exports = DKGQuery

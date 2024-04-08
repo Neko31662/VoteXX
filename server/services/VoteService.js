@@ -5,6 +5,7 @@ const TrusteeModel = require("../models/TrusteeModel");
 const JWT = require("../util/JWT");
 const createVoteQuery = require("../querys/CreateVoteQuery");
 const DKGQuery = require("../querys/DKGQuery");
+const tryUntilSuccess = require("../util/TryUntilSuccess");
 
 /**
  * 验证创建投票数据的合法性，返回布尔值
@@ -70,7 +71,6 @@ const VoteService = {
         }
 
         let success = await createVoteQuery(result);
-        success &= !(await DKGQuery(result._id));
         if (!success) {
             try {
                 await VoteModel.deleteOne({ _id: result._id });
@@ -79,6 +79,17 @@ const VoteService = {
             return -2;
         }
 
+        tryUntilSuccess(DKGQuery, 20000, "DKGQueryErr", result._id)
+            .then(() => {
+                VoteModel.updateOne({ _id: result._id }, {
+                    state: 1
+                }).catch((err) => {
+                    console.log("<ERROR> DKGQueryUpdateErr:" + err);
+                });
+            })
+            .catch((err) => {
+                console.log("<ERROR> DKGQueryErr:" + err);
+            });
 
         return result;
     },

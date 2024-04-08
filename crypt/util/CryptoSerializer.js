@@ -104,7 +104,19 @@ function serialize(obj) {
 function reloadObject(obj) {
     //如果序列化的obj或其子对象包含了某个特定类，需要在此处require
     //不在最顶层require的原因是避免循环引用
+    const { BallotBundle, ValuesVector, VoteVector, PointVector } = require("../primitiv/Ballots/ballot_structure");
+    const { PublicKey, Commitment } = require("../primitiv/Commitment/pedersen_commitment");
+    require("../primitiv/ec/ec");
+    const { LiftedElgamalEnc, ElgamalEnc, ElgamalCiphertext, KeyPair, ElgamalPublicKey, Ciphertext, } = require("../primitiv/encryption/ElgamalEncryption");
+    const Polynomial = require("../primitiv/polynomial/poly");
     const { DKG, DKGSchnorrNIZKProof, DKGProof } = require("../protocol/DKG/dkg");
+    const { DecStatement, DecProof, DecSchnorrNIZKProof, DistributeDecryptor, PETStatement, PETWitness, PETProof, PETSchnorrNIZKProof, PET } = require("../protocol/MIX_AND_MATCH/mix_and_match");
+    const { MultiExponantiation } = require("../protocol/NIZKs/verifiable_shuffle/multi_exponantiation_argument");
+    const { ProductArgument, SingleValueProdArg, ZeroArgument, HadamardProductArgument, } = require("../protocol/NIZKs/verifiable_shuffle/product_argument");
+    const { ShuffleArgument } = require("../protocol/NIZKs/verifiable_shuffle/shuffle_argument");
+    const { CommitmentParams, nullificationCommitment, ChallengeFull, Challenge, Response, FirstMoveData, Proof, Statement, Witness, NullificationNIZK } = require("../protocol/NIZKs/nullification");
+
+    const Party = Object;
 
     // 检查obj是否为对象，不是对象直接返回
     if (typeof obj !== 'object' || obj === null) {
