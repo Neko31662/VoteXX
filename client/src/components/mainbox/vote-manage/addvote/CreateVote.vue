@@ -149,7 +149,7 @@
                     </el-form-item>
 
                     <el-form-item>
-                        <el-card shadow="never">
+                        <el-card shadow="never" class="copy-card">
                             <p style="word-break: break-all">
                                 {{ joinVoteToken }}
                             </p>
@@ -466,6 +466,10 @@ const copyToken = () => {
     justify-content: flex-end;
 }
 /*---卡片尾部右对齐---*/
+
+::v-deep .copy-card .el-card__footer {
+    max-height: 40px;
+}
 
 .create-vote-container {
     margin-top: 50px;

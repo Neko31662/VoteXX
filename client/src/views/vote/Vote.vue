@@ -5,13 +5,13 @@
         </template>
 
         <template #default>
-            <VoteSteps />
+            <VoteSteps :voteInfo="voteInfo" />
         </template>
     </el-skeleton>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
 const route = useRoute();
@@ -20,8 +20,9 @@ import { ElMessage } from "element-plus";
 import VoteSteps from "@/components/mainbox/vote/VoteSteps.vue";
 
 const loading = ref(true);
+let voteInfo = {};
 
-onMounted(() => {
+onBeforeMount(() => {
     axios
         .get("/serverapi/vote/get-vote-details", {
             params: {
@@ -29,10 +30,15 @@ onMounted(() => {
             },
         })
         .then((res) => {
-            if (res.data.error) {
+            if (res.data.ActionType !== "ok") {
                 ElMessage.error(res.data.error);
                 router.push("/vote-manage/votelist");
             } else {
+                voteInfo = res.data.data;
+                voteInfo.regEndTime = new Date(voteInfo.regEndTime);
+                voteInfo.voteEndTime = new Date(voteInfo.voteEndTime);
+                voteInfo.nulStartTime = new Date(voteInfo.nulStartTime);
+                voteInfo.nulEndTime = new Date(voteInfo.nulEndTime);
                 loading.value = false;
             }
         })
@@ -42,4 +48,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

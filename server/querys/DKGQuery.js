@@ -3,12 +3,16 @@ const axios = require("axios");
 const BN = require('bn.js');
 const elliptic = require('elliptic');
 const EC = elliptic.ec;
+const ec = require("../../crypt/primitiv/ec/ec");
+const PublicKey = require('../../crypt/primitiv/encryption/ElgamalEncryption').ElgamalPublicKey;
 const crypto = require('crypto');
 var SHA256 = require('crypto-js/sha256');
 
 const { DKG } = require('../../crypt/protocol/DKG/dkg');
 const { serialize, deserialize } = require('../../crypt/util/CryptoSerializer');
 const { getAllTrusteeAddress } = require("./methods");
+
+const VoteModel = require("../models/VoteModel");
 
 /**
  * 向所有trustee发送DKG的请求
@@ -21,6 +25,7 @@ const { getAllTrusteeAddress } = require("./methods");
  * 第二步验证时发现存在错误的零知识证明返回-4;
  * 第三步失败返回-5;
  * 第三步各方生成的公钥不一致返回-6;
+ * 数据库错误返回-100;
  */
 const doDKGQuery = async (voteID) => {
 
@@ -116,14 +121,27 @@ const doDKGQuery = async (voteID) => {
         }
     });
     if (!allSame) return -6;
+    let pk = new PublicKey(ec, deserialize(publicKey));
+
+    try {
+        await VoteModel.updateOne({ _id: voteID }, {
+            $set: {
+                "BB.yiList": yiList_serialized,
+                "BB.pk": serialize(pk)
+            }
+        });
+    } catch (err) {
+        return -100;
+    }
 
     return 0;
 };
 
 const DKGQuery = async (voteID) => {
     let result = await doDKGQuery(voteID);
-    console.log("DKGQuery result:", result);
-    if(result <= -2) throw "DKGQueryErr";
+    // console.log("DKGQuery result:", result);
+    if (result <= -2 && result !== -100) throw "DKGQueryErr";
+    else if (result !== 0) throw "OtherErr";
 };
 
 module.exports = DKGQuery

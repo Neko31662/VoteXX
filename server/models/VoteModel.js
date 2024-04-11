@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const BBSchema = require("./BB");
 
 //限制集合中每个文档的属性以及类型
 const VoteType = {
@@ -41,6 +42,12 @@ const VoteType = {
         index: true,
         default: [],
     },
+    voter_registered: {
+        required: true,
+        type: [mongoose.ObjectId],
+        index: true,
+        default: [],
+    },
     trustee: {
         required: true,
         type: [mongoose.ObjectId],
@@ -69,6 +76,14 @@ const VoteType = {
         required: true,
         type: Boolean,
         default: false,
+    },
+    /**
+     * 公告板
+     */
+    BB: {
+        required: true,
+        type: BBSchema,
+        default: {}
     }
 };
 

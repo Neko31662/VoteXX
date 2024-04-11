@@ -167,6 +167,7 @@ class KeyPair {
 class ElgamalPublicKey {
     // ElGamal Public Key
     constructor(group, pk) {
+        if (!group) return;
         this.group = group;
         this.infinity = this.group.g.mul(0);
         this.order = this.group.curve.n;

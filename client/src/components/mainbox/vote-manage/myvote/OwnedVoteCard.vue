@@ -46,27 +46,27 @@
         <el-scrollbar max-height="500px">
             <el-form label-width="auto" class="dialog-form">
                 <el-form-item label="投票名称">
-                    <el-text tag="p" line-clamp="100" class="dialogs">
+                    <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ voteName }}
                     </el-text>
                 </el-form-item>
                 <el-form-item label="投票简介">
-                    <el-text tag="p" line-clamp="100" class="dialogs">
+                    <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ voteIntro }}
                     </el-text>
                 </el-form-item>
                 <el-form-item label="注册截止时间">
-                    <el-text tag="p" line-clamp="100" class="dialogs">
+                    <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ dateToString(regEndTime) }}
                     </el-text>
                 </el-form-item>
                 <el-form-item label="投票截止时间">
-                    <el-text tag="p" line-clamp="100" class="dialogs">
+                    <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ dateToString(voteEndTime) }}
                     </el-text>
                 </el-form-item>
                 <el-form-item label="弃票时间">
-                    <el-text tag="p" line-clamp="100" class="dialogs">
+                    <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{
                             dateToString(nulStartTime) +
                             " - " +
@@ -75,7 +75,7 @@
                     </el-text>
                 </el-form-item>
                 <el-form-item label="trustee数量">
-                    <el-text tag="p" line-clamp="100" class="dialogs">
+                    <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ EACount }}
                     </el-text>
                 </el-form-item>
@@ -95,7 +95,11 @@
             </el-form-item>
 
             <el-form-item>
-                <el-card shadow="never" style="margin-top: 0px">
+                <el-card
+                    shadow="never"
+                    class="copy-card"
+                    style="margin-top: 0px"
+                >
                     <p style="word-break: break-all">
                         {{ joinVoteToken }}
                     </p>
@@ -232,6 +236,10 @@ const copyToken = () => {
     justify-content: flex-end;
 }
 /*---卡片尾部右对齐---*/
+
+::v-deep .copy-card .el-card__footer {
+    max-height: 40px;
+}
 
 /*---投票详细信息的样式---*/
 .dialog-form {

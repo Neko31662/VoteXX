@@ -1,17 +1,17 @@
 <template>
-    <el-skeleton />
-    <br />
-    <el-skeleton style="--el-skeleton-circle-size: 100px">
-        <template #template>
-            <el-skeleton-item variant="caption" />
-        </template>
-    </el-skeleton>
+    <UserList v-bind="info" />
+    <button @click="info.val.value++, console.log(info.val)">aaa</button>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
+import UserList from "./UserList.vue";
+
+let info = {
+    val: ref(0),
+};
 </script>
 
 <style>

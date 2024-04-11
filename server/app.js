@@ -10,6 +10,7 @@ var usersRouter = require('./routes/users');
 const UserRouter = require('./routes/UserRouter');
 const VoteRouter = require('./routes/VoteRouter');
 const TrusteeRouter = require('./routes/TrusteeRouter');
+const VotePrivateRouter = require('./routes/VotePrivateRouter');
 const JWT = require('./util/JWT');
 
 var app = express();
@@ -31,19 +32,22 @@ app.use('/users', usersRouter);
 //设置静态资源目录
 app.use("/serverapi/public", express.static(path.join(__dirname, 'public')));
 
-//不需要验证token的api
+//不需要验证token的api（或api前缀）
 const urlNoNeedToken = [
     "/serverapi/user/login",
     "/serverapi/user/check-username-valid",
     "/serverapi/user/signup",
     "/trusteeapi/trustee/register",
+    "/serverapi/vote-private"
 ];
 //检测前端传来的token的有效性
 app.use((req, res, next) => {
     //如果是不需要token的api则跳过
-    if (urlNoNeedToken.includes(req.path)) {
-        next();
-        return;
+    for (let prefix of urlNoNeedToken) {
+        if (req.path.startsWith(prefix)) {
+            next();
+            return;
+        }
     }
 
     let token = null;
@@ -79,7 +83,7 @@ app.use((req, res, next) => {
 app.use(UserRouter);
 app.use(VoteRouter);
 app.use(TrusteeRouter);
-
+app.use(VotePrivateRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

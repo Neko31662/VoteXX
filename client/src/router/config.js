@@ -24,27 +24,45 @@ const routes = [
     },
     {
         path: "/vote-manage/addvote",
-        component: AddVote
+        component: AddVote,
+        meta: {
+            title: "创建/加入投票"
+        }
     },
     {
         path: "/vote-manage/votelist",
-        component: VoteList
+        component: VoteList,
+        meta: {
+            title: "参加中的投票"
+        }
     },
     {
         path: "/vote-manage/myvote",
-        component: MyVote
+        component: MyVote,
+        meta: {
+            title: "我创建的投票"
+        }
     },
     {
         path: "/user-manage/adduser",
-        component: UserAdd
+        component: UserAdd,
+        meta: {
+            title: "测试路径1"
+        }
     },
     {
         path: "/user-manage/userlist",
-        component: UserList
+        component: UserList,
+        meta: {
+            title: "测试路径2"
+        }
     },
     {
         path: "/vote",
-        component: Vote
+        component: Vote,
+        meta: {
+            title: "进行投票"
+        }
     },
     //重定向与错误处理
     {

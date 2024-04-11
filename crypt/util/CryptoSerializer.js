@@ -71,7 +71,7 @@ function serialize(obj) {
         }
         //对于point，按照下面的方式自定义序列化方式
         else if (isPoint(obj)) {
-            return `"${"<<point>> " + obj.getX().toString() + " " + obj.getY().toString()}"`;
+            return `"${"<<point>> " + (obj.x ? obj.x.toString() : "null") + " " + (obj.y ? obj.y.toString() : "null")}"`;
         }
         //对于BN，按照下面的方式自定义序列化方式
         else if (isBN(obj)) {
@@ -170,6 +170,9 @@ function deserialize(serializedObj) {
         //对于point，按照下面的方式自定义反序列化方式
         else if (typeof value === "string" && value.startsWith("<<point>>")) {
             let [sign, BN1, BN2] = value.split(" ");
+            if (BN1 === "null" && BN2 === "null") {
+                return new EC('secp256k1').curve.g.mul(0);
+            }
             BN1 = new BN(BN1);
             BN2 = new BN(BN2);
             return new EC('secp256k1').curve.point(BN1, BN2);
@@ -184,7 +187,7 @@ function deserialize(serializedObj) {
     };
 
     let parsedObj = JSON.parse(serializedObj, revive);
-    //最后重载反序列化后的对象
+    //最后合并模板对象与反序列化后的对象
     return reloadObject(parsedObj);
 }
 

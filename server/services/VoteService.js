@@ -67,6 +67,7 @@ const VoteService = {
         try {
             var result = await VoteModel.create(params);
         } catch (err) {
+            console.log(err);
             return -100;
         }
 
@@ -273,6 +274,33 @@ const VoteService = {
         let { EACount, trustee } = voteInfo;
         if (trustee.length != EACount) return -2;
         return trustee;
+    },
+
+    /**
+     * 投票的注册阶段
+     * @param {{ voteID, userID, pk_yes, pk_no }} params 
+     * 已注册返回-1;
+     * 未加入投票返回-2;
+     * 数据库错误返回-100;
+     */
+    registrationStep: async (params) => {
+        const { voteID, userID, pk_yes, pk_no } = params;
+
+        try {
+            let registered = await VoteModel.exists({ _id: voteID, voter_registered: userID });
+            if (registered) return -1;
+        } catch {
+            return -100;
+        }
+
+        try{
+            let joined = await VoteModel.exists({ _id: voteID, voter: userID });
+            if (!joined) return -2;
+        }catch{
+            return -100;
+        }
+
+
     }
 
 };

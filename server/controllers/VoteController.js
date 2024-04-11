@@ -195,11 +195,22 @@ const VoteController = {
             responseData = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state };
             res.send({
                 ActionType: "ok",
-                data: {
-                    responseData
-                }
+                data: responseData
             });
         }
+    },
+
+    /**
+     * 投票的注册阶段
+     */
+    registrationStep: async (req, res) => {
+        let { voteID, pk_yes, pk_no } = req.body;
+        let userID = req.payload._id;
+        let params = { voteID, userID, pk_yes, pk_no };
+        console.log(params);
+
+        let result = await VoteService.registrationStep(params);
+        res.send({ ok: "1" });
     }
 };
 

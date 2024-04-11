@@ -10,6 +10,7 @@
         "@tsparticles/vue3": "^3.0.0",
         "axios": "^1.6.7",
         "bcrypt": "^5.1.1",
+        "chance": "^1.1.11",
         "core-js": "^3.8.3",
         "crypto-js": "^4.2.0",
         "element-plus": "^2.5.6",

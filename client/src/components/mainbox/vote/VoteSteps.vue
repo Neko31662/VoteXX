@@ -16,21 +16,54 @@
         </el-col>
 
         <el-col :span="16">
-            <el-card>
-                <!-- 卡片header：当前步骤名称 -->
-                <template #header>
-                    <h3>
-                        {{ voteMessages[active] }}
-                    </h3>
-                </template>
-                <div>完善中</div>
-            </el-card>
+            <!-- active值为0,2,4,6时显示 -->
+            <div v-if="active % 2 === 0">
+                <el-card>
+                    <template #header>
+                        <h3>请稍等</h3>
+                    </template>
+                    <el-empty description=" ">
+                        <el-text>Trustee正在整理信息，请等待一段时间</el-text>
+                    </el-empty>
+                </el-card>
+            </div>
+
+            <!-- active值为1时显示 -->
+            <div v-else-if="active === 1">
+                <RegistrationStep v-bind="voteInfo" />
+            </div>
+
+            <!-- active值为3时显示 -->
+            <div v-else-if="active === 3">
+                <VotingStep v-bind="voteInfo" />
+            </div>
+
+            <!-- active值为5时显示 -->
+            <div v-else-if="active === 5">
+                <NullificationStep v-bind="voteInfo" />
+            </div>
+
+            <!-- active值为7时显示 -->
+            <div v-else>
+                <AfterTallyStep v-bind="voteInfo" />
+            </div>
         </el-col>
     </el-row>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import RegistrationStep from "./RegistrationStep.vue";
+import VotingStep from "./VotingStep.vue";
+import NullificationStep from "./NullificationStep.vue";
+import AfterTallyStep from "./AfterTallyStep.vue";
+
+const props = defineProps({
+    voteInfo: Object,
+});
+
+const active = ref(0);
+active.value = props.voteInfo.state;
 
 const stepMessages = [
     "注册前准备阶段",
@@ -41,26 +74,10 @@ const stepMessages = [
     "弃票阶段",
     "最终统计阶段",
 ];
-
-const voteMessages = [
-    "请稍等",
-    "注册阶段",
-    "请稍等",
-    "投票阶段",
-    "请稍等",
-    "弃票阶段",
-    "最终统计阶段",
-];
-
-const active = ref(0);
 </script>
 
 <style lang="scss" scoped>
 /*---元素宽度---*/
-.vote-form {
-    max-width: 600px;
-}
-
 .el-card {
     max-width: 700px;
 }

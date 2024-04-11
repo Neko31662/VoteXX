@@ -88,9 +88,7 @@ router.beforeEach((to, from, next) => {
                 //加载路由配置
                 ConfigRouter();
                 //next中含有参数时会调用router.beforeEach，要避免循环调用
-                next({
-                    path: to.fullPath
-                });
+                next(to.fullPath);
             } else {
                 next();
             }
