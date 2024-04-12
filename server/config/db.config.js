@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const VoteModel = require("../models/VoteModel");
+const GetPrivateKeysQuery = require("../querys/GetPrivateKeysQuery");
 
 //数据库连接
 mongoose.connect("mongodb://127.0.0.1:27017/VoteXX_Database");
@@ -42,3 +43,4 @@ setInterval(async () => {
     }
 
 }, updateVoteStateInterval);
+

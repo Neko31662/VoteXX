@@ -17,7 +17,23 @@ const EAVoteController = {
         else {
             res.send({ ActionType: "ok" });
         }
+    },
 
+    /**
+     * 获取该trustee的私钥
+     */
+    getPrivateKey: async (req, res) => {
+        const { voteID } = req.body;
+        let result = await EAVoteService.getPrivateKey({ voteID });
+
+        if (result == -100) {
+            res.send({ error: "数据库错误" });
+        } else {
+            res.send({
+                ActionType: "ok",
+                data: result
+            });
+        }
     }
 };
 

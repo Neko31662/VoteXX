@@ -127,7 +127,7 @@ const doDKGQuery = async (voteID) => {
         await VoteModel.updateOne({ _id: voteID }, {
             $set: {
                 "BB.yiList": yiList_serialized,
-                "BB.pk": serialize(pk)
+                "BB.election_pk": serialize(pk)
             }
         });
     } catch (err) {

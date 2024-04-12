@@ -1,6 +1,7 @@
 const elliptic = require('elliptic');
 const EC = elliptic.ec;
 const BN = require('bn.js');
+require("../primitiv/ec/ec");
 
 
 /**
@@ -60,7 +61,6 @@ function reloadObject(obj) {
     //不在最顶层require的原因是避免循环引用
     const { BallotBundle, ValuesVector, VoteVector, PointVector } = require("../primitiv/Ballots/ballot_structure");
     const { PublicKey, Commitment } = require("../primitiv/Commitment/pedersen_commitment");
-    require("../primitiv/ec/ec");
     const { LiftedElgamalEnc, ElgamalEnc, ElgamalCiphertext, KeyPair, ElgamalPublicKey, Ciphertext, } = require("../primitiv/encryption/ElgamalEncryption");
     const Polynomial = require("../primitiv/polynomial/poly");
     const { DKG, DKGSchnorrNIZKProof, DKGProof } = require("../protocol/DKG/dkg");

@@ -19,7 +19,7 @@ const BBType = {
         type: [String],
         default: []
     },
-    pk: {
+    election_pk: {
         required: true,
         type: String,
         default: " "

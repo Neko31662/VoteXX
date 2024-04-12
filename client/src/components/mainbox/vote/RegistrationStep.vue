@@ -199,7 +199,7 @@ const submitForm = () => {
         if (valid) {
             let pk_serialized = null;
             try {
-                let res = await axios.get("/serverapi/vote/get-pk", {
+                let res = await axios.get("/serverapi/vote-private/get-pk", {
                     params: {
                         _id: route.query._id,
                     },

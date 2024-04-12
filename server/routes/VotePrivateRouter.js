@@ -3,6 +3,6 @@ var express = require('express');
 var VotePrivateRouter = express.Router();
 const VotePrivateController = require('../controllers/VotePrivateController');
 
-// VotePrivateRouter.post("/serverapi/vote-private/xxx", VotePrivateController.register);
+VotePrivateRouter.get("/serverapi/vote-private/get-pk", VotePrivateController.getPk);
 
 module.exports = VotePrivateRouter;
