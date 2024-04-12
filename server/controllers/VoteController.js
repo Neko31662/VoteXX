@@ -204,13 +204,43 @@ const VoteController = {
      * 投票的注册阶段
      */
     registrationStep: async (req, res) => {
-        let { voteID, pk_yes, pk_no } = req.body;
+        let { voteID, enc_pk_yes, enc_pk_no } = req.body;
         let userID = req.payload._id;
-        let params = { voteID, userID, pk_yes, pk_no };
-        console.log(params);
+        let params = { voteID, userID, enc_pk_yes, enc_pk_no };
 
         let result = await VoteService.registrationStep(params);
-        res.send({ ok: "1" });
+        if (result === -1) {
+            res.send({ error: "已注册该投票" });
+        } else if (result === -2) {
+            res.send({ error: "未加入该投票" });
+        } else if (result === -100) {
+            res.send({ error: "数据库错误" });
+        }
+        else {
+            res.send({ ActionType: "ok" });
+        }
+    },
+
+    /**
+     * 获取公钥
+     */
+    getPk: async (req, res) => {
+        let params = {
+            voteID: req.query._id,
+            userID: req.payload._id
+        };
+        let result = await VoteService.getPk(params);
+        if (result === -1) {
+            res.send({ error: "未加入投票" });
+        } else if (result === -100) {
+            res.send({ error: "数据库错误" });
+        }
+        else {
+            res.send({
+                ActionType: "ok",
+                data: result
+            });
+        }
     }
 };
 

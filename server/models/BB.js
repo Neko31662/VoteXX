@@ -23,6 +23,11 @@ const BBType = {
         required: true,
         type: String,
         default: " "
+    },
+    pks: {
+        required: true,
+        type: [{ enc_pk_yes: String, enc_pk_no: String }],
+        default: []
     }
 };
 

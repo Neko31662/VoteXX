@@ -115,12 +115,15 @@
 import { onBeforeMount, ref, reactive } from "vue";
 import { DocumentCopy, Refresh } from "@element-plus/icons-vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
+const router = useRouter();
+import { ElMessage } from "element-plus";
 
 import elliptic from "elliptic";
 const EC = elliptic.ec;
 const ec = new EC("secp256k1");
+import { serialize, deserialize } from "@/../../crypt/util/CryptoSerializer";
 
 const props = defineProps({
     _id: String,
@@ -140,8 +143,8 @@ const confirmKey = ref(false);
 //密钥中私钥字符串的引用对象
 const sk_yes_string = ref("");
 const sk_no_string = ref("");
-let pk_yes = "";
-let pk_no = "";
+let pk_yes = null;
+let pk_no = null;
 /**
  * 生成投票密钥
  */
@@ -149,11 +152,11 @@ const generateKeys = () => {
     // 生成两组密钥对
     const yes_keyPair = ec.genKeyPair();
     sk_yes_string.value = yes_keyPair.getPrivate().toString(16);
-    pk_yes = yes_keyPair.getPublic().encode("hex");
+    pk_yes = yes_keyPair.getPublic();
 
     const no_keyPair = ec.genKeyPair();
     sk_no_string.value = no_keyPair.getPrivate().toString(16);
-    pk_no = no_keyPair.getPublic().encode("hex");
+    pk_no = no_keyPair.getPublic();
 };
 
 //表单的引用对象
@@ -191,18 +194,49 @@ const registrationRules = reactive({
  * 上传公钥
  */
 const submitForm = () => {
-    registrationFormRef.value.validate((valid) => {
+    registrationFormRef.value.validate(async (valid) => {
         //通过校验
         if (valid) {
+            let pk_serialized = null;
+            try {
+                let res = await axios.get("/serverapi/vote/get-pk", {
+                    params: {
+                        _id: route.query._id,
+                    },
+                });
+                if (res.data.ActionType === "ok") {
+                    pk_serialized = res.data.data;
+                } else {
+                    ElMessage.error(res.data.error);
+                    return;
+                }
+            } catch (err) {
+                ElMessage.error("获取公钥失败");
+                return;
+            }
+            let pk = deserialize(pk_serialized, ec);
+            let enc_pk_yes = pk.encrypt(pk_yes);
+            let enc_pk_no = pk.encrypt(pk_no);
+            let enc_pk_yes_serialized = serialize(enc_pk_yes);
+            let enc_pk_no_serialized = serialize(enc_pk_no);
+
             axios
                 .post("/serverapi/vote/registration-step", {
-                    pk_yes,
-                    pk_no,
                     voteID: route.query._id,
+                    enc_pk_yes: enc_pk_yes_serialized,
+                    enc_pk_no: enc_pk_no_serialized,
                 })
-                .then((res) => {})
-                .catch((err) => {});
-        } else {
+                .then((res) => {
+                    if (res.data.ActionType === "ok") {
+                        ElMessage.success("注册成功");
+                        router.push("/vote-manage/votelist");
+                    } else {
+                        ElMessage.error(res.data.error);
+                    }
+                })
+                .catch((err) => {
+                    ElMessage.error("注册失败");
+                });
         }
     });
 };

@@ -7,6 +7,8 @@ const createVoteQuery = require("../querys/CreateVoteQuery");
 const DKGQuery = require("../querys/DKGQuery");
 const tryUntilSuccess = require("../util/TryUntilSuccess");
 
+const { serialize, deserialize } = require("../../crypt/util/CryptoSerializer");
+
 /**
  * 验证创建投票数据的合法性，返回布尔值
  */
@@ -85,11 +87,11 @@ const VoteService = {
                 VoteModel.updateOne({ _id: result._id }, {
                     state: 1
                 }).catch((err) => {
-                    console.log("<ERROR> DKGQueryUpdateErr:" + err);
+                    console.log("<ERROR> DKGQueryUpdateErr:", err);
                 });
             })
             .catch((err) => {
-                console.log("<ERROR> DKGQueryErr:" + err);
+                console.log("<ERROR> DKGQueryErr:", err);
             });
 
         return result;
@@ -278,13 +280,13 @@ const VoteService = {
 
     /**
      * 投票的注册阶段
-     * @param {{ voteID, userID, pk_yes, pk_no }} params 
+     * @param {{ voteID, userID, enc_pk_yes, enc_pk_no }} params 
      * 已注册返回-1;
      * 未加入投票返回-2;
      * 数据库错误返回-100;
      */
     registrationStep: async (params) => {
-        const { voteID, userID, pk_yes, pk_no } = params;
+        let { voteID, userID, enc_pk_yes, enc_pk_no } = params;
 
         try {
             let registered = await VoteModel.exists({ _id: voteID, voter_registered: userID });
@@ -293,14 +295,48 @@ const VoteService = {
             return -100;
         }
 
-        try{
+        try {
             let joined = await VoteModel.exists({ _id: voteID, voter: userID });
             if (!joined) return -2;
-        }catch{
+        } catch {
             return -100;
         }
 
 
+        try {
+            await VoteModel.updateOne({ _id: voteID }, {
+                $push: {
+                    voter_registered: userID,
+                    "BB.pks": { enc_pk_yes, enc_pk_no }
+                }
+            });
+        } catch (err) {
+            console.log(err);
+            return -100;
+        }
+        return 0;
+
+    },
+
+    /**
+     * 获取公钥
+     * @param {{ voteID, userID }} params 
+     * 成功返回公钥pk;
+     * 未找到或未加入投票返回-1;
+     * 数据库错误返回-100;
+     */
+    getPk: async (params) => {
+        const { voteID, userID } = params;
+
+        let voteInfo = null;
+        try {
+            voteInfo = await VoteModel.findOne({ _id: voteID, voter: userID });
+        } catch (err) {
+            return -100;
+        }
+        if (!voteInfo) return -1;
+
+        return voteInfo.BB.pk;
     }
 
 };

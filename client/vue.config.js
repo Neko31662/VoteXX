@@ -15,5 +15,17 @@ module.exports = defineConfig({
         client: {
             overlay: false
         }
-    }
+    },
+
+    configureWebpack: {
+        resolve: {
+            fallback: {
+                crypto: require.resolve('crypto-browserify'),
+                os: require.resolve("os-browserify/browser"),
+                stream: require.resolve("stream-browserify"),
+                vm: require.resolve("vm-browserify")
+                // 其他需要回退的模块...
+            },
+        },
+    },
 });

@@ -3,6 +3,8 @@
  */
 var BN = require('bn.js');
 const { BallotBundle, ValuesVector } = require('../Ballots/ballot_structure.js');
+const elliptic = require('elliptic');
+const EC = elliptic.ec;
 
 function ElgamalCiphertext(c1, c2) {
     this.c1 = c1;
@@ -224,7 +226,7 @@ class Ciphertext {
     constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
-        this.curve = c1.curve;
+        this.curve = new EC('secp256k1');//改动
     }
 
     /**

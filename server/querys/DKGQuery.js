@@ -4,7 +4,7 @@ const BN = require('bn.js');
 const elliptic = require('elliptic');
 const EC = elliptic.ec;
 const ec = require("../../crypt/primitiv/ec/ec");
-const PublicKey = require('../../crypt/primitiv/encryption/ElgamalEncryption').ElgamalPublicKey;
+const ElgamalPublicKey = require('../../crypt/primitiv/encryption/ElgamalEncryption').ElgamalPublicKey;
 const crypto = require('crypto');
 var SHA256 = require('crypto-js/sha256');
 
@@ -121,7 +121,7 @@ const doDKGQuery = async (voteID) => {
         }
     });
     if (!allSame) return -6;
-    let pk = new PublicKey(ec, deserialize(publicKey));
+    let pk = new ElgamalPublicKey(ec, deserialize(publicKey));
 
     try {
         await VoteModel.updateOne({ _id: voteID }, {
