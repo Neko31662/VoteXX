@@ -1,8 +1,6 @@
 const VoteModel = require("../models/VoteModel");
 const JWT = require("../util/JWT");
 const createVoteQuery = require("../querys/CreateVoteQuery");
-const DKGQuery = require("../querys/DKGQuery");
-const tryUntilSuccess = require("../util/TryUntilSuccess");
 
 const { serialize, deserialize } = require("../../crypt/util/CryptoSerializer");
 
@@ -78,18 +76,6 @@ const VoteService = {
             }
             return -2;
         }
-
-        tryUntilSuccess(DKGQuery, 20000, "DKGQueryErr", result._id)
-            .then(() => {
-                VoteModel.updateOne({ _id: result._id }, {
-                    state: 1
-                }).catch((err) => {
-                    console.log("<ERROR> DKGQueryUpdateErr:", err);
-                });
-            })
-            .catch((err) => {
-                console.log("<ERROR> DKGQueryErr:", err);
-            });
 
         return result;
     },

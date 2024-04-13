@@ -54,7 +54,6 @@ const doGetPrivateKeysQuery = async (voteID) => {
     for (let i = 0; i < EACount; i++) {
         privateKey = privateKey.add(new BN(privateKeys[i]));
     }
-    console.log(privateKey.toString());
 
     return privateKey;
 };

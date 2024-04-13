@@ -8,13 +8,12 @@ const VotePrivateController = {
     getPk: async (req, res) => {
         let params = {
             voteID: req.query._id,
-            userID: req.payload._id
         };
         let result = await VotePrivateService.getPk(params);
         if (result === -1) {
-            res.send({ error: "未加入投票" });
+            res.send({ error: "获取公钥失败：未找到投票" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "获取公钥失败：数据库错误" });
         }
         else {
             res.send({

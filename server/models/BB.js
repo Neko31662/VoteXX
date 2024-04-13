@@ -28,6 +28,11 @@ const BBType = {
         required: true,
         type: [{ enc_pk_yes: String, enc_pk_no: String }],
         default: []
+    },
+    shuffled_plain_pks: {
+        required: true,
+        type: [{ pk_yes: String, pk_no: String }],
+        default: []
     }
 };
 
