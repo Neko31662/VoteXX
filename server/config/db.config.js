@@ -2,13 +2,14 @@ const mongoose = require("mongoose");
 const VoteModel = require("../models/VoteModel");
 const shuffleQuery = require("../querys/ShuffleQuery");
 const DKGQuery = require("../querys/DKGQuery");
+const provisionalTallyQuery = require("../querys/ProvisionalTallyQuery");
 
 //数据库连接
 mongoose.connect("mongodb://127.0.0.1:27017/VoteXX_Database");
 
 //设置定时任务间隔（单位：ms）
-const updateVoteStateInterval1 = 60 * 1000;//更新投票状态
-const updateVoteStateInterval2 = 20 * 1000;//更新投票状态
+const updateVoteStateInterval1 = 10 * 1000;//更新投票状态
+const updateVoteStateInterval2 = 11 * 1000;//更新投票状态
 
 
 //设置定时任务内容
@@ -56,7 +57,7 @@ const IntervalTask2 = async () => {
                 $set: { state: 1 }
             }).then().catch();
         }).catch((err) => {
-            console.log("DKGQueryErr",err);
+            console.log("DKGQueryErr", err);
             // if (err !== "DKGQueryErr") throw err;
         });
     }
@@ -68,15 +69,26 @@ const IntervalTask2 = async () => {
                 $set: { state: 3 }
             }).then().catch();
         }).catch((err) => {
-            console.log("shuffleQueryErr",err);
+            console.log("shuffleQueryErr", err);
             // throw err;
         });
+    }
 
+    voteInfos = await VoteModel.find({ state: 4, provisionalTallyFinished: false });
+    for (let voteInfo of voteInfos) {
+        provisionalTallyQuery(voteInfo._id).then(() => {
+            VoteModel.updateOne({ _id: voteInfo._id }, {
+                $set: { provisionalTallyFinished: true }
+            }).then().catch();
+        }).catch((err) => {
+            console.log("provisionalTallyQueryErr", err);
+            // throw err;
+        });
     }
 };
 
 
 //开启定时任务
 setInterval(IntervalTask1, updateVoteStateInterval1);
-setInterval(IntervalTask2, updateVoteStateInterval2);
+// setInterval(IntervalTask2, updateVoteStateInterval2);
 IntervalTask2();

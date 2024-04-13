@@ -101,51 +101,22 @@ const doShuffleQuery = async (voteID) => {
         };
     }
 
-    await VoteModel.updateOne({ _id: voteID }, {
-        $set: {
-            "BB.shuffled_plain_pks": shuffled_plain_pks
-        }
-    });
+    try {
+        await VoteModel.updateOne({ _id: voteID }, {
+            $set: {
+                "BB.shuffled_plain_pks": shuffled_plain_pks
+            }
+        });
+    } catch (err) {
+        return -100;
+    }
 
-
-    // let election_pk = new enc_PublicKey(ec, DKG.getPublic(global.elections[uuid].BB.yiList));
-
-    // // shuffle pks
-    // const pks = global.elections[uuid].BB.pks;
-    // const pk_yes = pks.map(pk => pk.enc_pk1);
-    // const pk_no = pks.map(pk => pk.enc_pk2);
-
-    // let m = 2;
-    // let [preparedCtxts, n] = ShuffleArgument.prepare_ctxts(pk_yes, m, election_pk);
-    // let com_pk = new cmt_PublicKey(ec, n);
-    // let mn = preparedCtxts.length;
-    // let permutation = shuffleArray(Array.from({ length: mn }, (_, i) => i));
-    // let [proof, ctxtsReshaped, shuffledCtxts, shuffledCtxtsReshaped] = shuffle(preparedCtxts, com_pk, election_pk, permutation);
-    // global.elections[uuid].BB.shuffledPkYes = { shuffledCtxts, proof, ctxtsReshaped, shuffledCtxtsReshaped };
-
-    // [preparedCtxts, n] = ShuffleArgument.prepare_ctxts(pk_no, m, election_pk);
-    // [proof, ctxtsReshaped, shuffledCtxts, shuffledCtxtsReshaped] = shuffle(preparedCtxts, com_pk, election_pk, permutation);
-    // global.elections[uuid].BB.shuffledPkNo = { shuffledCtxts, proof, ctxtsReshaped, shuffledCtxtsReshaped };
-
-
-    // decrypt pks
-    /**
-     * 需要trustee
-     */
-    // let privKey = new BN(0);
-    // for (let i = 0; i < N; i++) {
-    //     privKey = privKey.add(new BN(global.elections[uuid].trustees[i].dkg.xi));
-    // }
-
-    // const shuffled_pks_yes = global.elections[uuid].BB.shuffledPkYes.shuffledCtxts.map(ctxt => ElgamalEnc.decrypt(privKey, ctxt, ec));
-    // const shuffled_pks_no = global.elections[uuid].BB.shuffledPkNo.shuffledCtxts.map(ctxt => ElgamalEnc.decrypt(privKey, ctxt, ec));
-    // global.elections[uuid].BB.shuffled_plain_pks_yes = shuffled_pks_yes;
-    // global.elections[uuid].BB.shuffled_plain_pks_no = shuffled_pks_no;
-
+    return 0;
 };
 
 const shuffleQuery = async (voteID) => {
-    doShuffleQuery(voteID);
+    let result = await doShuffleQuery(voteID);
+    if (result !== 0) throw "shuffleQueryErr";
 };
 
 module.exports = shuffleQuery;

@@ -70,6 +70,8 @@ function reloadObject(obj) {
     const { ShuffleArgument } = require("../protocol/NIZKs/verifiable_shuffle/shuffle_argument");
     const { CommitmentParams, nullificationCommitment, ChallengeFull, Challenge, Response, FirstMoveData, Proof, Statement, Witness, NullificationNIZK } = require("../protocol/NIZKs/nullification");
 
+    const Signature = Object;
+
     const Party = Object;
 
     // 检查obj是否为对象，不是对象直接返回

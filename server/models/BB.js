@@ -38,6 +38,27 @@ const BBType = {
         required: true,
         type: [{ enc_pk: String, signature: String }],
         default: []
+    },
+    results: {
+        required: true,
+        type: {
+            nr_yes: Number,
+            nr_no: Number,
+        },
+        default: {
+            nr_yes: 0,
+            nr_no: 0,
+        }
+    },
+    yesVotes: {
+        required: true,
+        type: [String],
+        default: []
+    },
+    noVotes: {
+        required: true,
+        type: [String],
+        default: []
     }
 };
 
