@@ -56,7 +56,8 @@ const IntervalTask2 = async () => {
                 $set: { state: 1 }
             }).then().catch();
         }).catch((err) => {
-            if (err !== "DKGQueryErr") throw err;
+            console.log("DKGQueryErr",err);
+            // if (err !== "DKGQueryErr") throw err;
         });
     }
 
@@ -67,7 +68,8 @@ const IntervalTask2 = async () => {
                 $set: { state: 3 }
             }).then().catch();
         }).catch((err) => {
-            throw err;
+            console.log("shuffleQueryErr",err);
+            // throw err;
         });
 
     }

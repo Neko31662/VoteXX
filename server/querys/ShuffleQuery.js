@@ -67,19 +67,28 @@ const doShuffleQuery = async (voteID) => {
         pk_no[i] = deserialize(voteInfo.BB.pks[i].enc_pk_no, ec);
     }
 
+    //获取所有trustee的私钥
     let privKey = await TryUntilSuccess(GetPrivateKeysQuery, 10000, "GetPrivateKeysQueryErr", voteID);
 
-    let m = 2;
-    let [preparedCtxts, n] = ShuffleArgument.prepare_ctxts(pk_yes, m, election_pk);
-    let com_pk = new cmt_PublicKey(ec, n);
-    let mn = preparedCtxts.length;
-    let permutation = shuffleArray(Array.from({ length: mn }, (_, i) => i));
-    let [proof, ctxtsReshaped, shuffledCtxts, shuffledCtxtsReshaped] = shuffle(preparedCtxts, com_pk, election_pk, permutation);
-    let shuffledPkYes = { shuffledCtxts, proof, ctxtsReshaped, shuffledCtxtsReshaped };
+    let shuffledPkYes = {};
+    let shuffledPkNo = {};
+    if (pk_yes.length >= 2) {
+        let m = 2;
+        let [preparedCtxts, n] = ShuffleArgument.prepare_ctxts(pk_yes, m, election_pk);
+        let com_pk = new cmt_PublicKey(ec, n);
+        let mn = preparedCtxts.length;
+        let permutation = shuffleArray(Array.from({ length: mn }, (_, i) => i));
+        let [proof, ctxtsReshaped, shuffledCtxts, shuffledCtxtsReshaped] = shuffle(preparedCtxts, com_pk, election_pk, permutation);
+        shuffledPkYes = { shuffledCtxts, proof, ctxtsReshaped, shuffledCtxtsReshaped };
 
-    [preparedCtxts, n] = ShuffleArgument.prepare_ctxts(pk_no, m, election_pk);
-    [proof, ctxtsReshaped, shuffledCtxts, shuffledCtxtsReshaped] = shuffle(preparedCtxts, com_pk, election_pk, permutation);
-    let shuffledPkNo = { shuffledCtxts, proof, ctxtsReshaped, shuffledCtxtsReshaped };
+        [preparedCtxts, n] = ShuffleArgument.prepare_ctxts(pk_no, m, election_pk);
+        [proof, ctxtsReshaped, shuffledCtxts, shuffledCtxtsReshaped] = shuffle(preparedCtxts, com_pk, election_pk, permutation);
+        shuffledPkNo = { shuffledCtxts, proof, ctxtsReshaped, shuffledCtxtsReshaped };
+    } else {
+        shuffledPkYes = { shuffledCtxts: pk_yes };
+        shuffledPkNo = { shuffledCtxts: pk_no };
+    }
+
 
     const shuffled_pks_yes = shuffledPkYes.shuffledCtxts.map(ctxt => ElgamalEnc.decrypt(privKey, ctxt, ec));
     const shuffled_pks_no = shuffledPkNo.shuffledCtxts.map(ctxt => ElgamalEnc.decrypt(privKey, ctxt, ec));

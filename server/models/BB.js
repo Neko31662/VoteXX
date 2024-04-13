@@ -33,6 +33,11 @@ const BBType = {
         required: true,
         type: [{ pk_yes: String, pk_no: String }],
         default: []
+    },
+    votes: {
+        required: true,
+        type: [{ enc_pk: String, signature: String }],
+        default: []
     }
 };
 
