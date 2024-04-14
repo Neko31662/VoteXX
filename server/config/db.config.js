@@ -90,5 +90,5 @@ const IntervalTask2 = async () => {
 
 //开启定时任务
 setInterval(IntervalTask1, updateVoteStateInterval1);
-// setInterval(IntervalTask2, updateVoteStateInterval2);
-IntervalTask2();
+setInterval(IntervalTask2, updateVoteStateInterval2);
+// IntervalTask2();

@@ -67,6 +67,7 @@
                             type="datetime"
                             placeholder="选择日期时间"
                             format="YYYY/MM/DD HH:mm"
+                            value-format="YYYY/MM/DD HH:mm"
                         />
                         <!-- 提示 -->
                         <TimeTips :index="0" />
@@ -78,6 +79,7 @@
                             type="datetime"
                             placeholder="选择日期时间"
                             format="YYYY/MM/DD HH:mm"
+                            value-format="YYYY/MM/DD HH:mm"
                         ></el-date-picker>
                         <TimeTips :index="1" />
                     </el-form-item>
@@ -88,6 +90,7 @@
                             type="datetime"
                             placeholder="选择日期时间"
                             format="YYYY/MM/DD HH:mm"
+                            value-format="YYYY/MM/DD HH:mm"
                         ></el-date-picker>
                         <TimeTips :index="2" />
                     </el-form-item>
@@ -98,6 +101,7 @@
                             type="datetime"
                             placeholder="选择日期时间"
                             format="YYYY/MM/DD HH:mm"
+                            value-format="YYYY/MM/DD HH:mm"
                         ></el-date-picker>
                         <TimeTips :index="3" />
                     </el-form-item>
@@ -301,7 +305,7 @@ createVoteRules[1] = reactive({
         {
             validator: (rule, value) => {
                 let now = new Date();
-                return value > now;
+                return new Date(value) > now;
             },
             message: "注册结束时间应晚于当前时间",
             trigger: "blur",
@@ -315,7 +319,7 @@ createVoteRules[1] = reactive({
         },
         {
             validator: (rule, value) => {
-                return value > createVoteForm[1].regEndTime;
+                return new Date(value) > new Date(createVoteForm[1].regEndTime);
             },
             message: "该阶段时间应晚于上一阶段时间",
             trigger: "blur",
@@ -329,7 +333,7 @@ createVoteRules[1] = reactive({
         },
         {
             validator: (rule, value) => {
-                return value > createVoteForm[1].voteEndTime;
+                return new Date(value) > new Date(createVoteForm[1].voteEndTime);
             },
             message: "该阶段时间应晚于上一阶段时间",
             trigger: "blur",
@@ -343,7 +347,7 @@ createVoteRules[1] = reactive({
         },
         {
             validator: (rule, value) => {
-                return value > createVoteForm[1].nulStartTime;
+                return new Date(value) > new Date(createVoteForm[1].nulStartTime);
             },
             message: "该阶段时间应晚于上一阶段时间",
             trigger: "blur",

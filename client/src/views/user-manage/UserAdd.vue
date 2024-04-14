@@ -8,6 +8,15 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 import UserList from "./UserList.vue";
+import axios from "axios";
+
+// axios
+//     .get(
+//         "/serverapi/vote-private/get-provisional-tally-votes?_id=661aa493dc03de49f51f3ee6"
+//     )
+//     .then((res) => {
+//         console.log(res.data.data);
+//     });
 
 let info = {
     val: ref(0),

@@ -42,6 +42,28 @@ const VotePrivateController = {
                 ActionType: "ok",
             });
         }
+    },
+
+    /**
+     * 获取预先计票后得到的yesVotes和noVotes结果
+     */
+    getProvisionalTallyVotes:async (req, res) => {
+        let params = {
+            voteID: req.query._id,
+        };
+        let result = await VotePrivateService.getProvisionalTallyVotes(params);
+
+        if (result === -1) {
+            res.send({ error: "获取预先计票结果失败：未找到投票" });
+        } else if (result === -100) {
+            res.send({ error: "获取预先计票结果失败：数据库错误" });
+        }
+        else {
+            res.send({
+                ActionType: "ok",
+                data: result
+            });
+        }
     }
 };
 

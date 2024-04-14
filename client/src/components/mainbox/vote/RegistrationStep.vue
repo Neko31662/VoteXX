@@ -123,6 +123,7 @@ import { ElMessage } from "element-plus";
 import elliptic from "elliptic";
 const EC = elliptic.ec;
 const ec = new EC("secp256k1");
+const ElgamalPublicKey = require('@/../../crypt/primitiv/encryption/ElgamalEncryption').ElgamalPublicKey;
 import { serialize, deserialize } from "@/../../crypt/util/CryptoSerializer";
 
 const props = defineProps({
@@ -214,7 +215,7 @@ const submitForm = () => {
                 ElMessage.error("获取公钥失败");
                 return;
             }
-            let pk = deserialize(pk_serialized, ec);
+            let pk = new ElgamalPublicKey(ec, deserialize(pk_serialized, ec));
             let enc_pk_yes = pk.encrypt(pk_yes);
             let enc_pk_no = pk.encrypt(pk_no);
             let enc_pk_yes_serialized = serialize(enc_pk_yes);

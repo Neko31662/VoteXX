@@ -53,6 +53,28 @@ const VotePrivateService = {
             return -100;
         }
         return 0;
+    },
+
+    /**
+     * 获取预先计票后得到的yesVotes和noVotes结果
+     * @param {{ voteID }} params 
+     * 成功返回yesVotes和noVotes;
+     * 未找到投票返回-1;
+     * 数据库错误返回-100;
+     */
+    getProvisionalTallyVotes: async (params) => {
+        const { voteID } = params;
+
+        let voteInfo = null;
+        try {
+            voteInfo = await VoteModel.findOne({ _id: voteID });
+        } catch (err) {
+            return -100;
+        }
+        if (!voteInfo) return -1;
+
+        let { yesVotes, noVotes } = voteInfo.BB;
+        return { yesVotes, noVotes };
     }
 };
 

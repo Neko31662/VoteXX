@@ -93,6 +93,26 @@ const doProvisionalTallyQuery = async (voteID) => {
         }
     }
 
+    //用随机生成的公钥将yesVotes和noVotes的长度填充至2的幂
+    if (yesVotes.length === 0) {
+        yesVotes.push(serialize(ec.genKeyPair().getPublic()));
+    } else {
+        let listSizeLog = Math.ceil(Math.log2(yesVotes.length));
+        let listSize = Math.pow(2, listSizeLog);
+        for (let i = yesVotes.length; i < listSize; i++) {
+            yesVotes.push(serialize(ec.genKeyPair().getPublic()));
+        }
+    }
+    if (noVotes.length === 0) {
+        noVotes.push(serialize(ec.genKeyPair().getPublic()));
+    } else {
+        let listSizeLog = Math.ceil(Math.log2(noVotes.length));
+        let listSize = Math.pow(2, listSizeLog);
+        for (let i = noVotes.length; i < listSize; i++) {
+            noVotes.push(serialize(ec.genKeyPair().getPublic()));
+        }
+    }
+
     try {
         await VoteModel.updateOne({ _id: voteID }, {
             "BB.yesVotes": yesVotes,

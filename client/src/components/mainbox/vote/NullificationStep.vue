@@ -3,10 +3,64 @@
         <template #header>
             <h3>弃票阶段</h3>
         </template>
+        <el-form
+            label-width="auto"
+            label-position="left"
+            ref="nullificationFormRef"
+            :model="nullificationForm"
+            status-icon
+            :rules="nullificationRules"
+        >
+            <el-form-item label="弃票时间">
+                <el-text tag="p" line-clamp="10000">
+                    {{
+                        dateToString(nulStartTime) +
+                        " ~ " +
+                        dateToString(nulEndTime)
+                    }}
+                </el-text>
+            </el-form-item>
+            <el-form-item>
+                <el-text tag="p" line-clamp="10000">
+                    若希望弃掉赞成票，请输入
+                    <b>对应的反对票密钥</b>
+                    ；若希望弃掉反对票，请输入
+                    <b>对应的赞成票密钥</b>
+                </el-text>
+            </el-form-item>
+            <el-form-item label="请输入密钥" prop="sk_string">
+                <el-input
+                    v-model="nullificationForm.sk_string"
+                    autocomplete="off"
+                />
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <el-button type="primary" @click="nullify()">确认弃票</el-button>
+        </template>
     </el-card>
 </template>
 
 <script setup>
+import { ref, reactive } from "vue";
+import axios from "axios";
+import { useRoute, useRouter } from "vue-router";
+const route = useRoute();
+const router = useRouter();
+import { ElMessage } from "element-plus";
+
+import elliptic from "elliptic";
+const EC = elliptic.ec;
+const ec = require("@/../../crypt/primitiv/ec/ec");
+import BN from "bn.js";
+import { serialize, deserialize } from "@/../../crypt/util/CryptoSerializer";
+import { LiftedElgamalEnc } from "@/../../crypt/primitiv/encryption/ElgamalEncryption";
+import {
+    Statement,
+    Witness,
+    NullificationNIZK,
+} from "@/../../crypt/protocol/NIZKs/nullification";
+
 const props = defineProps({
     _id: String,
     voteName: String,
@@ -18,6 +72,167 @@ const props = defineProps({
     EACount: Number,
     state: Number,
 });
+
+//表单的引用对象
+const nullificationFormRef = ref();
+
+//表单绑定的响应式对象
+const nullificationForm = reactive({
+    sk_string: "",
+});
+
+//表单的校验规则
+const nullificationRules = reactive({
+    sk_string: [
+        {
+            validator: (rule, value) => {
+                const hexRegex = /^[0-9a-f]+$/;
+                return hexRegex.test(value);
+            },
+            message: "密钥应当只包含0-9以及小写字母a-f",
+            trigger: "blur",
+        },
+    ],
+});
+
+//日期转换为字符串的格式
+const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+};
+
+/**
+ * 将日期转换为字符串
+ * @param {Date} date
+ */
+const dateToString = (date) => {
+    return date.toLocaleString(date, options);
+};
+
+const nullify = () => {
+    nullificationFormRef.value.validate(async (valid) => {
+        if (valid) {
+            //获取投票公钥
+            let election_pk_serialized = null;
+            try {
+                let res = await axios.get("/serverapi/vote-private/get-pk", {
+                    params: {
+                        _id: route.query._id,
+                    },
+                });
+                if (res.data.ActionType === "ok") {
+                    election_pk_serialized = res.data.data;
+                } else {
+                    ElMessage.error(res.data.error);
+                    return;
+                }
+            } catch (err) {
+                ElMessage.error("获取公钥失败");
+                return;
+            }
+
+            //获取yesVotes和noVotes
+            let yesVotes_serialized = [];
+            let noVotes_serialized = [];
+            try {
+                let res = await axios.get(
+                    "/serverapi/vote-private/get-provisional-tally-votes",
+                    {
+                        params: {
+                            _id: route.query._id,
+                        },
+                    }
+                );
+                if (res.data.ActionType === "ok") {
+                    yesVotes_serialized = res.data.data.yesVotes;
+                    noVotes_serialized = res.data.data.noVotes;
+                } else {
+                    ElMessage.error(res.data.error);
+                    return;
+                }
+            } catch (err) {
+                ElMessage.error("获取预先计票结果失败");
+                return;
+            }
+
+            //计算用户公钥
+            let sk = new BN(nullificationForm.sk_string, 16);
+            let pk = ec.curve.g.mul(sk);
+            let pk_serialized = serialize(pk);
+
+            //查看用户输入的私钥是否对应某一个公钥
+            let hit = false;
+            let nullifyYes = false; //该值为真说明弃掉的是赞成票，为假说明弃的是反对票
+            let Votes_serialized = null;
+            //查看该公钥是在yesVotes还是noVotes中
+            for (let i = 0; i < yesVotes_serialized.length; i++) {
+                if (yesVotes_serialized[i] === pk_serialized) {
+                    hit = true;
+                    nullifyYes = true;
+                    Votes_serialized = yesVotes_serialized;
+                    break;
+                }
+            }
+            if (!hit) {
+                for (let i = 0; i < noVotes_serialized.length; i++) {
+                    if (noVotes_serialized[i] === pk_serialized) {
+                        hit = true;
+                        nullifyYes = false;
+                        Votes_serialized = noVotes_serialized;
+                        break;
+                    }
+                }
+            }
+            //如果都不在
+            if (!hit) {
+                ElMessage.error("未找到该密钥对应的有效投票");
+                return;
+            }
+
+            let election_pk = deserialize(election_pk_serialized, ec);
+            console.log(election_pk);
+            console.log(ec.genKeyPair().getPublic());
+            let Votes = Votes_serialized.map((value) => deserialize(value, ec));
+            let index = null;
+            let flagList = [];
+            let listSizeLog = Math.log2(Votes_serialized.length);
+            let randomnesses = [];
+            for (let i = 0; i < Votes_serialized.length; i++) {
+                if (pk_serialized === Votes_serialized[i]) {
+                    index = i;
+                    flagList.push(1);
+                } else {
+                    flagList.push(0);
+                }
+            }
+
+            flagList = flagList.map((item) => {
+                let [ctxt, randomness] = LiftedElgamalEnc.encrypt(
+                    election_pk,
+                    item,
+                    ec.curve,
+                    ec
+                );
+                randomnesses.push(randomness);
+                return ctxt;
+            });
+            let st = new Statement(election_pk, Votes, flagList);
+            let witness = new Witness(index, listSizeLog, randomnesses, sk);
+            let nizk = new NullificationNIZK(ec, st);
+            let proof = nizk.prove(witness);
+
+            let data = {
+                nullifyYes,
+                flagList: serialize(flagList),
+                proof: serialize(proof),
+            };
+            console.log(data);
+        }
+    });
+};
 </script>
 
 <style lang="scss" scoped>
