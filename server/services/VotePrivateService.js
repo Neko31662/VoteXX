@@ -75,6 +75,54 @@ const VotePrivateService = {
 
         let { yesVotes, noVotes } = voteInfo.BB;
         return { yesVotes, noVotes };
+    },
+
+    /**
+     * 处理上传弃票信息的请求
+     * @param {{ voteID, nullifyYes, flagList, proof }} params
+     * 成功返回0;
+     * 未找到投票返回-1;
+     * 数据库错误返回-100;
+     */
+    nullify: async (params) => {
+        const { voteID, nullifyYes, flagList, proof } = params;
+        let voteInfo = null;
+        try {
+            voteInfo = await VoteModel.findOne({ _id: voteID });
+        } catch (err) {
+            return -100;
+        }
+        if (!voteInfo) return -1;
+
+        if (nullifyYes) {
+            try {
+                await VoteModel.updateOne({ _id: voteID }, {
+                    $push: {
+                        "BB.nullifyYes": {
+                            table: flagList,
+                            proof
+                        }
+                    }
+                });
+            } catch (err) {
+                return -100;
+            }
+        } else {
+            try {
+                await VoteModel.updateOne({ _id: voteID }, {
+                    $push: {
+                        "BB.nullifyNo": {
+                            table: flagList,
+                            proof
+                        }
+                    }
+                });
+            } catch (err) {
+                return -100;
+            }
+        }
+
+        return 0;
     }
 };
 

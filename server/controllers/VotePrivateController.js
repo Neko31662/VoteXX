@@ -47,7 +47,7 @@ const VotePrivateController = {
     /**
      * 获取预先计票后得到的yesVotes和noVotes结果
      */
-    getProvisionalTallyVotes:async (req, res) => {
+    getProvisionalTallyVotes: async (req, res) => {
         let params = {
             voteID: req.query._id,
         };
@@ -62,6 +62,26 @@ const VotePrivateController = {
             res.send({
                 ActionType: "ok",
                 data: result
+            });
+        }
+    },
+
+    /**
+     * 处理上传弃票信息的请求
+     */
+    nullify: async (req, res) => {
+        let { voteID, nullifyYes, flagList, proof } = req.body;
+        let params = { voteID, nullifyYes, flagList, proof };
+        let result = await VotePrivateService.nullify(params);
+
+        if (result === -1) {
+            res.send({ error: "弃票失败：未找到投票" });
+        } else if (result === -100) {
+            res.send({ error: "弃票失败：数据库错误" });
+        }
+        else {
+            res.send({
+                ActionType: "ok",
             });
         }
     }

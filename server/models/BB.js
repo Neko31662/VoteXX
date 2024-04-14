@@ -59,6 +59,22 @@ const BBType = {
         required: true,
         type: [String],
         default: []
+    },
+    nullifyYes: {
+        required: true,
+        type: [{
+            table: [String],
+            proof: String,
+        }],
+        default: [],
+    },
+    nullifyNo: {
+        required: true,
+        type: [{
+            table: [String],
+            proof: String,
+        }],
+        default: [],
     }
 };
 

@@ -193,8 +193,6 @@ const nullify = () => {
             }
 
             let election_pk = deserialize(election_pk_serialized, ec);
-            console.log(election_pk);
-            console.log(ec.genKeyPair().getPublic());
             let Votes = Votes_serialized.map((value) => deserialize(value, ec));
             let index = null;
             let flagList = [];
@@ -225,11 +223,28 @@ const nullify = () => {
             let proof = nizk.prove(witness);
 
             let data = {
+                voteID: route.query._id,
                 nullifyYes,
-                flagList: serialize(flagList),
+                flagList: flagList.map((item) => serialize(item)),
                 proof: serialize(proof),
             };
-            console.log(data);
+
+            try {
+                let res = await axios.post(
+                    "/serverapi/vote-private/nullify",
+                    data
+                );
+                if (res.data.ActionType === "ok") {
+                    ElMessage.success("弃票成功");
+                    router.push("/vote-manage/votelist");
+                } else {
+                    ElMessage.error(res.data.error);
+                    return;
+                }
+            } catch (err) {
+                ElMessage.error("弃票失败");
+                return;
+            }
         }
     });
 };
