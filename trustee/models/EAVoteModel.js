@@ -19,6 +19,15 @@ const EAVoteType = {
     },
     DKG_instance_serialized: {
         type: String
+    },
+    generatorH: {
+        type: String,
+    },
+    pet: {
+        type: String
+    },
+    distributeDecryptor: {
+        type: String
     }
 };
 

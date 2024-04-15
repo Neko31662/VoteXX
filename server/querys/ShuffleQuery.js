@@ -8,6 +8,7 @@ const crypto = require('crypto');
 var SHA256 = require('crypto-js/sha256');
 const { ShuffleArgument, shuffleArray } = require('../../crypt/protocol/NIZKs/verifiable_shuffle/shuffle_argument.js');
 const cmt_PublicKey = require('../../crypt/primitiv/Commitment/pedersen_commitment').PublicKey;
+const enc_PublicKey = require('../../crypt/primitiv/encryption/ElgamalEncryption').ElgamalPublicKey;
 const { ElgamalEnc } = require('../../crypt/primitiv/encryption/ElgamalEncryption');
 const { serialize, deserialize } = require('../../crypt/util/CryptoSerializer');
 
@@ -59,6 +60,7 @@ const doShuffleQuery = async (voteID) => {
         return -100;
     }
     let election_pk = deserialize(voteInfo.BB.election_pk, ec);
+    election_pk = new enc_PublicKey(ec, election_pk)
     let pk_length = voteInfo.BB.pks.length;
     let pk_yes = [];
     let pk_no = [];

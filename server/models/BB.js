@@ -44,10 +44,14 @@ const BBType = {
         type: {
             nr_yes: Number,
             nr_no: Number,
+            nullified_yes: Number,
+            nullified_no: Number,
         },
         default: {
             nr_yes: 0,
             nr_no: 0,
+            nullified_yes: 0,
+            nullified_no: 0,
         }
     },
     yesVotes: {

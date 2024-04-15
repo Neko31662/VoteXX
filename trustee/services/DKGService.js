@@ -87,8 +87,7 @@ const DKGService = {
      * 生成整体公钥
      * @param {{voteID:String,yiList_serialized:Array<String>}} params 
      * @returns 
-     * 验证成功返回true;
-     * 验证失败返回false;
+     * 成功返回公钥;
      * 数据库错误，返回-100;
      */
     DKG_step3: async (params) => {

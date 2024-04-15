@@ -116,7 +116,7 @@ const doProvisionalTallyQuery = async (voteID) => {
     try {
         await VoteModel.updateOne({ _id: voteID }, {
             "BB.yesVotes": yesVotes,
-            "BB.noVoyes": noVotes,
+            "BB.noVotes": noVotes,
             "BB.results.nr_yes": nr_yes,
             "BB.results.nr_no": nr_no,
         });

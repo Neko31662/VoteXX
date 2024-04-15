@@ -3,6 +3,7 @@ const VoteModel = require("../models/VoteModel");
 const shuffleQuery = require("../querys/ShuffleQuery");
 const DKGQuery = require("../querys/DKGQuery");
 const provisionalTallyQuery = require("../querys/ProvisionalTallyQuery");
+const FinalTallyQuery = require("../querys/FinalTallyQuery");
 
 //数据库连接
 mongoose.connect("mongodb://127.0.0.1:27017/VoteXX_Database");
@@ -85,6 +86,18 @@ const IntervalTask2 = async () => {
             // throw err;
         });
     }
+
+    voteInfos = await VoteModel.find({ state: 6 });
+    for (let voteInfo of voteInfos) {
+        FinalTallyQuery(voteInfo._id).then(() => {
+            VoteModel.updateOne({ _id: voteInfo._id }, {
+                $set: { state: 7 }
+            }).then().catch();
+        }).catch((err) => {
+            console.log("FinalTallyQueryErr", err);
+            // throw err;
+        });
+    }
 };
 
 
@@ -92,3 +105,7 @@ const IntervalTask2 = async () => {
 setInterval(IntervalTask1, updateVoteStateInterval1);
 setInterval(IntervalTask2, updateVoteStateInterval2);
 // IntervalTask2();
+
+provisionalTallyQuery("661cc5b41e7d1c30be17d8b4");
+
+

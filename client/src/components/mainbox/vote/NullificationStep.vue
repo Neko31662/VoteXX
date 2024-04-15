@@ -168,6 +168,8 @@ const nullify = () => {
             let nullifyYes = false; //该值为真说明弃掉的是赞成票，为假说明弃的是反对票
             let Votes_serialized = null;
             //查看该公钥是在yesVotes还是noVotes中
+            console.log(yesVotes_serialized);
+            console.log(noVotes_serialized);
             for (let i = 0; i < yesVotes_serialized.length; i++) {
                 if (yesVotes_serialized[i] === pk_serialized) {
                     hit = true;
