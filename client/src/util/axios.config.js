@@ -3,6 +3,10 @@ import axios from "axios";
 //请求前执行
 axios.interceptors.request.use(function (config) {
 
+    let { url } = config;
+    if (url.includes("/serverapi/vote-private")) {
+        return config;
+    }
     //挂载存储的token
     const token = localStorage.getItem("token");
     config.headers.Authorization = `Bearer ${token}`;

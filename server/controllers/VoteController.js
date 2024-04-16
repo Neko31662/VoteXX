@@ -192,7 +192,8 @@ const VoteController = {
         } else {
             let responseData = [];
             let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state } = result;
-            responseData = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state };
+            let results = result.BB.results;
+            responseData = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state, results };
             res.send({
                 ActionType: "ok",
                 data: responseData

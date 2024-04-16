@@ -60,7 +60,7 @@ const doShuffleQuery = async (voteID) => {
         return -100;
     }
     let election_pk = deserialize(voteInfo.BB.election_pk, ec);
-    election_pk = new enc_PublicKey(ec, election_pk)
+    election_pk = new enc_PublicKey(ec, election_pk);
     let pk_length = voteInfo.BB.pks.length;
     let pk_yes = [];
     let pk_no = [];

@@ -92,6 +92,9 @@
             </div>
         </el-form>
         <template #footer>
+            <el-button @click="router.push('/vote-manage/votelist')">
+                退出
+            </el-button>
             <el-button
                 type="primary"
                 v-if="!confirmKey"
@@ -123,7 +126,8 @@ import { ElMessage } from "element-plus";
 import elliptic from "elliptic";
 const EC = elliptic.ec;
 const ec = new EC("secp256k1");
-const ElgamalPublicKey = require('@/../../crypt/primitiv/encryption/ElgamalEncryption').ElgamalPublicKey;
+const ElgamalPublicKey =
+    require("@/../../crypt/primitiv/encryption/ElgamalEncryption").ElgamalPublicKey;
 import { serialize, deserialize } from "@/../../crypt/util/CryptoSerializer";
 
 const props = defineProps({

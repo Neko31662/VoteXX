@@ -333,7 +333,9 @@ createVoteRules[1] = reactive({
         },
         {
             validator: (rule, value) => {
-                return new Date(value) > new Date(createVoteForm[1].voteEndTime);
+                return (
+                    new Date(value) > new Date(createVoteForm[1].voteEndTime)
+                );
             },
             message: "该阶段时间应晚于上一阶段时间",
             trigger: "blur",
@@ -347,7 +349,9 @@ createVoteRules[1] = reactive({
         },
         {
             validator: (rule, value) => {
-                return new Date(value) > new Date(createVoteForm[1].nulStartTime);
+                return (
+                    new Date(value) > new Date(createVoteForm[1].nulStartTime)
+                );
             },
             message: "该阶段时间应晚于上一阶段时间",
             trigger: "blur",

@@ -1,22 +1,23 @@
-
 # Signature
+
 ```javascript
 const keyPair = ec.genKeyPair();
 const privateKey = ec.keyFromPrivate(keyPair.getPrivate());
 const publicKey = ec.keyFromPublic(keyPair.getPublic());
 
-var message2 = 'hello world....';
+var message2 = "hello world....";
 const signature = privateKey.sign(message2);
 const isValid = publicKey.verify(message2, signature);
 
-console.log('Signature:', signature.toDER('hex'));
-console.log('Is Valid Signature?', isValid);
+console.log("Signature:", signature.toDER("hex"));
+console.log("Is Valid Signature?", isValid);
 ```
 
 # SHA256 hash
+
 ```javascript
-var SHA256 = require('crypto-js/sha256');
-var message = 'hello world';
+var SHA256 = require("crypto-js/sha256");
+var message = "hello world";
 var hash = SHA256(message);
 console.log(hash.toString());
 ```
@@ -27,9 +28,9 @@ console.log(hash.toString());
 
 ```javascript
 // Import the encryption module
-var {LiftedElgamalEnc} = require('../primitiv/encryption/ElgamalEncryption');
-var ec = require('../primitiv/ec/ec');
-var BN = require('bn.js');
+var { LiftedElgamalEnc } = require("../primitiv/encryption/ElgamalEncryption");
+var ec = require("../primitiv/ec/ec");
+var BN = require("bn.js");
 ```
 
 2. Generate keypair
@@ -55,10 +56,14 @@ If the interface used here does not include a random number, the result returned
 1. Import the modules
 
 ```javascript
-var ec = require('../primitiv/ec/ec');
-var {LiftedElgamalEnc} = require('../primitiv/encryption/ElgamalEncryption');
-var BN = require('bn.js');
-var {Statement, Witness, NullificationNIZK} = require('../protocol/NIZKs/nullification');
+var ec = require("../primitiv/ec/ec");
+var { LiftedElgamalEnc } = require("../primitiv/encryption/ElgamalEncryption");
+var BN = require("bn.js");
+var {
+    Statement,
+    Witness,
+    NullificationNIZK,
+} = require("../protocol/NIZKs/nullification");
 ```
 
 2. Generate random initialization data
@@ -87,7 +92,8 @@ for (let i = 0; i < listSize; i++) {
     var ct_r = LiftedElgamalEnc.encrypt(
         keyPair.getPublic(),
         i === index ? new BN(1) : new BN(0),
-        ec.curve, ec
+        ec.curve,
+        ec
     );
     cts.push(ct_r[0]);
     randomnesses.push(ct_r[1]);
@@ -110,5 +116,3 @@ if (!verified) {
     throw new Error("Verification ERR");
 }
 ```
-
-

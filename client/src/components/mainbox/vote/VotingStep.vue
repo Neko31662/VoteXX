@@ -21,6 +21,9 @@
             </el-form-item>
         </el-form>
         <template #footer>
+            <el-button @click="router.push('/vote-manage/votelist')">
+                退出
+            </el-button>
             <el-button type="primary" @click="vote()">投票</el-button>
         </template>
     </el-card>
@@ -38,7 +41,8 @@ import elliptic from "elliptic";
 const EC = elliptic.ec;
 const ec = new EC("secp256k1");
 import BN from "bn.js";
-const ElgamalPublicKey = require('@/../../crypt/primitiv/encryption/ElgamalEncryption').ElgamalPublicKey;
+const ElgamalPublicKey =
+    require("@/../../crypt/primitiv/encryption/ElgamalEncryption").ElgamalPublicKey;
 import { serialize, deserialize } from "@/../../crypt/util/CryptoSerializer";
 
 const props = defineProps({
@@ -99,7 +103,10 @@ const vote = () => {
                 ElMessage.error("获取公钥失败");
                 return;
             }
-            let election_pk = new ElgamalPublicKey(ec, deserialize(pk_serialized, ec));
+            let election_pk = new ElgamalPublicKey(
+                ec,
+                deserialize(pk_serialized, ec)
+            );
 
             //生成签名
             let sk = new BN(votingForm.sk_string, 16);

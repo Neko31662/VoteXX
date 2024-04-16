@@ -44,7 +44,7 @@ class MultiExponantiation {
         const announcementA_randomiser = com_pk.group.genKeyPair().getPrivate();
 
         let exponent = exponents.slice(0);
-        exponent.unshift(announcementA_values)
+        exponent.unshift(announcementA_values);
         let commitment_rand = commitment_randomizer.slice(0);
         commitment_rand.unshift(announcementA_randomiser);
 

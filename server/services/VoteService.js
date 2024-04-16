@@ -301,7 +301,7 @@ const VoteService = {
 
     },
 
-    
+
 
 };
 

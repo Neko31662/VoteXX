@@ -25,6 +25,13 @@
                     <el-empty description=" ">
                         <el-text>Trustee正在整理信息，请等待一段时间</el-text>
                     </el-empty>
+                    <template #footer>
+                        <el-button
+                            @click="router.push('/vote-manage/votelist')"
+                        >
+                            退出
+                        </el-button>
+                    </template>
                 </el-card>
             </div>
 
@@ -53,6 +60,8 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 import RegistrationStep from "./RegistrationStep.vue";
 import VotingStep from "./VotingStep.vue";
 import NullificationStep from "./NullificationStep.vue";
