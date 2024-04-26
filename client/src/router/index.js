@@ -13,7 +13,7 @@ const routes = [
         name: "login",
         component: Login,
         meta: {
-            title: "欢迎使用VoteXX投票系统"
+            title: "Welcome to VoteXX Election System"
         }
     },
     {
@@ -21,7 +21,7 @@ const routes = [
         name: "signup",
         component: SignUp,
         meta: {
-            title: "注册新账户"
+            title: "Register a new account"
         }
     },
     {
@@ -29,7 +29,7 @@ const routes = [
         name: "mainbox",
         component: MainBox,
         meta: {
-            title: "主页"
+            title: "Home page"
         }
         //嵌套路由在后面动态添加
     }
@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
     }
     //未设置标题，使用默认标题
     else {
-        document.title = "VoteXX投票系统";
+        document.title = "VoteXX Election System";
     }
     next();
 });

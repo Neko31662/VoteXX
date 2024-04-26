@@ -11,7 +11,7 @@ const UserController = {
         var result = await UserService.login(req.body);
         if (!result) {
             res.send({
-                error: "用户名密码不匹配"
+                error: "Username and password do not match"
             });
         } else {
             //生成token
@@ -54,11 +54,11 @@ const UserController = {
             _id, username, introduction, gender: Number(gender), avatar
         });
         if (result === -1) {
-            res.send({ error: "未找到该用户" });
+            res.send({ error: "User not found" });
         } else if (result === -2) {
-            res.send({ error: "用户名已被使用" });
+            res.send({ error: "Username is already used" });
         } else if (result === -3) {
-            res.send({ error: "用户名长度过长" });
+            res.send({ error: "Username length is too long" });
         } else {
             //token中的内容变化，更新token
             const newToken = JWT.generate({
@@ -102,9 +102,9 @@ const UserController = {
 
         const result = await UserService.addUser(req.body);
         if (result === -1) {
-            res.send({ error: "校验错误" });
+            res.send({ error: "Check error" });
         } else if (result === -2) {
-            res.send({ error: "用户名重复" });
+            res.send({ error: "Duplicated username" });
         }
         else {
             res.send({ ActionType: "ok" });

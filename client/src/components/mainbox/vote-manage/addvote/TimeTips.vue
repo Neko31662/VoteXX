@@ -20,10 +20,10 @@ defineProps({
 });
 
 const timeTipsContent = [
-    "创建投票成功至注册时间结束为开放注册时间，所有参与投票的用户须在注册时间结束前注册，注册时间结束后，投票将在短时间内开始",
-    "所有成功注册的用户均可在投票结束时间前投票",
-    "在弃票阶段中，投票者（或知晓了投票者密钥的代理人）可以废弃原本的投票，注意，若弃票阶段开始后EA仍未完成第一次计票，弃票阶段的启动将被推迟",
-    "弃票阶段结束后，EA将进行最终计票，并在完成后公布投票结果",
+    "The registration period is open from the time the poll is successfully created to the end of the registration time. All users participating in the vote must register before the registration time ends. After the registration time ends, voting will start within a short time.",
+    "All successfully registered users can vote before the voting deadline",
+    "During the nullification phase, the voter (or the agent who knows the voter's secret key) can nullify the original vote. Note that if EA has not completed the provisional tally at the nullification start time, the nullification phase will be delayed",
+    "After the nullification phase, EA will conduct a final tally and announce the election results upon completion",
 ];
 
 /**

@@ -17,7 +17,7 @@ axios
             console.log(res.data.error);
             process.exit(0);
         } else {
-            console.log("认证成功");
+            console.log("Authentication successful!");
         }
     })
     .catch((err) => {

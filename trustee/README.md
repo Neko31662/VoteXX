@@ -1,15 +1,17 @@
-trustee 服务进程
+trustee process
 
-## 启动方式
+## How to run
 
-npm start \<端口号\> \<账号\> \<密码\> \<数据库名\>
+npm start \<port\> \<username\> \<password\> \<database\>
 
-测试时使用指令：
+The following commands can be used for tests：
 
 ```
 npm start 3801 trustee1 neko31662 EADB1
 npm start 3802 trustee2 neko31662 EADB2
+...
+npm start 3805 trustee5 neko31662 EADB5
 ```
 
-账号与密码分配到了trustee5 neko31662
+By default, at least 2 and at most 5 trustees are supported.
 

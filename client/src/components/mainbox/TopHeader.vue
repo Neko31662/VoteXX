@@ -9,11 +9,11 @@
                 </el-icon>
             </el-button>
 
-            <span style="margin-left: 10px">VoteXX投票系统</span>
+            <span style="margin-left: 10px">VoteXX Election System</span>
         </div>
 
         <div class="right">
-            <span>欢迎 {{ store.state.userInfo.username }} 回来</span>
+            <span>Welcome, {{ store.state.userInfo.username }}</span>
             <el-dropdown>
                 <span class="el-dropdown-link">
                     <el-icon :size="30" color="white" style="cursor: pointer">
@@ -23,10 +23,10 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item @click="handleCenter">
-                            个人中心
+                            Personal center
                         </el-dropdown-item>
                         <el-dropdown-item @click="handleLogout">
-                            退出
+                            Exit
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </template>

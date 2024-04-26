@@ -4,18 +4,18 @@
             <h3>{{ voteName }}</h3>
         </template>
         <el-form label-width="auto">
-            <el-form-item label="投票简介">
+            <el-form-item label="Election introduction">
                 <el-text tag="p" line-clamp="1">
                     {{ voteIntro }}
                 </el-text>
             </el-form-item>
-            <el-form-item label="注册截止时间">
+            <el-form-item label="Registration deadline">
                 {{ dateToString(regEndTime) }}
             </el-form-item>
-            <el-form-item label="投票截止时间">
+            <el-form-item label="Voting deadline">
                 {{ dateToString(voteEndTime) }}
             </el-form-item>
-            <el-form-item label="弃票时间">
+            <el-form-item label="Nullification time">
                 {{
                     dateToString(nulStartTime) +
                     " - " +
@@ -24,13 +24,13 @@
             </el-form-item>
         </el-form>
         <template #footer>
-            <el-button @click="dialogVisible = true">详细信息</el-button>
+            <el-button @click="dialogVisible = true">Details</el-button>
             <el-button
                 type="primary"
                 @click="getVoteToken"
                 :disabled="gettingVoteToken"
             >
-                生成凭证
+                Generate token
             </el-button>
             <!-- <el-button type="danger" @click="deleteVisible = true">
                 删除投票
@@ -41,31 +41,31 @@
     <!-- 展示投票详细信息 -->
     <el-dialog v-model="dialogVisible" width="700px">
         <template #header>
-            <el-text><h2>投票详情</h2></el-text>
+            <el-text><h2>Election details</h2></el-text>
         </template>
         <el-scrollbar max-height="500px">
             <el-form label-width="auto" class="dialog-form">
-                <el-form-item label="投票名称">
+                <el-form-item label="Election name">
                     <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ voteName }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="投票简介">
+                <el-form-item label="Election introduction">
                     <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ voteIntro }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="注册截止时间">
+                <el-form-item label="Registration deadline">
                     <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ dateToString(regEndTime) }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="投票截止时间">
+                <el-form-item label="Voting deadline">
                     <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ dateToString(voteEndTime) }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="弃票时间">
+                <el-form-item label="Nullification time">
                     <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{
                             dateToString(nulStartTime) +
@@ -74,7 +74,7 @@
                         }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="trustee数量">
+                <el-form-item label="Trustee number">
                     <el-text tag="p" line-clamp="10000" class="dialogs">
                         {{ EACount }}
                     </el-text>
@@ -87,9 +87,9 @@
         <el-form>
             <el-form-item>
                 <el-text tag="p">
-                    获取投票凭证成功，用户可在
-                    <strong>创建/加入投票</strong>
-                    界面输入该凭证以加入投票：
+                    The election token is successfully obtained and users can join the election in the
+                    <strong>Create/join election</strong>
+                    interface:
                     <br />
                 </el-text>
             </el-form-item>
@@ -125,14 +125,14 @@
     <!-- 用于询问是否删除 -->
     <el-dialog v-model="deleteVisible" width="500px">
         <template #header>
-            <el-text type="danger"><h3>您正在删除一项投票</h3></el-text>
+            <el-text type="danger"><h3>You are nullifying a vote</h3></el-text>
         </template>
-        <el-text tag="p">删除投票不可撤回，请谨慎考虑</el-text>
+        <el-text tag="p">Nullification is irrevocable, please consider carefully</el-text>
         <template #footer>
             <div class="dialog-footer">
-                <el-button @click="deleteVisible = false">取消</el-button>
+                <el-button @click="deleteVisible = false">Cancel</el-button>
                 <el-button type="danger" @click="deleteVote">
-                    确认删除
+                    Confirm nullification
                 </el-button>
             </div>
         </template>
@@ -163,7 +163,7 @@ const gettingVoteToken = ref(false);
 const joinVoteToken = ref("joinVoteToken");
 
 //鼠标悬停在复制投票凭证的按钮上时，显示的提示文字
-const joinVoteTokenCopyTipContent = ref("复制凭证");
+const joinVoteTokenCopyTipContent = ref("Copy token");
 
 //日期转换为字符串的格式
 const options = {
@@ -187,7 +187,7 @@ const dateToString = (date) => {
  */
 const deleteVote = () => {
     deleteVisible.value = false;
-    ElMessage.info("这部分功能还未完成");
+    ElMessage.info("This part of the function is not yet complete");
 };
 
 /**
@@ -217,9 +217,9 @@ const getVoteToken = () => {
  */
 const copyToken = () => {
     navigator.clipboard.writeText(joinVoteToken.value).then(() => {
-        joinVoteTokenCopyTipContent.value = "已复制到剪贴板";
+        joinVoteTokenCopyTipContent.value = "Copied to clipboard";
         setTimeout(() => {
-            joinVoteTokenCopyTipContent.value = "复制凭证";
+            joinVoteTokenCopyTipContent.value = "Copy token";
         }, 2000);
     });
 };

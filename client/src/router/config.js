@@ -19,49 +19,49 @@ const routes = [
         path: "/center",
         component: Center,
         meta: {
-            title: "个人中心"
+            title: "Personal center"
         }
     },
     {
         path: "/vote-manage/addvote",
         component: AddVote,
         meta: {
-            title: "创建/加入投票"
+            title: "Create/join election"
         }
     },
     {
         path: "/vote-manage/votelist",
         component: VoteList,
         meta: {
-            title: "参加中的投票"
+            title: "Participated elections"
         }
     },
     {
         path: "/vote-manage/myvote",
         component: MyVote,
         meta: {
-            title: "我创建的投票"
+            title: "created elections"
         }
     },
     {
         path: "/user-manage/adduser",
         component: UserAdd,
         meta: {
-            title: "测试路径1"
+            title: "Test path 1"
         }
     },
     {
         path: "/user-manage/userlist",
         component: UserList,
         meta: {
-            title: "测试路径2"
+            title: "Test path 2"
         }
     },
     {
         path: "/vote",
         component: Vote,
         meta: {
-            title: "进行投票"
+            title: "Vote"
         }
     },
     //重定向与错误处理
