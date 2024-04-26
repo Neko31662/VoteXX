@@ -12,7 +12,7 @@ const EAVoteController = {
         if (result === -1) {
             res.send({ ActionType: "refuse" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({ ActionType: "ok" });
@@ -27,7 +27,7 @@ const EAVoteController = {
         let result = await EAVoteService.getPrivateKey({ voteID });
 
         if (result == -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         } else {
             res.send({
                 ActionType: "ok",

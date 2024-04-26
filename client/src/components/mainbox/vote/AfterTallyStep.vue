@@ -1,17 +1,17 @@
 <template>
     <el-card>
         <template #header>
-            <h3>最终统计结束</h3>
+            <h3>End of final tally</h3>
         </template>
         <el-text tag="p" line-clamp="10000">
-            <h2>投票结果</h2>
+            <h2>Election results</h2>
         </el-text>
         <!-- <template #default> -->
         <el-table :data="tableData" border stripe style="width: 80%">
-            <el-table-column prop="vote_type" label="投票种类" />
-            <el-table-column prop="pro_num" label="初步计票票数" />
-            <el-table-column prop="nul_num" label="弃票票数" />
-            <el-table-column prop="fin_num" label="最终结果" />
+            <el-table-column prop="vote_type" label="Vote type" />
+            <el-table-column prop="pro_num" label="Provisional tally" />
+            <el-table-column prop="nul_num" label="Nullification number" />
+            <el-table-column prop="fin_num" label="Final result" />
         </el-table>
         <!-- </template> -->
         <!-- <el-skeleton :loading="loading" animated>
@@ -21,7 +21,7 @@
         </el-skeleton> -->
         <template #footer>
             <el-button @click="router.push('/vote-manage/votelist')">
-                退出
+                Exit
             </el-button>
         </template>
     </el-card>
@@ -51,13 +51,13 @@ const props = defineProps({
 
 const tableData = [
     {
-        vote_type: "赞成票",
+        vote_type: "Yes vote",
         pro_num: props.results.nr_yes,
         nul_num: props.results.nullified_yes,
         fin_num: props.results.nr_yes - props.results.nullified_yes,
     },
     {
-        vote_type: "反对票",
+        vote_type: "No vote",
         pro_num: props.results.nr_no,
         nul_num: props.results.nullified_no,
         fin_num: props.results.nr_no - props.results.nullified_no,

@@ -2,7 +2,7 @@
     <div class="join-vote-form-container">
         <el-card style="width: 700px">
             <template #header>
-                <h3>输入凭证以加入投票</h3>
+                <h3>Enter token to join election</h3>
             </template>
 
             <el-form
@@ -13,7 +13,7 @@
                 label-width="auto"
                 status-icon
             >
-                <el-form-item label="凭证" prop="joinVoteToken">
+                <el-form-item label="Token" prop="joinVoteToken">
                     <el-input
                         v-model="joinVoteForm.joinVoteToken"
                         type="textarea"
@@ -22,13 +22,13 @@
             </el-form>
 
             <template #footer>
-                <el-button @click="$emit('cancelJoin')">取消</el-button>
+                <el-button @click="$emit('cancelJoin')">Cancel</el-button>
                 <el-button
                     type="primary"
                     @click="submitForm"
                     :disabled="formSubmitting"
                 >
-                    确认
+                    Confirm
                 </el-button>
             </template>
         </el-card>
@@ -54,7 +54,7 @@ const joinVoteRules = reactive({
     joinVoteToken: [
         {
             required: true,
-            message: "请输入凭证",
+            message: "Please enter token",
             trigger: "blur",
         },
     ],
@@ -72,7 +72,7 @@ const submitForm = async () => {
                 } else if (res.data.info) {
                     ElMessage.info(res.data.info);
                 } else if (res.data.ActionType === "ok") {
-                    ElMessage.success("加入投票成功");
+                    ElMessage.success("Election joined successfully");
                     emit("finishJoin");
                 }
                 formSubmitting.value = false;

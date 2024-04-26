@@ -2,7 +2,7 @@
     <div>
         <Particle />
         <div class="formContainer">
-            <h3>注册账号</h3>
+            <h3>Register an account</h3>
             <SignUpForm />
         </div>
     </div>

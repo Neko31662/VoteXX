@@ -1,5 +1,5 @@
 <template>
-    <PageHeader content="创建/加入投票" />
+    <PageHeader content="Create/join election" />
     <CreateVote
         v-if="creating"
         @cancel-create="() => (creating = false)"
@@ -14,18 +14,18 @@
 
     <div v-else>
         <el-card class="box-card">
-            <p>创建一个新投票</p>
+            <p>Create a new election</p>
             <template #footer>
                 <el-button type="primary" @click="startCreate">
-                    创建投票
+                    Create election
                 </el-button>
             </template>
         </el-card>
         <el-card class="box-card">
-            <p>加入一个投票</p>
+            <p>Join an election</p>
             <template #footer>
                 <el-button type="primary" @click="startJoin">
-                    加入投票
+                    Join election
                 </el-button>
             </template>
         </el-card>

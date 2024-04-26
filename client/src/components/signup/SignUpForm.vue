@@ -8,17 +8,17 @@
         hide-required-asterisk="true"
         class="sign-up-form"
     >
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="Username" prop="username">
             <el-input v-model="signUpForm.username" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="Password" prop="password">
             <el-input
                 v-model="signUpForm.password"
                 autocomplete="off"
                 type="password"
             />
         </el-form-item>
-        <el-form-item label="确认密码" prop="passwordConfirm">
+        <el-form-item label="Confirm password" prop="passwordConfirm">
             <el-input
                 v-model="signUpForm.passwordConfirm"
                 autocomplete="off"
@@ -26,8 +26,8 @@
             />
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="submitForm()">注册</el-button>
-            <el-button @click="cancelForm()">取消</el-button>
+            <el-button type="primary" @click="submitForm()">Register</el-button>
+            <el-button @click="cancelForm()">Cancel</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -56,12 +56,12 @@ const signUpRules = reactive({
     username: [
         {
             required: true,
-            message: "请输入用户名",
+            message: "Please enter username",
             trigger: "blur",
         },
         {
             max: 32,
-            message: "用户名长度请勿超过32",
+            message: "Username length should not exceed 32 characters",
             trigger: "blur",
         },
         {
@@ -76,7 +76,7 @@ const signUpRules = reactive({
                             if (res.data.UsernameValid === true) {
                                 resolve();
                             } else {
-                                reject("用户名已存在");
+                                reject("Username already exists");
                             }
                         });
                 });
@@ -87,13 +87,13 @@ const signUpRules = reactive({
     password: [
         {
             required: true,
-            message: "请输入密码",
+            message: "Please enter password",
             trigger: "blur",
         },
         {
             min: 8,
             max: 64,
-            message: "密码长度应在8~64位之间",
+            message: "Password length should be between 8~64 characters",
             trigger: "blur",
         },
         {
@@ -103,7 +103,7 @@ const signUpRules = reactive({
                 const hasNonASCII = /[^\x00-\x7F]/.test(value);
                 return hasDigit && hasLetter && !hasNonASCII;
             },
-            message: "密码应当包含至少一个数字和一个字母，且不含非英文字符",
+            message: "Password should contain at least one number and one letter and no non-English characters",
             trigger: "blur",
         },
     ],
@@ -112,7 +112,7 @@ const signUpRules = reactive({
             validator: (rule, value) => {
                 return value === signUpForm.password;
             },
-            message: "两次密码输入不相同",
+            message: "The password entered twice is not the same",
             trigger: "blur",
         },
     ],
@@ -127,10 +127,10 @@ const submitForm = () => {
         if (valid) {
             axios.post("/serverapi/user/signup", signUpForm).then((res) => {
                 if (res.data.ActionType === "ok") {
-                    ElMessage.success("注册成功");
+                    ElMessage.success("Registration successfully");
                     router.push("/index");
                 } else {
-                    ElMessage.error("注册失败");
+                    ElMessage.error("Registration failed");
                 }
             });
         }

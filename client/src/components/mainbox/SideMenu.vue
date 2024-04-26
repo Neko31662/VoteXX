@@ -11,14 +11,14 @@
                 <el-icon>
                     <HomeFilled />
                 </el-icon>
-                <span>首页</span>
+                <span>Home page</span>
             </el-menu-item>
 
             <el-menu-item index="/center">
                 <el-icon>
                     <Avatar />
                 </el-icon>
-                <span>个人中心</span>
+                <span>Personal center</span>
             </el-menu-item>
 
             <el-sub-menu index="/user-manage">
@@ -26,13 +26,13 @@
                     <el-icon>
                         <UserFilled />
                     </el-icon>
-                    <span>测试路径</span>
+                    <span>Test path</span>
                 </template>
                 <el-menu-item index="/user-manage/adduser">
-                    测试路径1
+                    Test path 1
                 </el-menu-item>
                 <el-menu-item index="/user-manage/userlist">
-                    测试路径2
+                    Test path 2
                 </el-menu-item>
             </el-sub-menu>
 
@@ -41,16 +41,16 @@
                     <el-icon>
                         <MessageBox />
                     </el-icon>
-                    <span>投票管理</span>
+                    <span>Election management</span>
                 </template>
                 <el-menu-item index="/vote-manage/addvote">
-                    创建/加入投票
+                    Create/join election
                 </el-menu-item>
                 <el-menu-item index="/vote-manage/votelist">
-                    参加中的投票
+                    Participated elections
                 </el-menu-item>
                 <el-menu-item index="/vote-manage/myvote">
-                    我创建的投票
+                    Created elections
                 </el-menu-item>
             </el-sub-menu>
         </el-menu>

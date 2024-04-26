@@ -8,11 +8,11 @@
         label-width="auto"
         status-icon
     >
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="Username" prop="username">
             <el-input v-model="userForm.username" />
         </el-form-item>
 
-        <el-form-item label="性别" prop="gender">
+        <el-form-item label="Gender" prop="gender">
             <el-select
                 v-model="userForm.gender"
                 placeholder="Select"
@@ -27,11 +27,11 @@
             </el-select>
         </el-form-item>
 
-        <el-form-item label="个人简介" prop="introduction">
+        <el-form-item label="Personal profile" prop="introduction">
             <el-input v-model="userForm.introduction" type="textarea" />
         </el-form-item>
 
-        <el-form-item label="头像" prop="avatar">
+        <el-form-item label="Avatar" prop="avatar">
             <el-upload
                 class="avatar-uploader"
                 action=""
@@ -83,19 +83,19 @@ const userFormRules = reactive({
     username: [
         {
             required: true,
-            message: "请输入用户名",
+            message: "Please enter username",
             trigger: "blur",
         },
         {
             max: 32,
-            message: "用户名长度请勿超过32",
+            message: "Username length should not exceed 32 characters",
             trigger: "blur",
         },
     ],
     gender: [
         {
             required: true,
-            message: "请输入性别",
+            message: "Please enter your gender",
             trigger: "blur",
         },
     ],
@@ -104,15 +104,15 @@ const userFormRules = reactive({
 //性别列表
 const genderOptions = [
     {
-        label: "保密",
+        label: "secret",
         value: 0,
     },
     {
-        label: "男",
+        label: "male",
         value: 1,
     },
     {
-        label: "女",
+        label: "female",
         value: 2,
     },
 ];
@@ -155,7 +155,7 @@ const submitForm = () => {
                         ElMessage.error(res.data.error);
                     } else if (res.data.ActionType === "ok") {
                         store.commit("changeUserInfo", res.data.data);
-                        ElMessage.success("修改成功");
+                        ElMessage.success("Successfully modified");
                     }
                 });
         }

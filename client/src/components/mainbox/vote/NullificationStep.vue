@@ -1,7 +1,7 @@
 <template>
     <el-card>
         <template #header>
-            <h3>弃票阶段</h3>
+            <h3>Nullification phase</h3>
         </template>
         <el-form
             label-width="auto"
@@ -11,7 +11,7 @@
             status-icon
             :rules="nullificationRules"
         >
-            <el-form-item label="弃票时间">
+            <el-form-item label="Nullification time">
                 <el-text tag="p" line-clamp="10000">
                     {{
                         dateToString(nulStartTime) +
@@ -22,13 +22,13 @@
             </el-form-item>
             <el-form-item>
                 <el-text tag="p" line-clamp="10000">
-                    若希望弃掉赞成票，请输入
-                    <b>对应的反对票密钥</b>
-                    ；若希望弃掉反对票，请输入
-                    <b>对应的赞成票密钥</b>
+                    If you wish to nullify a yes vote, please enter
+                    <b>the corresponding sk_no</b>
+                    ; If you wish to nullify a no vote, please enter
+                    <b>the corresponding sk_yes</b>
                 </el-text>
             </el-form-item>
-            <el-form-item label="请输入密钥" prop="sk_string">
+            <el-form-item label="Please enter secret key" prop="sk_string">
                 <el-input
                     v-model="nullificationForm.sk_string"
                     autocomplete="off"
@@ -37,9 +37,9 @@
         </el-form>
         <template #footer>
             <el-button @click="router.push('/vote-manage/votelist')">
-                退出
+                Exit
             </el-button>
-            <el-button type="primary" @click="nullify()">确认弃票</el-button>
+            <el-button type="primary" @click="nullify()">Confirm nullification</el-button>
         </template>
     </el-card>
 </template>
@@ -92,7 +92,7 @@ const nullificationRules = reactive({
                 const hexRegex = /^[0-9a-f]+$/;
                 return hexRegex.test(value);
             },
-            message: "密钥应当只包含0-9以及小写字母a-f",
+            message: "The key should only contain 0-9 and lowercase letters a-f",
             trigger: "blur",
         },
     ],
@@ -133,7 +133,7 @@ const nullify = () => {
                     return;
                 }
             } catch (err) {
-                ElMessage.error("获取公钥失败");
+                ElMessage.error("Failed to get public key");
                 return;
             }
 
@@ -157,7 +157,7 @@ const nullify = () => {
                     return;
                 }
             } catch (err) {
-                ElMessage.error("获取预先计票结果失败");
+                ElMessage.error("Failed to get provisional tally result");
                 return;
             }
 
@@ -191,7 +191,7 @@ const nullify = () => {
             }
             //如果都不在
             if (!hit) {
-                ElMessage.error("未找到该密钥对应的有效投票");
+                ElMessage.error("No valid vote was found for this key");
                 return;
             }
 
@@ -238,14 +238,14 @@ const nullify = () => {
                     data
                 );
                 if (res.data.ActionType === "ok") {
-                    ElMessage.success("弃票成功");
+                    ElMessage.success("Nullification succesful");
                     router.push("/vote-manage/votelist");
                 } else {
                     ElMessage.error(res.data.error);
                     return;
                 }
             } catch (err) {
-                ElMessage.error("弃票失败");
+                ElMessage.error("Nullification failed");
                 return;
             }
         }
