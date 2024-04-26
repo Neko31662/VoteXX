@@ -1,3 +1,4 @@
 node_modules/
 public/
 testfile.js
+.DS_Store
