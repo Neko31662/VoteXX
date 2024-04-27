@@ -2,15 +2,14 @@
 
 VoteXX is the first election system that has “extreme coercion resistance”.
 
-## client
-
-How to run：
+## crypt
 
 ```
-cd client
+cd crypt
 npm install
-npm run serve
 ```
+
+Cryptographic protocols are invoked by `client, server, trustee`. Please put `crypt/, client/, server/, trustee/` in the same directory.
 
 ## server
 
@@ -32,16 +31,24 @@ npm install
 npm start <port> <username> <password> <database>
 ```
 
-## crypt
+## client
 
-Cryptographic protocols are invoked by `client, server, trustee`. Please put `crypt/, client/, server/, trustee/` in the same directory.
-
-The README files of the submodules:
+How to run：
 
 ```
-./client/src/README.md
+cd client
+npm install
+npm run serve
+```
+
+## README files of submodules
+
+The README files of the submodules are at the following positions:
+
+```
 ./server/README.md
 ./trustee/README.md
+./client/src/README.md
 ```
 
 
