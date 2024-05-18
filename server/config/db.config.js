@@ -106,6 +106,5 @@ setInterval(IntervalTask1, updateVoteStateInterval1);
 setInterval(IntervalTask2, updateVoteStateInterval2);
 // IntervalTask2();
 
-provisionalTallyQuery("661cc5b41e7d1c30be17d8b4");
 
 

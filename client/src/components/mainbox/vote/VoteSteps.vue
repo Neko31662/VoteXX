@@ -23,7 +23,7 @@
                         <h3>请稍等</h3>
                     </template>
                     <el-empty description=" ">
-                        <el-text>Trustee正在整理信息，请等待一段时间</el-text>
+                        <el-text>Trustee正在整理信息或该阶段未开始，请等待一段时间</el-text>
                     </el-empty>
                     <template #footer>
                         <el-button
