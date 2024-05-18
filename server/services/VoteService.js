@@ -88,6 +88,7 @@ const VoteService = {
      * joinVoteToken验证失败返回-1;
      * joinVoteToken验证成功，但数据库中未查询到该投票返回-2;
      * 已经加入该投票返回-3;
+     * 是投票的创建者且不允许创建者加入返回-4;
      * 数据库查询时出错返回-100;
      */
     join: async (params) => {
@@ -95,14 +96,19 @@ const VoteService = {
         if (!valid) return -1;
 
         let voteID = valid._id ? valid._id : "###";
+        let voteInfo=null;
         try {
-            let exist = await VoteModel.findById(voteID);
-            if (!exist) return -2;
+            voteInfo = await VoteModel.findById(voteID);
+            if (!voteInfo) return -2;
         } catch (err) {
             return -100;
         }
 
         let userID = params.userID;
+        if(voteInfo.owner == userID && voteInfo.voteByOwner!==true){
+            return -4;
+        }
+
         try {
             let joined = await VoteModel.findOne({
                 _id: voteID,

@@ -48,6 +48,8 @@ const VoteController = {
             res.send({ error: "投票不存在或已经结束" });
         } else if (result === -3) {
             res.send({ info: "已加入该投票" });
+        } else if (result === -4) {
+            res.send({ info: "不允许投票创建者加入该投票" });
         }
         else if (result === -100) {
             res.send({ error: "数据库错误" });
@@ -114,8 +116,8 @@ const VoteController = {
         } else {
             let responseData = [];
             await result.forEach((value, index) => {
-                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount } = value;
-                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount };
+                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, voteByOwner } = value;
+                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, voteByOwner };
             });
             res.send({
                 ActionType: "ok",
@@ -140,8 +142,8 @@ const VoteController = {
         } else {
             let responseData = [];
             await result.forEach((value, index) => {
-                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount } = value;
-                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount };
+                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, voteByOwner } = value;
+                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, voteByOwner };
             });
             res.send({
                 ActionType: "ok",
@@ -191,9 +193,9 @@ const VoteController = {
             res.send({ error: "数据库错误" });
         } else {
             let responseData = [];
-            let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state } = result;
+            let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state, voteByOwner } = result;
             let results = result.BB.results;
-            responseData = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state, results };
+            responseData = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state, results, voteByOwner };
             res.send({
                 ActionType: "ok",
                 data: responseData

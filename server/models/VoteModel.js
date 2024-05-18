@@ -78,6 +78,13 @@ const VoteType = {
         default: false,
     },
     /**
+     * 是否允许投票者投票
+     */
+    voteByOwner:{
+        required: true,
+        type: Boolean,
+    },
+    /**
      * 公告板
      */
     BB: {

@@ -9,7 +9,7 @@ const FinalTallyQuery = require("../querys/FinalTallyQuery");
 mongoose.connect("mongodb://127.0.0.1:27017/VoteXX_Database");
 
 //设置定时任务间隔（单位：ms）
-const updateVoteStateInterval1 = 10 * 1000;//更新投票状态
+const updateVoteStateInterval1 = 3 * 1000;//更新投票状态
 const updateVoteStateInterval2 = 11 * 1000;//更新投票状态
 
 
