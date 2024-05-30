@@ -1,18 +1,7 @@
 const BN = require('bn.js');
 const elliptic = require('elliptic');
 const EC = elliptic.ec;
-const crypto = require('crypto');
-var SHA256 = require('crypto-js/sha256');
-
-function class_of(val) {
-    try {
-        return val.constructor.name;
-    } catch {
-        console.log("调用class_of时出错");
-        return undefined;
-    }
-
-}
+const {class_of} = require('../util/BasicFunction');
 
 /* ----------------------------------------------- */
 // 椭圆曲线
@@ -43,6 +32,13 @@ var inf = g.mul(0);// 无穷远点
 var is_inf = inf.isInfinity();// 判断是否为无穷远点
 //var inf_x = inf.getX();// 无穷远点不存在x，y坐标，报错
 
+// 生成一个点
+var point_1_2 = ec.curve.point(1,2);
+
+// 判断点是否在曲线上
+var valid1 = ec.curve.validate(g);
+var valid2 = ec.curve.validate(point_1_2);
+
 // 点的序列化
 var g_hex = g.encode('hex', true);// 点的序列化，只保留x坐标
 var g_hex2 = g.encode('hex');// 点的序列化，保留全部坐标
@@ -57,9 +53,10 @@ var pubKey = key.getPublic();// 获取公钥 y=g^x，可用于获取随机点
 // 大数的运算（BN.js）
 var x1 = ec.genKeyPair().getPrivate();
 var x2 = ec.genKeyPair().getPrivate();
-var BN_sum = x1.add(x2);
-var _x1 = BN_sum.sub(x2);
-//更多BN.js的使用方法，参考https://github.com/indutny/bn.js
+var BN_sum = x1.add(x2);// 加法
+var _x1 = BN_sum.sub(x2);// 减法
+var is_zero = x1.isZero();// 是否为0
+// 更多BN.js的使用方法，参考https://github.com/indutny/bn.js
 
 
 

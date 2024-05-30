@@ -3,8 +3,7 @@ function class_of(val) {
     try {
         return val.constructor.name;
     } catch {
-        console.log("调用class_of时出错");
-        return undefined;
+        throw new Error("Error in function 'class_of'.");
     }
 }
 
