@@ -1,13 +1,16 @@
 const elliptic = require('elliptic');
 const EC = elliptic.ec;
 const BN = require('bn.js');
-const { class_of } = require("./BasicFunction");
+const { class_of } = require('./BasicFunction');
+const ec_default = require('../primitiv/ec/ec');
 
 
 /**
+ * Determine whether an object is Curve
+ * 
  * 判断一个object是否是一个curve元素
  * @param {*} obj 
- * @returns 
+ * @returns {Boolean}
  */
 function isCurve(obj) {
     try {
@@ -18,9 +21,11 @@ function isCurve(obj) {
 }
 
 /**
- * 判断一个obj是否是一个point元素
+ * Determine whether an object is Point
+ * 
+ * 判断一个object是否是一个Point元素
  * @param {*} obj 
- * @returns 
+ * @returns {Boolean}
  */
 function isPoint(obj) {
     try {
@@ -31,9 +36,11 @@ function isPoint(obj) {
 }
 
 /**
- * 判断一个obj是否是一个BN元素
+ * Determine whether an object is BN
+ * 
+ * 判断一个object是否是一个BN元素
  * @param {*} obj 
- * @returns 
+ * @returns {Boolean}
  */
 function isBN(obj) {
     try {
@@ -44,6 +51,8 @@ function isBN(obj) {
 }
 
 /**
+ * Encode a point
+ * 
  * 对一个点编码
  * @param {Point} p 
  * @returns {String}
@@ -54,62 +63,104 @@ function encodePoint(p) {
 
 
 /**
- * 序列化一个复杂的密码学对象-内层递归函数
+ * Serialize a complex cryptographic object
+ * 
+ * 序列化一个复杂的密码学对象
  * @param {*} obj 
- * @returns 
+ * @returns {String}
  */
-function _serialize(obj) {
+function serialize(obj) {
+
+    // string
     if (typeof obj === 'string') {
-        return `"${obj}"`;  // 字符串需要加双引号
-    } else if (typeof obj === 'number' || typeof obj === 'boolean' || obj === null) {
-        return `${obj}`;  // 数字、布尔值和null直接转换为字符串
-    } else if (Array.isArray(obj)) {
-        // 处理数组
-        const elements = obj.map(element => _serialize(element)).join(',');
+        return `"${obj}"`;  
+    }
+
+    // number, boolean, null
+    else if (typeof obj === 'number' || typeof obj === 'boolean' || obj === null) {
+        return `${obj}`;  
+    }
+    
+    // array
+    else if (Array.isArray(obj)) {
+        const elements = obj.map(element => serialize(element)).join(',');
         return `[${elements}]`;
-    } else if (typeof obj === 'object') {
+    } 
+    
+    // object
+    else if (typeof obj === 'object') {
+        //Curve
         if (isCurve(obj)) {
             return `"${"<<curve>>"}"`;
         }
-        //对于point，按照下面的方式自定义序列化方式
+
+        //Point
         else if (isPoint(obj)) {
             return `"${"<<point>> " + encodePoint(obj)}"`;
         }
-        //对于BN，按照下面的方式自定义序列化方式
+
+        //BN
         else if (isBN(obj)) {
             return `"${"<<BN>> " + obj.toString(16)}"`;
         }
-        //处理对象
-        //依次合并对象的key
+
+        //Other object
         const pairs = [];
         for (let key in obj) {
             if (obj.hasOwnProperty(key)) {
-                if (typeof obj[key] === "function") continue;//跳过函数
-                const value = _serialize(obj[key]);
+                if (typeof obj[key] === "function") continue;//skip functions
+                const value = serialize(obj[key]);
                 pairs.push(`"${key}":${value}`);
             }
         }
         return `{${pairs.join(',')}}`;
-    } else {
-        // 其他情况返回空字符串
+    } 
+    
+    else {
         return '';
     }
 }
 
 /**
- * 序列化一个复杂的密码学对象
- * @param {*} obj 
- * @returns 
+ * Deserialize a complex cryptographic object
+ * 
+ * 反序列化一个复杂的密码学对象
+ * @param {String} serializedObj 
+ * @param {EC} ec 
+ * @returns {Object}
  */
-function serialize(obj) {
-    if (typeof obj !== "object" || isBN(obj) || isCurve(obj) || isPoint(obj)) {
-        return _serialize(obj);
-    } else {
-        return class_of(obj) + " " + _serialize(obj);
-    }
+function deserialize(serializedObj, ec = ec_default){
+    const revive = (key, value) => {
+
+        //Curve
+        if (typeof value === "string" && value === "<<curve>>") {
+            return ec;
+        }
+
+        //Point
+        else if (typeof value === "string" && value.startsWith("<<point>>")) {
+            let [sign, val] = value.split(" ");
+            if (val === "inf") {
+                return ec.curve.g.mul(0);
+            }
+            return ec.keyFromPublic(val, 'hex').pub;
+        }
+
+        //BN
+        else if (typeof value === "string" && value.startsWith("<<BN>>")) {
+            let [sign, val] = value.split(" ");
+            return new BN(val,"hex");
+        }
+
+        //Other
+        return value;
+    };
+
+    return JSON.parse(serializedObj, revive);
 }
 
 module.exports = {
     serialize,
+    deserialize,
     encodePoint
 };
