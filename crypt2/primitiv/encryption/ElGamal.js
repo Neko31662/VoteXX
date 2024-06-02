@@ -17,28 +17,62 @@ class ElgamalCiphertext {
  * Elgamal密文的方法
  */
 class ElgamalCiphertext_exec {
+
+    /**
+     * 
+     * @param {ElgamalCiphertext} item 
+     * @param {BN} x 
+     * @returns {ElgamalCiphertext}
+     */
     mul = (item, x) => {
         return new ElgamalCiphertext(item.c1.mul(x), item.c2.mul(x));
     };
 
+    /**
+     * 
+     * @param {ElgamalCiphertext} item 
+     * @param {ElgamalCiphertext} other 
+     * @returns {ElgamalCiphertext}
+     */
     add = (item, other) => {
-        c1_new = item.c1.add(other.c1);
-        c2_new = item.c2.add(other.c2);
+        let c1_new = item.c1.add(other.c1);
+        let c2_new = item.c2.add(other.c2);
         return new ElgamalCiphertext(c1_new, c2_new);
     };
 
+    /**
+     * 
+     * @param {ElgamalCiphertext} item 
+     * @returns {ElgamalCiphertext}
+     */
     neg = (item) => {
         return new ElgamalCiphertext(item.c1.neg(), item.c2.neg());
     };
 
+    /**
+     * 
+     * @param {ElgamalCiphertext} item 
+     * @param {ElgamalCiphertext} other 
+     * @returns {Boolean}
+     */
     eq = (item, other) => {
         return item.c1.eq(other.c1) && item.c2.eq(other.c2);
     };
 
+    /**
+     * 
+     * @param {EC} ec 
+     * @returns {ElgamalCiphertext}
+     */
     identity = (ec) => {
         return new ElgamalCiphertext(ec.curve.point(null, null), ec.curve.point(null, null));
     };
 
+    /**
+     * 
+     * @param {EC} ec 
+     * @returns {ElgamalCiphertext}
+     */
     random = (ec) => {
         return new ElgamalCiphertext(ec.randomPoint(), ec.randomPoint());
     };
@@ -83,7 +117,7 @@ class ElgamalEnc {
     };
 
     /**
-     * Encode a BN to a list of points on elliptic
+     * Encode a BN to a list of points on EC
      * 
      * 将一个BN型整数编码成椭圆曲线上的一组点
      * @param {EC} ec 
@@ -91,24 +125,25 @@ class ElgamalEnc {
      * @returns {[Point]}
      */
     encode = (ec, msg) => {
+        let msg_clone = msg.clone();
         let p = ec.curve.p;
         let length = p.byteLength() - 1;
         let mask = new BN(2).pow(new BN(length * 8)).sub(new BN(1));
         let res = [];
 
-        while (msg.byteLength() > length) {
-            let cur = msg.uand(mask);
+        while (msg_clone.byteLength() > length) {
+            let cur = msg_clone.uand(mask);
             let res_one = this.encode_one(ec, cur);
             res.push(res_one);
-            msg.iushrn(length);
+            msg_clone.iushrn(length * 8);
         }
-        let res_one = this.encode_one(ec, msg);
+        let res_one = this.encode_one(ec, msg_clone);
         res.push(res_one);
         return res;
     };
 
     /**
-     * Decode a list of points on elliptic to a BN
+     * Decode a list of points on EC to a BN
      * 
      * 将椭圆曲线上的一组点解码成一个BN型整数
      * @param {EC} ec 
@@ -124,7 +159,7 @@ class ElgamalEnc {
         for (let i = points.length - 1; i >= 0; i--) {
             let point = points[i];
             let tmp = point.getX().divn(k);
-            res = res.shln(length).add(tmp);
+            res = res.shln(length * 8).add(tmp);
         }
         return res;
     };
@@ -153,3 +188,9 @@ class ElgamalEnc {
         throw new Error("Error in encoding massage to point.");
     };
 }
+
+module.exports = {
+    ElgamalCiphertext,
+    ElgamalCiphertext_exec: new ElgamalCiphertext_exec(),
+    ElgamalEnc: new ElgamalEnc()
+};

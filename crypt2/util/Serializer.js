@@ -43,6 +43,15 @@ function isBN(obj) {
     }
 }
 
+/**
+ * 对一个点编码
+ * @param {Point} p 
+ * @returns {String}
+ */
+function encodePoint(p) {
+    return p.isInfinity() ? "inf" : p.encode('hex', true);
+}
+
 
 /**
  * 序列化一个复杂的密码学对象-内层递归函数
@@ -64,11 +73,11 @@ function _serialize(obj) {
         }
         //对于point，按照下面的方式自定义序列化方式
         else if (isPoint(obj)) {
-            return `"${"<<point>> " + obj.isInfinity() ? "inf" : obj.encode('hex', true)}"`;
+            return `"${"<<point>> " + encodePoint(obj)}"`;
         }
         //对于BN，按照下面的方式自定义序列化方式
         else if (isBN(obj)) {
-            return `"${"<<BN>> " + obj.toString()}"`;
+            return `"${"<<BN>> " + obj.toString(16)}"`;
         }
         //处理对象
         //依次合并对象的key
@@ -100,6 +109,7 @@ function serialize(obj) {
     }
 }
 
-module.exports={
-    serialize
-}
+module.exports = {
+    serialize,
+    encodePoint
+};

@@ -18,10 +18,21 @@ describe("Test of 'ec.js'", () => {
     describe("Test for function 'randomBN'", () => {
         let random_times = 50;
 
-        it(`Result should between 0 and ec.curve.p (check ${random_times} times)`, () => {
+        it(`Result should be between [1, ec.curve.n - 1] (check ${random_times} times)`, () => {
             for (let i = 0; i < random_times; i++) {
                 let v = ec.randomBN();
-                assert.isTrue((v.gte(new BN(0))) && (v.lte(ec.curve.p)));
+                assert.isTrue((v.gte(new BN(1))) && (v.lte(ec.curve.n.sub(new BN(1)))));
+            }
+        });
+    });
+
+    describe("Test for function 'randomPoint'", () => {
+        let random_times = 50;
+
+        it(`Result should be on the EC (check ${random_times} times)`, () => {
+            for (let i = 0; i < random_times; i++) {
+                let v = ec.randomPoint();
+                assert.isTrue(ec.curve.validate(v));
             }
         });
     });

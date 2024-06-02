@@ -12,9 +12,14 @@ class QuadraticResidue {
      * @returns {Boolean}
      */
     check = (a, p) => {
-        let red = BN.red(p);
-        let redA = a.toRed(red);
         let s = p.ushrn(1);
+        let redA;
+        if (!a.red) {
+            let red = BN.red(p);
+            redA = a.toRed(red);
+        } else {
+            redA = a;
+        }
         redA = redA.redPow(s);
         a = redA.fromRed();
         if (a.eq(new BN(1))) return true;
@@ -31,9 +36,14 @@ class QuadraticResidue {
      * @returns {BN}
      */
     find = (a, p) => {
-        let red = BN.red(p);
-        let redA = a.toRed(red);
         let s = p.ushrn(1);
+        let redA;
+        if (!a.red) {
+            let red = BN.red(p);
+            redA = a.toRed(red);
+        } else {
+            redA = a;
+        }
         let redX = redA.redPow(s.add(new BN(1)).shrn(1));
         let x = redX.fromRed();
         return x;

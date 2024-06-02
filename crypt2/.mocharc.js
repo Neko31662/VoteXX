@@ -1,7 +1,9 @@
 module.exports = {
-    timeout: 2000,
+    timeout: 4000,
     spec:[
         // 'test/mocha.test.js',
-        'test/ec.test.js'
+        'test/ec.test.js',
+        'test/QuadraticResidue.test.js',
+        'test/ElGamal.test.js',
     ]
 }
