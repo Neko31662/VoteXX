@@ -1,9 +1,9 @@
 var BN = require('bn.js');
-const elliptic = require('elliptic');
-const EC = elliptic.ec;
 const { QuadraticResidue } = require('../QuadraticResidue/QuadraticResidue');
 
 /**
+ * Elgamal ciphertext
+ * 
  * Elgamal密文
  */
 class ElgamalCiphertext {
@@ -14,6 +14,8 @@ class ElgamalCiphertext {
 }
 
 /**
+ * functions of Elgamal ciphertext
+ * 
  * Elgamal密文的方法
  */
 class ElgamalCiphertext_exec {
@@ -24,7 +26,7 @@ class ElgamalCiphertext_exec {
      * @param {BN} x 
      * @returns {ElgamalCiphertext}
      */
-    mul = (item, x) => {
+    mul(item, x) {
         return new ElgamalCiphertext(item.c1.mul(x), item.c2.mul(x));
     };
 
@@ -34,7 +36,7 @@ class ElgamalCiphertext_exec {
      * @param {ElgamalCiphertext} other 
      * @returns {ElgamalCiphertext}
      */
-    add = (item, other) => {
+    add(item, other) {
         let c1_new = item.c1.add(other.c1);
         let c2_new = item.c2.add(other.c2);
         return new ElgamalCiphertext(c1_new, c2_new);
@@ -45,7 +47,7 @@ class ElgamalCiphertext_exec {
      * @param {ElgamalCiphertext} item 
      * @returns {ElgamalCiphertext}
      */
-    neg = (item) => {
+    neg(item) {
         return new ElgamalCiphertext(item.c1.neg(), item.c2.neg());
     };
 
@@ -55,7 +57,7 @@ class ElgamalCiphertext_exec {
      * @param {ElgamalCiphertext} other 
      * @returns {Boolean}
      */
-    eq = (item, other) => {
+    eq(item, other) {
         return item.c1.eq(other.c1) && item.c2.eq(other.c2);
     };
 
@@ -64,7 +66,7 @@ class ElgamalCiphertext_exec {
      * @param {EC} ec 
      * @returns {ElgamalCiphertext}
      */
-    identity = (ec) => {
+    identity(ec) {
         return new ElgamalCiphertext(ec.curve.point(null, null), ec.curve.point(null, null));
     };
 
@@ -73,7 +75,7 @@ class ElgamalCiphertext_exec {
      * @param {EC} ec 
      * @returns {ElgamalCiphertext}
      */
-    random = (ec) => {
+    random(ec) {
         return new ElgamalCiphertext(ec.randomPoint(), ec.randomPoint());
     };
 }
@@ -92,10 +94,10 @@ class ElgamalEnc {
      * @param {EC} ec 
      * @param {Point} pk 
      * @param {Point} msg 
-     * @param {BN | null} randomness 
+     * @param {BN | undefined} randomness 
      * @returns {ElgamalCiphertext}
      */
-    encrypt = (ec, pk, msg, randomness) => {
+    encrypt(ec, pk, msg, randomness) {
         if (!randomness) {
             randomness = ec.randomBN();
         }
@@ -111,7 +113,7 @@ class ElgamalEnc {
      * @param {ElgamalCiphertext} ciphertext 
      * @returns {Point}
      */
-    decrypt = (ec, sk, ciphertext) => {
+    decrypt(ec, sk, ciphertext) {
         let c1_sk = ciphertext.c1.mul(sk);// c1^sk
         return ciphertext.c2.add(c1_sk.neg());// m = c2 / (c1^sk)
     };
@@ -122,9 +124,9 @@ class ElgamalEnc {
      * 将一个BN型整数编码成椭圆曲线上的一组点
      * @param {EC} ec 
      * @param {BN} msg 
-     * @returns {[Point]}
+     * @returns {Point[]}
      */
-    encode = (ec, msg) => {
+    encode(ec, msg) {
         let msg_clone = msg.clone();
         let p = ec.curve.p;
         let length = p.byteLength() - 1;
@@ -147,10 +149,10 @@ class ElgamalEnc {
      * 
      * 将椭圆曲线上的一组点解码成一个BN型整数
      * @param {EC} ec 
-     * @param {[Point]} points 
+     * @param {Point[]} points 
      * @returns {BN}
      */
-    decode = (ec, points) => {
+    decode(ec, points) {
         let p = ec.curve.p;
         let length = p.byteLength() - 1;
         let k = this.encode_k;
@@ -170,7 +172,7 @@ class ElgamalEnc {
      * @param {BN} msg 
      * @returns {Point}
      */
-    encode_one = (ec, msg) => {
+    encode_one(ec, msg) {
         let { p, a, b } = ec.curve;
         let k = this.encode_k;
         let msg_k = msg.mul(new BN(k));// msg·k

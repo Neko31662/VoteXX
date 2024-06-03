@@ -10,6 +10,7 @@ describe("Test of 'ec.js'", () => {
         try {
             ec.randomBN();
             ec.randomPoint();
+            ec.infinitePoint();
         } catch (err) {
             assert.fail("Catch error: " + err);
         }
@@ -34,6 +35,13 @@ describe("Test of 'ec.js'", () => {
                 let v = ec.randomPoint();
                 assert.isTrue(ec.curve.validate(v));
             }
+        });
+    });
+
+    describe("Test for function 'infinitePoint'", () => {
+        it(`Result should be the infinite point`, () => {
+            let p = ec.infinitePoint();
+            assert.isTrue(p.isInfinity());
         });
     });
 });

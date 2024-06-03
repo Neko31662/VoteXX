@@ -10,4 +10,8 @@ EC.prototype.randomPoint = function () {
     return this.curve.g.mul(this.randomBN());
 };
 
+EC.prototype.infinitePoint = function(){
+    return this.curve.g.mul(new BN(0));
+}
+
 module.exports = ec;
