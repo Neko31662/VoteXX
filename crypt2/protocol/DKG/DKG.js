@@ -46,7 +46,7 @@ class DKG_exec {
         let r = ec.randomBN();
         let a = ec.curve.g.mul(r);// a = g^r
         let e = computeChallenge([item.yi.encode('hex', true), a.encode('hex', true)], ec.curve.p);// e = Hash(yi||a)
-        let z = e.mul(item.xi).add(r).mod(ec.curve.p);// z = e·xi + r
+        let z = e.mul(item.xi).add(r).mod(ec.curve.n);// z = e·xi + r
 
         item.DKGProof = { a, z };
     }
@@ -63,7 +63,7 @@ class DKG_exec {
     verifyDKGProof(ec, proof, statement) {
         let { a, z } = proof;
         let yi = statement;
-        let e = computeChallenge(yi.encode('hex', true), a.encode('hex', true), ec.curve.p);
+        let e = computeChallenge([yi.encode('hex', true), a.encode('hex', true)], ec.curve.p);
         let left = ec.curve.g.mul(z);// left = g^z
         let right = yi.mul(e).add(a);// right = a·(yi^e) 
         return left.eq(right);
@@ -77,7 +77,7 @@ class DKG_exec {
      * @param {Point[]} yiList 
      * @param {DKG | undefined} item 
      */
-    Calculate_public(ec, yiList, item) {
+    calculatePublic(ec, yiList, item) {
         let res = ec.infinitePoint();
         for (let yi of yiList) {
             res = res.add(yi);
@@ -118,7 +118,7 @@ class DKG_exec {
         let a1 = ec.curve.g.mul(r);// a1 = g^r
         let a2 = c1.mul(r);// a2 = c1^r
         let e = computeChallenge([c1, ki, yi, a1, a2].map(val => val.encode("hex", true)), ec.curve.p);
-        let z = e.mul(xi).add(r).mod(ec.curve.p);// z = e·xi + r
+        let z = e.mul(xi).add(r).mod(ec.curve.n);// z = e·xi + r
         /*--------------------------*/
 
         return [ki, { seq, a1, a2, z }];
@@ -153,16 +153,16 @@ class DKG_exec {
         let e = computeChallenge([c1, ki, yi, a1, a2].map(val => val.encode("hex", true)), ec.curve.p);
 
         /*----- verify proof -----*/
-        let isValid =true;
+        let isValid = true;
         let left = ec.curve.g.mul(z);// left = g^z
         let right = yi.mul(e).add(a1);// right = a1·(yi^e)
         isValid &= left.eq(right);
-        left = c1.mul(z)// left = c1^z
-        right = ki.mul(e).add(a2)// right = a2·(ki^e)
+        left = c1.mul(z);// left = c1^z
+        right = ki.mul(e).add(a2);// right = a2·(ki^e)
         isValid &= left.eq(right);
         /*------------------------*/
 
-        return isValid;
+        return Boolean(isValid);
     }
 
     /**
@@ -174,7 +174,7 @@ class DKG_exec {
      * @param {Point[]} kiList 
      * @returns {Point}
      */
-    decrypt(ec, ciphertext, kiList){
+    decrypt(ec, ciphertext, kiList) {
         let { c2 } = ciphertext;
         if (!c2) {
             throw new Error("Can't find 'ciphertext.c2'.");
@@ -187,5 +187,10 @@ class DKG_exec {
         let res = c2.add(tmp.neg());// res = c2/tmp
         return res;
     }
+}
+
+module.exports = {
+    DKG,
+    DKG_exec: new DKG_exec()
 }
 

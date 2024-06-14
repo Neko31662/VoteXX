@@ -14,7 +14,7 @@ class ElgamalCiphertext {
 }
 
 /**
- * functions of Elgamal ciphertext
+ * Functions of Elgamal ciphertext
  * 
  * Elgamal密文的方法
  */
@@ -81,12 +81,11 @@ class ElgamalCiphertext_exec {
 }
 
 /**
+ * Encrypt and decrypt
+ * 
  * Elgamal加解密方法
  */
 class ElgamalEnc {
-    /**
-     * 用于将整数编码到椭圆曲线
-     */
     encode_k = 50;
 
     /**
