@@ -6,6 +6,7 @@ module.exports = {
         // 'test/QuadraticResidue.test.js',
         // 'test/ElGamal.test.js',
         // 'test/Serializer.test.js',
-        'test/DKG.test.js',
+        // 'test/DKG.test.js',
+        'test/pedersen_commitment.test.js',
     ]
 };
