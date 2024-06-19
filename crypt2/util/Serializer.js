@@ -1,6 +1,6 @@
 const elliptic = require('elliptic');
 const EC = elliptic.ec;
-const BN = require('bn.js');
+const BN = require('../primitiv/bn/bn');
 const { class_of } = require('./BasicFunction');
 const ec_default = require('../primitiv/ec/ec');
 

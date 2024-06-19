@@ -1,4 +1,4 @@
-var BN = require('bn.js');
+var BN = require('../../primitiv/bn/bn');
 let computeChallenge = require('../../primitiv/hash/hash');
 
 class DKG {

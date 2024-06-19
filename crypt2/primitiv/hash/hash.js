@@ -1,5 +1,5 @@
 const CryptoJS = require('crypto-js');
-const BN = require('bn.js');
+const BN = require('../bn/bn');
 
 /**
  * Compute a challenge between [0, p-1] based on transcript

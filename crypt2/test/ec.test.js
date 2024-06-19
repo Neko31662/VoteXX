@@ -1,4 +1,4 @@
-let BN = require('bn.js');
+let BN = require('../primitiv/bn/bn');
 let ec = require('../primitiv/ec/ec');
 
 let chai = require('chai');

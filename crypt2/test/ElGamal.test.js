@@ -1,4 +1,4 @@
-const BN = require('bn.js');
+const BN = require('../primitiv/bn/bn');
 let ec = require('../primitiv/ec/ec');
 const { ElgamalCiphertext, ElgamalCiphertext_exec, ElgamalEnc } = require('../primitiv/encryption/ElGamal');
 const { encodePoint } = require('../util/Serializer');

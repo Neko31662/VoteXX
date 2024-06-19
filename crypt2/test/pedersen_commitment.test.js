@@ -1,4 +1,4 @@
-const BN = require('bn.js');
+const BN = require('../primitiv/bn/bn');
 let ec = require('../primitiv/ec/ec');
 let { PedersenPublicKey, PedersenPublicKey_exec, Commitment, Commitment_exec } = require('../primitiv/commitment/pedersen_commitment');
 
@@ -85,11 +85,16 @@ describe("Test of 'pedersen_commitment.js'", () => {
             let values_mul = global.values.map((val) => val.muln(2).mod(ec.curve.n));
             let randomness_mul = global.randomness[0].add(global.randomness[1]).mod(ec.curve.n);
             assert.isTrue(PedersenPublicKey_exec.verify(ec, global.pk, values_mul, randomness_mul, c_mul));
+            assert.isFalse(PedersenPublicKey_exec.verify(ec, global.pk, global.values, randomness_mul, c_mul));
         });
 
         it("Test of function 'pow'", () => {
             let e = ec.randomBN();
-            let values_pow = global.values.map((val) => val);
+            let c_pow = Commitment_exec.pow(global.commitment[0], e);
+            let values_pow = global.values.map((val) => val.modMul(e, ec.curve.n));
+            let randomness_pow = global.randomness[0].modMul(e, ec.curve.n);
+            assert.isTrue(PedersenPublicKey_exec.verify(ec, global.pk, values_pow, randomness_pow, c_pow));
+            assert.isFalse(PedersenPublicKey_exec.verify(ec, global.pk, global.values, randomness_pow, c_pow));
         });
     });
 });

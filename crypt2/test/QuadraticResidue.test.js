@@ -1,4 +1,4 @@
-const BN = require('bn.js');
+const BN = require('../primitiv/bn/bn');
 let ec = require('../primitiv/ec/ec');
 const { QuadraticResidue } = require('../primitiv/QuadraticResidue/QuadraticResidue');
 

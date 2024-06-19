@@ -1,6 +1,4 @@
-const BN = require('bn.js');
-const elliptic = require('elliptic');
-const EC = elliptic.ec;
+const BN = require('../bn/bn');
 
 class QuadraticResidue {
     /**
@@ -13,13 +11,8 @@ class QuadraticResidue {
      */
     check = (a, p) => {
         let s = p.ushrn(1);
-        let redA;
-        if (!a.red) {
-            let red = BN.red(p);
-            redA = a.toRed(red);
-        } else {
-            redA = a;
-        }
+        let red = BN.red(p);
+        let redA = a.tryToRed(red);
         redA = redA.redPow(s);
         a = redA.fromRed();
         if (a.eq(new BN(1))) return true;
@@ -37,13 +30,8 @@ class QuadraticResidue {
      */
     find = (a, p) => {
         let s = p.ushrn(1);
-        let redA;
-        if (!a.red) {
-            let red = BN.red(p);
-            redA = a.toRed(red);
-        } else {
-            redA = a;
-        }
+        let red = BN.red(p);
+        let redA = a.tryToRed(red);;
         let redX = redA.redPow(s.add(new BN(1)).shrn(1));
         let x = redX.fromRed();
         return x;

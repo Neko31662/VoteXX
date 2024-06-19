@@ -1,4 +1,4 @@
-var BN = require('bn.js');
+var BN = require('../bn/bn');
 const { QuadraticResidue } = require('../QuadraticResidue/QuadraticResidue');
 
 /**

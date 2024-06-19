@@ -1,6 +1,6 @@
 var EC = require('elliptic').ec;
 var ec = new EC('secp256k1');
-var BN = require('bn.js');
+var BN = require('../bn/bn');
 
 EC.prototype.randomBN = function () {
     return this.genKeyPair().getPrivate();
