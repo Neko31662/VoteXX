@@ -10,7 +10,7 @@ describe("Test of 'ElGamal.js'", () => {
     let random_times = 50;
     let specialNumberList = [
         new BN(0),
-        ec.curve.p,
+        ec.curve.n,
     ];
     describe("Test of 'ElgamalEnc'", () => {
         describe("Test of function 'ElgamalEnc.encrypt' and 'ElgamalEnc.decrypt'", () => {

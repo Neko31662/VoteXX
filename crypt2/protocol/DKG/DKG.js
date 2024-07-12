@@ -45,7 +45,7 @@ class DKG_exec {
         }
         let r = ec.randomBN();
         let a = ec.curve.g.mul(r);// a = g^r
-        let e = computeChallenge([item.yi.encode('hex', true), a.encode('hex', true)], ec.curve.p);// e = Hash(yi||a)
+        let e = computeChallenge([item.yi.encode('hex', true), a.encode('hex', true)], ec.curve.n);// e = Hash(yi||a)
         let z = e.mul(item.xi).add(r).mod(ec.curve.n);// z = e·xi + r
 
         item.DKGProof = { a, z };
@@ -63,7 +63,7 @@ class DKG_exec {
     verifyDKGProof(ec, proof, statement) {
         let { a, z } = proof;
         let yi = statement;
-        let e = computeChallenge([yi.encode('hex', true), a.encode('hex', true)], ec.curve.p);
+        let e = computeChallenge([yi.encode('hex', true), a.encode('hex', true)], ec.curve.n);
         let left = ec.curve.g.mul(z);// left = g^z
         let right = yi.mul(e).add(a);// right = a·(yi^e) 
         return left.eq(right);
@@ -117,7 +117,7 @@ class DKG_exec {
         let r = ec.randomBN();
         let a1 = ec.curve.g.mul(r);// a1 = g^r
         let a2 = c1.mul(r);// a2 = c1^r
-        let e = computeChallenge([c1, ki, yi, a1, a2].map(val => val.encode("hex", true)), ec.curve.p);
+        let e = computeChallenge([c1, ki, yi, a1, a2].map(val => val.encode("hex", true)), ec.curve.n);
         let z = e.mul(xi).add(r).mod(ec.curve.n);// z = e·xi + r
         /*--------------------------*/
 
@@ -150,7 +150,7 @@ class DKG_exec {
         }
 
         let yi = yiList[seq];
-        let e = computeChallenge([c1, ki, yi, a1, a2].map(val => val.encode("hex", true)), ec.curve.p);
+        let e = computeChallenge([c1, ki, yi, a1, a2].map(val => val.encode("hex", true)), ec.curve.n);
 
         /*----- verify proof -----*/
         let isValid = true;

@@ -59,6 +59,23 @@ describe("Test of 'pedersen_commitment.js'", () => {
 
         });
 
+        it("Test of function 'commit', 'value' is not a array", () => {
+            let value = ec.randomBN();
+            let value_array = [value];
+
+            let randomness1 = ec.randomBN();
+            let commitment1 = PedersenPublicKey_exec.commit(ec, global.pk, value, randomness1)[0];
+            assert.equal(class_of(commitment1), "Commitment");
+            let commitment1_ = PedersenPublicKey_exec.commit(ec, global.pk, value_array, randomness1)[0];
+            assert.equal(class_of(commitment1_), "Commitment");
+            assert.isTrue(PedersenPublicKey_exec.verify(ec,global.pk,value,randomness1,commitment1))
+
+            let [commitment2, randomness2] = PedersenPublicKey_exec.commit(ec, global.pk, value);
+            assert.equal(class_of(randomness2), "BN");
+            assert.equal(class_of(commitment2), "Commitment");
+
+        });
+
         it("Test of function 'verify'", () => {
             for (let i = 0; i <= 1; i++) {
                 assert.isTrue(PedersenPublicKey_exec.verify(

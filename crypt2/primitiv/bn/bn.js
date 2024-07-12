@@ -2,7 +2,8 @@ var BN = require('bn.js');
 
 /**
  * 
- * @param {BN.ReductionContext} reductionContext 
+ * @param {BN.ReductionContext} reductionContext
+ * @returns {RedBN}
  */
 BN.prototype.tryToRed = function (reductionContext) {
     if (this.red) {

@@ -38,11 +38,14 @@ class PedersenPublicKey_exec {
      * 对一组值进行承诺
      * @param {EC} ec
      * @param {PedersenPublicKey} item
-     * @param {BN[]} values 
+     * @param {BN[] | BN} values 
      * @param {BN | undefined} randomness 
      * @returns {[Commitment,BN]} [commitment, randomness]
      */
     commit(ec, item, values, randomness) {
+        if (!Array.isArray(values)) {
+            values = [values];
+        }
         if (values.length > item.n) {
             throw new Error(`The length of 'values' is ${values.length}, shouldn't bigger than 'item.n' ${item.n}`);
         }
@@ -68,7 +71,7 @@ class PedersenPublicKey_exec {
      * 检查一个Pederson承诺的有效性
      * @param {EC} ec 
      * @param {PedersenPublicKey} item 
-     * @param {BN[]} values 
+     * @param {BN[] | BN} values 
      * @param {BN} randomness 
      * @param {Commitment} commitment 
      * @returns {Boolean}
@@ -83,6 +86,10 @@ class PedersenPublicKey_exec {
  * A Pedersen commitment
  */
 class Commitment {
+    /**
+     * 
+     * @param {Point} commitment 
+     */
     constructor(commitment) {
         this.commitment = commitment;
     }

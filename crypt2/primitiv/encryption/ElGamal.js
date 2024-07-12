@@ -1,23 +1,20 @@
 var BN = require('../bn/bn');
 const { QuadraticResidue } = require('../QuadraticResidue/QuadraticResidue');
 
-/**
- * Elgamal ciphertext
- * 
- * Elgamal密文
- */
 class ElgamalCiphertext {
+    /**
+     * Elgamal ciphertext
+     * 
+     * Elgamal密文
+     * @param {Point} c1 
+     * @param {Point} c2 
+     */
     constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
     }
 }
 
-/**
- * Functions of Elgamal ciphertext
- * 
- * Elgamal密文的方法
- */
 class ElgamalCiphertext_exec {
 
     /**
@@ -67,7 +64,7 @@ class ElgamalCiphertext_exec {
      * @returns {ElgamalCiphertext}
      */
     identity(ec) {
-        return new ElgamalCiphertext(ec.curve.point(null, null), ec.curve.point(null, null));
+        return new ElgamalCiphertext(ec.infinitePoint(), ec.infinitePoint());
     };
 
     /**
@@ -127,8 +124,8 @@ class ElgamalEnc {
      */
     encode(ec, msg) {
         let msg_clone = msg.clone();
-        let p = ec.curve.p;
-        let length = p.byteLength() - 1;
+        let n = ec.curve.n;
+        let length = n.byteLength() - 1;
         let mask = new BN(2).pow(new BN(length * 8)).sub(new BN(1));
         let res = [];
 
@@ -152,8 +149,8 @@ class ElgamalEnc {
      * @returns {BN}
      */
     decode(ec, points) {
-        let p = ec.curve.p;
-        let length = p.byteLength() - 1;
+        let n = ec.curve.n;
+        let length = n.byteLength() - 1;
         let k = this.encode_k;
 
         let res = new BN(0);
