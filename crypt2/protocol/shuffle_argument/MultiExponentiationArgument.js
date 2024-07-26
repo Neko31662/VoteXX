@@ -4,7 +4,6 @@ const { ElgamalCiphertext, ElgamalCiphertext_exec, ElgamalEnc } = require('../..
 const { PedersenPublicKey, PedersenPublicKey_exec, Commitment, Commitment_exec } = require('../../primitiv/commitment/pedersen_commitment');
 const computeChallenge = require('../../primitiv/hash/hash');
 const assert = require('assert');
-const pedersen_commitment = require('../../primitiv/commitment/pedersen_commitment');
 const { encodePoint } = require('../../util/Serializer');
 
 class MultiExponentiationArgument {
@@ -104,7 +103,7 @@ class MultiExponentiationArgument {
         let redx_pow_k = [];
         redx_pow_k[0] = new BN(1).tryToRed(red);
         for (let k = 1; k < 2 * m; k++) {
-            redx_pow_k[k] = redx.redPow(new BN(k));
+            redx_pow_k[k] = redx_pow_k[k - 1].redMul(redx);
         }
 
         let a_vector = a0_vector.map((value) => value.tryToRed(red));
@@ -242,7 +241,7 @@ class MultiExponentiationArgument {
         let redx_pow_k = [];
         redx_pow_k[0] = new BN(1).tryToRed(red);
         for (let k = 1; k < 2 * m; k++) {
-            redx_pow_k[k] = redx.redPow(new BN(k));
+            redx_pow_k[k] = redx_pow_k[k - 1].redMul(redx);
         }
 
         let invalidList = [];// debug

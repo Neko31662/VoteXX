@@ -8,6 +8,7 @@ module.exports = {
         // 'test/Serializer.test.js',
         // 'test/DKG.test.js',
         // 'test/pedersen_commitment.test.js',
-        'test/MultiExponentiationArgument.test.js'
+        // 'test/MultiExponentiationArgument.test.js',
+        'test/ZeroArgument.test.js'
     ]
 };

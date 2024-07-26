@@ -7,7 +7,7 @@ var BN = require('bn.js');
  */
 BN.prototype.tryToRed = function (reductionContext) {
     if (this.red) {
-        return this;
+        return this.fromRed().toRed(reductionContext);
     } else {
         return this.toRed(reductionContext);
     }

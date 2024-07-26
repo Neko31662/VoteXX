@@ -102,6 +102,8 @@ class Commitment_exec {
      * The commitment scheme is additively homomorphic. Multiplying two 
      * commitments gives a commitment to the pointwise sum of the original
      * values.
+     * 
+     * com(a1;r1)·com(a1;r2) = com(a1+a2;r1+r2)
      * @param {Commitment} item 
      * @param {Commitment} other 
      * @returns {Commitment}
@@ -115,6 +117,8 @@ class Commitment_exec {
      * 
      * The commitment scheme is additively homomorphic. Raising a commitment
      * to a constant power multiplies the committed vector by that constant.
+     * 
+     * com(a;r)^x = com(ax;rx)
      * @param {Commitment} item 
      * @param {BN} exponent 
      * @returns {Commitment}
