@@ -3,7 +3,6 @@ let assert = chai.assert;
 let check3_max_time = 3000;
 
 describe("Test start", function () {
-    console.log(this);
 
     it("Self-check1", () => {
         assert.equal(1, 1);
