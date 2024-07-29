@@ -59,6 +59,21 @@ describe("Test of 'pedersen_commitment.js'", () => {
 
         });
 
+        it("Test of function 'commit', 'values.length > n'", () => {
+            let values = [];
+            for (let i = 0; i < n + 1; i++) {
+                values.push(ec.randomBN());
+            }
+
+            let flag = false;
+            try {
+                PedersenPublicKey_exec.commit(ec, global.pk, values);
+                flag = true;
+            } catch (err) {
+            }
+            assert.isFalse(flag, "Should throw an error when 'values.length > n'");
+        });
+
         it("Test of function 'commit', 'value' is not a array", () => {
             let value = ec.randomBN();
             let value_array = [value];
@@ -68,7 +83,7 @@ describe("Test of 'pedersen_commitment.js'", () => {
             assert.equal(class_of(commitment1), "Commitment");
             let commitment1_ = PedersenPublicKey_exec.commit(ec, global.pk, value_array, randomness1)[0];
             assert.equal(class_of(commitment1_), "Commitment");
-            assert.isTrue(PedersenPublicKey_exec.verify(ec,global.pk,value,randomness1,commitment1))
+            assert.isTrue(PedersenPublicKey_exec.verify(ec, global.pk, value, randomness1, commitment1));
 
             let [commitment2, randomness2] = PedersenPublicKey_exec.commit(ec, global.pk, value);
             assert.equal(class_of(randomness2), "BN");

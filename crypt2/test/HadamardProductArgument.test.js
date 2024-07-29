@@ -10,7 +10,7 @@ let assert = chai.assert;
 
 let n = 80, m = 5;
 
-describe(`Test of 'ZeroArgument.js', n=${n}, m=${m}`, function () {
+describe(`Test of 'HadamardProductArgument.js', n=${n}, m=${m}`, function () {
     let global = {};
     let keyPair = ec.genKeyPair();
     let pk = keyPair.getPublic();

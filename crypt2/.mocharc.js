@@ -12,5 +12,6 @@ module.exports = {
         'test/ZeroArgument.test.js',
         'test/HadamardProductArgument.test.js',
         'test/SingleValueProductArgument.test.js',
+        'test/ProductArgument.test.js',
     ]
 };
