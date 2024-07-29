@@ -10,6 +10,7 @@ module.exports = {
         'test/pedersen_commitment.test.js',
         'test/MultiExponentiationArgument.test.js',
         'test/ZeroArgument.test.js',
-        'test/HadamardProductArgument.test.js'
+        'test/HadamardProductArgument.test.js',
+        'test/SingleValueProductArgument.test.js',
     ]
 };
