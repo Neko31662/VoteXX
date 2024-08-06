@@ -409,7 +409,7 @@ class ShuffleArgument {
         let redx = x.tryToRed(red);
         let redy = y.tryToRed(red);
         let redz = z.tryToRed(red);
-        
+
         let redx_pow_k = [];
         redx_pow_k[0] = new BN(1).tryToRed(red);
         for (let k = 1; k <= N; k++) {
@@ -602,18 +602,19 @@ function shuffle(ec, pk, input_ctxts, permutation) {
  * Convert vectors of length N into n * m matrices, 
  * where m is designated and n is the smallest integer that makes n * m >= N.
  * 
- * When N < n * m, set all redundant Elgamal ciphertexts to (1, 1), 
+ * When N < n * m, set all redundant Elgamal ciphertext to (1, 1), 
  * set all redundant rhos to 0, 
  * and set the kth place of pi_matrix to k (k > n * m).
+ * @param {EC} ec
  * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} input_ctxts 
  * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} output_ctxts 
  * @param {number[]} permutation 
  * @param {BN[] | BN[][]} rho_vector 
- * @param {number} m 
+ * @param {number} m The number of columns in the matrix
  * @returns {{ input_ctxt_matrix:ElgamalCiphertext[][], output_ctxt_matrix:ElgamalCiphertext[][], pi_matrix:number[][], rho_matrix:BN[][] } |
  * { input_ctxt_matrix:ElgamalCiphertext[][][], output_ctxt_matrix:ElgamalCiphertext[][][], pi_matrix:number[][], rho_matrix:BN[][][] }} 
  */
-function matrixization(input_ctxts, output_ctxts, permutation, rho_vector, m) {
+function transformToMatrix(ec, input_ctxts, output_ctxts, permutation, rho_vector, m) {
     assert.ok(m >= 2, "'m' should be at least 2.");
     let N = input_ctxts.length;
     assert.ok(output_ctxts.length === N, "'output_ctxts.length' should be equal to N.");
@@ -641,16 +642,16 @@ function matrixization(input_ctxts, output_ctxts, permutation, rho_vector, m) {
                 rho_matrix[i][j] = rho_vector[k];
             } else {
                 if (l == 1) {
-                    input_ctxt_matrix[i][j] = ElgamalCiphertext_exec.identity();
-                    output_ctxt_matrix[i][j] = ElgamalCiphertext_exec.identity();
+                    input_ctxt_matrix[i][j] = ElgamalCiphertext_exec.identity(ec);
+                    output_ctxt_matrix[i][j] = ElgamalCiphertext_exec.identity(ec);
                     rho_matrix[i][j] = new BN(0);
                 } else {
                     input_ctxt_matrix[i][j] = [];
                     output_ctxt_matrix[i][j] = [];
                     rho_matrix[i][j] = [];
                     for (let l0 = 0; l0 < l; l0++) {
-                        input_ctxt_matrix[i][j][l0] = ElgamalCiphertext_exec.identity();
-                        output_ctxt_matrix[i][j][l0] = ElgamalCiphertext_exec.identity();
+                        input_ctxt_matrix[i][j][l0] = ElgamalCiphertext_exec.identity(ec);
+                        output_ctxt_matrix[i][j][l0] = ElgamalCiphertext_exec.identity(ec);
                         rho_matrix[i][j][l0] = new BN(0);
                     }
                 }
@@ -662,10 +663,100 @@ function matrixization(input_ctxts, output_ctxts, permutation, rho_vector, m) {
     return { input_ctxt_matrix, output_ctxt_matrix, pi_matrix, rho_matrix };
 }
 
+/**
+ * Convert vectors of length N into n * m matrices, only for statements.
+ * 
+ * @param {EC} ec
+ * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} input_ctxts 
+ * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} output_ctxts  
+ * @param {number} m The number of columns in the matrix
+ * @returns {{ input_ctxt_matrix:ElgamalCiphertext[][], output_ctxt_matrix:ElgamalCiphertext[][] } |
+ * { input_ctxt_matrix:ElgamalCiphertext[][][], output_ctxt_matrix:ElgamalCiphertext[][][] }}
+ */
+function transformStatementToMatrix(ec, input_ctxts, output_ctxts, m) {
+    assert.ok(m >= 2, "'m' should be at least 2.");
+    let N = input_ctxts.length;
+    assert.ok(output_ctxts.length === N, "'output_ctxts.length' should be equal to N.");
+
+    let l = 1;
+    if (Array.isArray(input_ctxts[0])) {
+        l = input_ctxts[0].length;
+    }
+
+    let n = Math.ceil(N / m);
+    let k = 0;
+    let input_ctxt_matrix = [], output_ctxt_matrix = [];
+    for (let i = 0; i < n; i++) {
+        input_ctxt_matrix[i] = [];
+        output_ctxt_matrix[i] = [];
+        for (let j = 0; j < m; j++) {
+            if (k < N) {
+                input_ctxt_matrix[i][j] = input_ctxts[k];
+                output_ctxt_matrix[i][j] = output_ctxts[k];
+            } else {
+                if (l == 1) {
+                    input_ctxt_matrix[i][j] = ElgamalCiphertext_exec.identity(ec);
+                    output_ctxt_matrix[i][j] = ElgamalCiphertext_exec.identity(ec);
+                } else {
+                    input_ctxt_matrix[i][j] = [];
+                    output_ctxt_matrix[i][j] = [];
+                    for (let l0 = 0; l0 < l; l0++) {
+                        input_ctxt_matrix[i][j][l0] = ElgamalCiphertext_exec.identity(ec);
+                        output_ctxt_matrix[i][j][l0] = ElgamalCiphertext_exec.identity(ec);
+                    }
+                }
+            }
+            k++;
+        }
+    }
+    return { input_ctxt_matrix, output_ctxt_matrix };
+}
+
+class VerifiableShuffle {
+    /**
+     * Shuffle and generate a proof for an Elgamal ciphertext (vector) array.
+     * 
+     * @param {EC} ec 
+     * @param {Point} pk Elgamal public key
+     * @param {PedersenPublicKey} ck Pedersen public key 
+     * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} input_ctxts An array composed of Elgamal ciphertext or Elgamal ciphertext vectors
+     * @param {number} m The number of columns in the matrix, which defaults to 2
+     * @returns {{output_ctxts: ElgamalCiphertext[] | ElgamalCiphertext[][], proof: ShuffleProof}}
+     */
+    shuffleWithProof(ec, pk, ck, input_ctxts, m = 2) {
+        let N = input_ctxts.length;
+        let permutation = generatePermutation(N);
+        let { output_ctxts, rho_vector } = shuffle(ec, pk, input_ctxts, permutation);
+        let { input_ctxt_matrix, output_ctxt_matrix, pi_matrix, rho_matrix } = transformToMatrix(ec, input_ctxts, output_ctxts, permutation, rho_vector, m);
+        let proof = (new ShuffleArgument()).generateShuffleProof(ec, pk, ck, input_ctxt_matrix, output_ctxt_matrix, pi_matrix, rho_matrix);
+
+        return { output_ctxts, proof };
+    }
+
+    /**
+     * Verify the proof of shuffle.
+     * 
+     * @param {EC} ec 
+     * @param {Point} pk Elgamal public key
+     * @param {PedersenPublicKey} ck Pedersen public key 
+     * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} input_ctxts An array composed of Elgamal ciphertext or Elgamal ciphertext vectors 
+     * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} output_ctxts The result obtained by shuffling input_ctxts
+     * @param {ShuffleProof} proof The proof of shuffle
+     * @param {*} m The number of columns in the matrix, which defaults to 2
+     * @returns {Boolean}
+     */
+    verifyProof(ec, pk, ck, input_ctxts, output_ctxts, proof, m = 2) {
+        let { input_ctxt_matrix, output_ctxt_matrix } = transformStatementToMatrix(ec, input_ctxts, output_ctxts, m);
+        return (new ShuffleArgument()).verifyShuffleProof(ec, pk, ck, input_ctxt_matrix, output_ctxt_matrix, proof);
+    }
+}
+
 module.exports = {
     ShuffleArgument: new ShuffleArgument(),
     ShuffleProof,
     generatePermutation,
     shuffle,
-    matrixization
+    transformToMatrix,
+    transformStatementToMatrix,
+    VerifiableShuffle: new VerifiableShuffle()
 };

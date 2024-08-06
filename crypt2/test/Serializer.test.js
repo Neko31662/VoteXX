@@ -61,7 +61,8 @@ describe("Test of 'Serializer.js'", () => {
                 b: ec.randomPoint(),
                 c: ec.curve.g.mul(new BN(0)),
                 d: ec.randomBN(),
-            }
+            },
+            f: [ec.randomPoint(), ec.randomPoint(), ec.randomPoint()]
         };
 
         let obj2 = deserialize(serialize(obj), ec);
@@ -70,6 +71,9 @@ describe("Test of 'Serializer.js'", () => {
         isEqualPoint(obj.b, obj2.b);
         isEqualPoint(obj.c, obj2.c);
         isEqualBN(obj.d, obj2.d);
+        for (let i = 0; i < 3; i++) {
+            isEqualPoint(obj.f[i], obj2.f[i]);
+        }
 
         isEC(obj2.e.a);
         isEqualPoint(obj.e.b, obj2.e.b);
