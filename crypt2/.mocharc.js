@@ -13,6 +13,7 @@ module.exports = {
         // 'test/HadamardProductArgument.test.js',
         // 'test/SingleValueProductArgument.test.js',
         // 'test/ProductArgument.test.js',
-        'test/ShuffleArgument.test.js',
+        // 'test/ShuffleArgument.test.js',
+        'test/PET.test.js',
     ]
 };

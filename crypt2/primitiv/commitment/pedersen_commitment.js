@@ -84,6 +84,7 @@ class PedersenPublicKey_exec {
 
 /**
  * A Pedersen commitment
+ * @param {Point} commitment
  */
 class Commitment {
     /**
