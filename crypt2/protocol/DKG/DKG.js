@@ -56,11 +56,11 @@ class DKG_exec {
      * 
      * 验证DKG实例中关于的密钥对的零知识证明
      * @param {EC} ec 
-     * @param {{a: Point, z: BN}} proof 
      * @param {Point} statement yi
+     * @param {{a: Point, z: BN}} proof 
      * @returns {Boolean}
      */
-    verifyDKGProof(ec, proof, statement) {
+    verifyDKGProof(ec, statement, proof) {
         let { a, z } = proof;
         let yi = statement;
         let e = computeChallenge([yi.encode('hex', true), a.encode('hex', true)], ec.curve.n);
@@ -191,6 +191,34 @@ class DKG_exec {
 
 module.exports = {
     DKG,
+    /**
+     * Distributed Key Generation:
+     * 
+     * Step1: Initialize a new DKG class 'item'.
+     * 
+     * Step2: Invoke in 'generateKey' to generate it's 
+     * private key piece 'xi' and public key piece 'yi'.
+     * 
+     * Step3: Invoke in 'generateDKGProof' to generate 
+     * a NIZK 'DKGProof' of the knowledge of 'xi', broadcast it.
+     * 
+     * Step4: For each other player, invoke in 'verifyDKGProof'
+     * to check the validity of it's NIZK.
+     * 
+     * Step5: Combine the 'item.yi' of each player into an array,
+     * then invoke in 'calculatePublic' to calculate the public key.
+     * 
+     * Decryption:
+     * 
+     * Step1: Invoke in 'decryptOnePartWithProof' to caculate 'ki'
+     * and it's NIZK 'proof', broadcast them.
+     * 
+     * Step2: For each other player, invoke in 'verifyDecryptProof'
+     * to check the validity of it's NIZK.
+     * 
+     * Step3: Combine the 'ki' of each player into an array,
+     * then invoke in 'decrypt' to calculate the plaintext.
+     */
     DKG_exec: new DKG_exec()
 }
 

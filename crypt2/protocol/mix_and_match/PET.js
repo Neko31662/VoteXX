@@ -159,23 +159,6 @@ class PET_data {
     }
 }
 
-/**
- * Usage: 
- * 
- * Step1: Initialize a new PET_data class PETData with ctxt1 and ctxt2.
- * 
- * Step2: Invoke in funcion 'calDifference' to calculate the difference between ctxt1 and ctxt2.
- * 
- * Step3: Invoke in function 'raiseToExponentAndProof' to calculate ctxt_dif ^ z and provide a NIZK of it,
- * broadcast 'PETData.statement' and 'PETData.proof'.
- * 
- * Step4: For each other player, Invoke in function 'verifyProof' to check the validity of it's NIZK.
- * 
- * Step5: Combine the 'statement.new_ctxt' of each player into an array,
- * then invoke in function 'formNewCiphertext' to calculate the cumulative multiplication of them.
- * 
- * Step6: Distributed decryption the result in step5 and check if the plaintext is equal to 1
- */
 class PET_exec {
     /**
      * Add a property 'ctxt_dif' to PETData.
@@ -250,17 +233,18 @@ module.exports = {
      * 
      * Step1: Initialize a new PET_data class PETData with ctxt1 and ctxt2.
      * 
-     * Step2: Invoke in funcion 'calDifference' to calculate the difference between ctxt1 and ctxt2.
+     * Step2: Invoke in function 'calDifference' to calculate the difference between ctxt1 and ctxt2.
      * 
      * Step3: Invoke in function 'raiseToExponentAndProof' to calculate ctxt_dif ^ z and provide a NIZK of it,
      * broadcast 'PETData.statement' and 'PETData.proof'.
      * 
-     * Step4: For each other player, Invoke in function 'verifyProof' to check the validity of it's NIZK.
+     * Step4: For each other player, invoke in function 'verifyProof' to check the validity of it's NIZK.
      * 
      * Step5: Combine the 'statement.new_ctxt' of each player into an array,
      * then invoke in function 'formNewCiphertext' to calculate the cumulative multiplication of them.
      * 
-     * Step6: Distributed decryption the result in step5 and check if the plaintext is equal to 1
+     * Step6: Distributed decrypt the result in step5 and check if the plaintext is equal to 1
+     * (See in 'rootpath/protocol/DKG/DKG.js').
      */
     PET_exec: new PET_exec()
 };

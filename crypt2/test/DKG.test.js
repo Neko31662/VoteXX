@@ -40,11 +40,11 @@ describe(`Test of 'DKG.js', ${N} parties.`, () => {
 
     it("Test of function 'verifyDKGProof'", () => {
         for (let i = 0; i < N; i++) {
-            assert.isTrue(DKG_exec.verifyDKGProof(ec, parties[i].DKGProof, parties[i].yi), "Proof should be valid");
+            assert.isTrue(DKG_exec.verifyDKGProof(ec, parties[i].yi, parties[i].DKGProof), "Proof should be valid");
         }
         for (let i = 0; i < N; i++) {
             for (let j = i + 1; j < N; j++) {
-                assert.isFalse(DKG_exec.verifyDKGProof(ec, parties[i].DKGProof, parties[j].yi), "Proof should be invalid");
+                assert.isFalse(DKG_exec.verifyDKGProof(ec, parties[j].yi, parties[i].DKGProof), "Proof should be invalid");
             }
         }
     });
