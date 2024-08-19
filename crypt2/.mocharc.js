@@ -5,7 +5,7 @@ module.exports = {
         // 'test/ec.test.js',
         // 'test/QuadraticResidue.test.js',
         // 'test/ElGamal.test.js',
-        'test/LiftedElGamal.test.js',
+        // 'test/LiftedElGamal.test.js',
         // 'test/Serializer.test.js',
         // 'test/DKG.test.js',
         // 'test/pedersen_commitment.test.js',
@@ -16,5 +16,6 @@ module.exports = {
         // 'test/ProductArgument.test.js',
         // 'test/ShuffleArgument.test.js',
         // 'test/PET.test.js',
+        'test/NullificationArgument.test.js',
     ]
 };

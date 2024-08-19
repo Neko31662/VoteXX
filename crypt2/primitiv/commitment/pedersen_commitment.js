@@ -16,7 +16,7 @@ class PedersenPublicKey {
         /**
           Example:
             G = new EC('secp256k1');
-            pk = PedersenPublicKey(G, 2);
+            pk = new PedersenPublicKey(G, 2);
         **/
         this.n = n;
         this.generators = [];
@@ -26,7 +26,11 @@ class PedersenPublicKey {
              * G's index: 0 -> this.n-1
              * H's index: this.n
             **/
-            this.generators.push(ec.randomPoint());
+            if (i === 0) {
+                this.generators.push(ec.curve.g);
+            } else {
+                this.generators.push(ec.randomPoint());
+            }
         }
     }
 }

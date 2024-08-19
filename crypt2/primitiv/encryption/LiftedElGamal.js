@@ -11,7 +11,7 @@ class LiftedElgamalEnc {
      * 
      * @param {EC} ec 
      * @param {Point} pk 
-     * @param {number} msg 
+     * @param {BN | number} msg 
      * @param {BN | undefined} randomness 
      * @returns {ElgamalCiphertext}
      */
