@@ -12,9 +12,9 @@ const VotePrivateController = {
         let result = await VotePrivateService.getPk(params);
 
         if (result === -1) {
-            res.send({ error: "获取公钥失败：未找到投票" });
+            res.send({ error: "Failed to get public key: vote not found" });
         } else if (result === -100) {
-            res.send({ error: "获取公钥失败：数据库错误" });
+            res.send({ error: "Failed to get public key: database error" });
         }
         else {
             res.send({
@@ -33,9 +33,9 @@ const VotePrivateController = {
         let result = await VotePrivateService.votingStep(params);
 
         if (result === -1) {
-            res.send({ error: "投票失败：未找到投票" });
+            res.send({ error: "Failed to vote: pk not found" });
         } else if (result === -100) {
-            res.send({ error: "投票失败：数据库错误" });
+            res.send({ error: "Failed to vote: database error" });
         }
         else {
             res.send({
@@ -54,9 +54,9 @@ const VotePrivateController = {
         let result = await VotePrivateService.getProvisionalTallyVotes(params);
 
         if (result === -1) {
-            res.send({ error: "获取预先计票结果失败：未找到投票" });
+            res.send({ error: "Provisional tally failed: vote not found" });
         } else if (result === -100) {
-            res.send({ error: "获取预先计票结果失败：数据库错误" });
+            res.send({ error: "Provisional tally failed: database error" });
         }
         else {
             res.send({
@@ -75,9 +75,9 @@ const VotePrivateController = {
         let result = await VotePrivateService.nullify(params);
 
         if (result === -1) {
-            res.send({ error: "弃票失败：未找到投票" });
+            res.send({ error: "Nullification failed: vote not found" });
         } else if (result === -100) {
-            res.send({ error: "弃票失败：数据库错误" });
+            res.send({ error: "Nullification failed: database error" });
         }
         else {
             res.send({

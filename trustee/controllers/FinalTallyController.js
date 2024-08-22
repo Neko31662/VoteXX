@@ -9,9 +9,9 @@ const FinalTallyController = {
         const params = { voteID, generatorH };
         let result = await FinalTallyService.init(params);
         if (result === -1) {
-            res.send({ error: "获取投票信息失败" });
+            res.send({ error: "Failed to obtain election information" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({
@@ -29,9 +29,9 @@ const FinalTallyController = {
         let result = await FinalTallyService.mixAndMatch_step1(params);
 
         if (result === -1) {
-            res.send({ error: "获取投票信息失败" });
+            res.send({ error: "Failed to obtain election information" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({
@@ -50,11 +50,11 @@ const FinalTallyController = {
         let result = await FinalTallyService.mixAndMatch_step2(params);
 
         if (result === -1) {
-            res.send({ error: "获取投票信息失败" });
+            res.send({ error: "Failed to obtain election information" });
         } else if (result === -2) {
-            res.send({ error: "信息长度与EA人数不符" });
+            res.send({ error: "The length of the message does not match the number of people in EA" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({
@@ -73,9 +73,9 @@ const FinalTallyController = {
         let result = await FinalTallyService.mixAndMatch_step3(params);
 
         if (result === -1) {
-            res.send({ error: "获取投票信息失败" });
+            res.send({ error: "Failed to obtain election information" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({
@@ -94,11 +94,11 @@ const FinalTallyController = {
         let result = await FinalTallyService.mixAndMatch_step4(params);
 
         if (result === -1) {
-            res.send({ error: "获取投票信息失败" });
+            res.send({ error: "Failed to obtain election information" });
         } else if (result === -2) {
-            res.send({ error: "信息长度与EA人数不符" });
+            res.send({ error: "The length of the message does not match the number of people in EA" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({
@@ -117,9 +117,9 @@ const FinalTallyController = {
         let result = await FinalTallyService.mixAndMatch_step5(params);
 
         if (result === -1) {
-            res.send({ error: "获取投票信息失败" });
+            res.send({ error: "Failed to obtain election information" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({

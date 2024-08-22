@@ -9,9 +9,9 @@ const DKGController = {
         const { voteID } = req.body;
         let result = await DKGService.DKG_step1({ voteID });
         if (result === -1) {
-            res.send({ error: "获取投票信息失败" });
+            res.send({ error: "Failed to obtain election information" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({
@@ -28,7 +28,7 @@ const DKGController = {
         const { voteID, data } = req.body;
         let result = await DKGService.DKG_step2({ voteID, data });
         if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({
@@ -45,7 +45,7 @@ const DKGController = {
         const { voteID, yiList_serialized } = req.body;
         let result = await DKGService.DKG_step3({ voteID, yiList_serialized });
         if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({

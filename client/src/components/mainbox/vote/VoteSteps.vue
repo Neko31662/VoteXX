@@ -20,16 +20,16 @@
             <div v-if="active % 2 === 0">
                 <el-card>
                     <template #header>
-                        <h3>请稍等</h3>
+                        <h3>Please wait</h3>
                     </template>
                     <el-empty description=" ">
-                        <el-text>Trustee正在整理信息或该阶段未开始，请等待一段时间</el-text>
+                        <el-text>Trustees are organizing information, please wait.</el-text>
                     </el-empty>
                     <template #footer>
                         <el-button
                             @click="router.push('/vote-manage/votelist')"
                         >
-                            退出
+                            Exit
                         </el-button>
                     </template>
                 </el-card>
@@ -75,13 +75,13 @@ const active = ref(0);
 active.value = props.voteInfo.state;
 
 const stepMessages = [
-    "注册前准备阶段",
-    "注册阶段",
-    "投票前准备阶段",
-    "投票阶段",
-    "初步计票阶段",
-    "弃票阶段",
-    "最终统计阶段",
+    "Pre-registration phase",
+    "Registration phase",
+    "Registration finalization phase",
+    "Voting phase",
+    "Provisional tally phase",
+    "Nullification phase",
+    "Final tally phase",
 ];
 </script>
 

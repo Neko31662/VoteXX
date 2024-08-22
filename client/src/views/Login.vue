@@ -2,7 +2,7 @@
     <div>
         <Particle />
         <div class="formContainer">
-            <h3>VoteXX投票系统</h3>
+            <h3>VoteXX Election System</h3>
             <LoginForm />
         </div>
     </div>

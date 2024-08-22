@@ -23,7 +23,7 @@
                         {{
                             active !== stepNumber
                                 ? stepMessages[active]
-                                : "创建成功"
+                                : "Created successfully"
                         }}
                     </h3>
                 </template>
@@ -39,11 +39,11 @@
                     label-width="auto"
                     status-icon
                 >
-                    <el-form-item label="投票名称" prop="voteName">
+                    <el-form-item label="Election name" prop="voteName">
                         <el-input v-model="createVoteForm[0].voteName" />
                     </el-form-item>
 
-                    <el-form-item label="投票介绍" prop="voteIntro">
+                    <el-form-item label="Election introduction" prop="voteIntro">
                         <el-input
                             v-model="createVoteForm[0].voteIntro"
                             type="textarea"
@@ -67,11 +67,11 @@
                     label-width="auto"
                     status-icon
                 >
-                    <el-form-item label="注册结束时间" prop="regEndTime">
+                    <el-form-item label="Registration deadline" prop="regEndTime">
                         <el-date-picker
                             v-model="createVoteForm[1].regEndTime"
                             type="datetime"
-                            placeholder="选择日期时间"
+                            placeholder="Choose date and time"
                             format="YYYY/MM/DD HH:mm"
                             value-format="YYYY/MM/DD HH:mm"
                         />
@@ -79,33 +79,33 @@
                         <TimeTips :index="0" />
                     </el-form-item>
 
-                    <el-form-item label="投票结束时间" prop="voteEndTime">
+                    <el-form-item label="Voting deadline" prop="voteEndTime">
                         <el-date-picker
                             v-model="createVoteForm[1].voteEndTime"
                             type="datetime"
-                            placeholder="选择日期时间"
+                            placeholder="Choose date and time"
                             format="YYYY/MM/DD HH:mm"
                             value-format="YYYY/MM/DD HH:mm"
                         ></el-date-picker>
                         <TimeTips :index="1" />
                     </el-form-item>
 
-                    <el-form-item label="弃票开始时间" prop="nulStartTime">
+                    <el-form-item label="Nullification start time" prop="nulStartTime">
                         <el-date-picker
                             v-model="createVoteForm[1].nulStartTime"
                             type="datetime"
-                            placeholder="选择日期时间"
+                            placeholder="Choose date and time"
                             format="YYYY/MM/DD HH:mm"
                             value-format="YYYY/MM/DD HH:mm"
                         ></el-date-picker>
                         <TimeTips :index="2" />
                     </el-form-item>
 
-                    <el-form-item label="弃票结束时间" prop="nulEndTime">
+                    <el-form-item label="Nullification deadline" prop="nulEndTime">
                         <el-date-picker
                             v-model="createVoteForm[1].nulEndTime"
                             type="datetime"
-                            placeholder="选择日期时间"
+                            placeholder="Choose date and time"
                             format="YYYY/MM/DD HH:mm"
                             value-format="YYYY/MM/DD HH:mm"
                         ></el-date-picker>
@@ -123,7 +123,7 @@
                     label-width="auto"
                     status-icon
                 >
-                    <el-form-item label="确认trustee数量" prop="EACount">
+                    <el-form-item label="Confirm trustee number" prop="EACount">
                         <el-input-number
                             v-model.number="createVoteForm[2].EACount"
                             :min="2"
@@ -134,11 +134,11 @@
 
                     <el-form-item>
                         <el-text>
-                            trustee的数量越多，投票越安全，但投票用时也会越长
+                            The greater the number of trustees, the more secure the election will be, but the tally will also take longer.
                             <br />
-                            trustee的集合称为EA
+                            The set of trustees are called EA.
                             <br />
-                            需要确保trustee之间不会相互串通
+                            Need to ensure that trustees do not collude with each other.
                         </el-text>
                     </el-form-item>
                 </el-form>
@@ -151,9 +151,9 @@
                 >
                     <el-form-item>
                         <el-text tag="p">
-                            创建投票成功，用户可在
-                            <strong>创建/加入投票</strong>
-                            界面输入该凭证以加入投票：
+                            The election is created successfully and users can join the election in the
+                            <strong>Create/join election</strong>
+                            interface:
                             <br />
                         </el-text>
                     </el-form-item>
@@ -188,13 +188,13 @@
                             v-if="active === 0"
                             @click="$emit('cancelCreate')"
                         >
-                            取消
+                            Cancel
                         </el-button>
                         <el-button
                             v-else-if="active !== stepNumber"
                             @click="last"
                         >
-                            上一步
+                            Back
                         </el-button>
 
                         <el-button
@@ -202,7 +202,7 @@
                             type="primary"
                             @click="next"
                         >
-                            下一步
+                            Next
                         </el-button>
                         <el-button
                             v-else-if="active === stepNumber - 1"
@@ -210,14 +210,14 @@
                             @click="submitForm"
                             :disabled="formSubmitting"
                         >
-                            创建投票
+                            Create election
                         </el-button>
                         <el-button
                             v-else
                             type="primary"
                             @click="$emit('finishCreate')"
                         >
-                            完成
+                            Finish
                         </el-button>
                     </div>
                 </template>
@@ -237,13 +237,13 @@ const active = ref(0); //当前完成的步骤
 const stepNumber = 3; //总步数
 
 //创建投票各个步骤的名称
-const stepMessages = ["填写投票信息", "选择时间", "确认trustee数量"];
+const stepMessages = ["Enter election information", "Select time", "Confirm trustee number"];
 
 //创建投票后生成的投票凭证
 const joinVoteToken = ref("joinVoteToken");
 
 //鼠标悬停在复制投票凭证的按钮上时，显示的提示文字
-const joinVoteTokenCopyTipContent = ref("复制凭证");
+const joinVoteTokenCopyTipContent = ref("Copy token");
 
 //表单的响应式对象
 const createVoteFormRef = [];
@@ -279,24 +279,24 @@ createVoteRules[0] = reactive({
     voteName: [
         {
             required: true,
-            message: "请输入投票标题",
+            message: "Please enter election name",
             trigger: "blur",
         },
         {
             max: 100,
-            message: "投票标题请勿超过100字符",
+            message: "Election name should not exceed 100 characters",
             trigger: "blur",
         },
     ],
     voteIntro: [
         {
             required: true,
-            message: "请输入投票介绍",
+            message: "Please enter election introduction",
             trigger: "blur",
         },
         {
             max: 500,
-            message: "投票介绍请勿超过100字符",
+            message: "Election introduction should not exceed 500 characters",
             trigger: "blur",
         },
     ],
@@ -306,7 +306,7 @@ createVoteRules[1] = reactive({
     regEndTime: [
         {
             required: true,
-            message: "请选择时间",
+            message: "Please select time",
             trigger: "blur",
         },
         {
@@ -314,28 +314,28 @@ createVoteRules[1] = reactive({
                 let now = new Date();
                 return new Date(value) > now;
             },
-            message: "注册结束时间应晚于当前时间",
+            message: "Registration deadline should be later than current time",
             trigger: "blur",
         },
     ],
     voteEndTime: [
         {
             required: true,
-            message: "请选择时间",
+            message: "Please select time",
             trigger: "blur",
         },
         {
             validator: (rule, value) => {
                 return new Date(value) > new Date(createVoteForm[1].regEndTime);
             },
-            message: "该阶段时间应晚于上一阶段时间",
+            message: "The time of this phase should be later than the previous phase",
             trigger: "blur",
         },
     ],
     nulStartTime: [
         {
             required: true,
-            message: "请选择时间",
+            message: "Please select time",
             trigger: "blur",
         },
         {
@@ -344,14 +344,14 @@ createVoteRules[1] = reactive({
                     new Date(value) > new Date(createVoteForm[1].voteEndTime)
                 );
             },
-            message: "该阶段时间应晚于上一阶段时间",
+            message: "The time of this phase should be later than the previous phase",
             trigger: "blur",
         },
     ],
     nulEndTime: [
         {
             required: true,
-            message: "请选择时间",
+            message: "Please select time",
             trigger: "blur",
         },
         {
@@ -360,7 +360,7 @@ createVoteRules[1] = reactive({
                     new Date(value) > new Date(createVoteForm[1].nulStartTime)
                 );
             },
-            message: "该阶段时间应晚于上一阶段时间",
+            message: "The time of this phase should be later than the previous phase",
             trigger: "blur",
         },
     ],
@@ -370,14 +370,14 @@ createVoteRules[2] = reactive({
     EACount: [
         {
             required: true,
-            message: "请选择正确的trustee数量",
+            message: "Please select correct trustee number",
             trigger: "blur",
         },
         {
             validator: (rule, value) => {
                 return value >= 2 && value <= 5;
             },
-            message: "请选择正确的trustee数量",
+            message: "Please select correct trustee number",
             trigger: "blur",
         },
     ],
@@ -431,7 +431,7 @@ const submitForm = async () => {
     try {
         await Promise.all(validatePromises);
     } catch (error) {
-        ElMessage.error("请检查各个步骤输入项有无错误");
+        ElMessage.error("Please check whether there are any errors in the input items of each step");
         formSubmitting.value = false;
     }
 
@@ -443,7 +443,7 @@ const submitForm = async () => {
         if (res.data.error) {
             ElMessage.error(res.data.error);
         } else if (res.data.ActionType === "ok") {
-            ElMessage.success("创建投票成功");
+            ElMessage.success("Election created successfully");
             joinVoteToken.value = btoa(res.data.data.token);
             active.value = stepNumber;
         }
@@ -456,9 +456,9 @@ const submitForm = async () => {
  */
 const copyToken = () => {
     navigator.clipboard.writeText(joinVoteToken.value).then(() => {
-        joinVoteTokenCopyTipContent.value = "已复制到剪贴板";
+        joinVoteTokenCopyTipContent.value = "Copied to clipboard";
         setTimeout(() => {
-            joinVoteTokenCopyTipContent.value = "复制凭证";
+            joinVoteTokenCopyTipContent.value = "Copy token";
         }, 2000);
     });
 };

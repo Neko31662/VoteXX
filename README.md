@@ -1,57 +1,54 @@
-# VoteXX
+# VoteXX Election System
 
-VoteXX 毕设项目
+VoteXX is the first election system that has “extreme coercion resistance”.
 
-## client
-
-前端代码
-
-运行：
+## crypt
 
 ```
-cd client
-npm install (初次)
-npm run serve
+cd crypt
+npm install
 ```
+
+Cryptographic protocols are invoked by `client, server, trustee`. Please put `crypt/, client/, server/, trustee/` in the same directory.
 
 ## server
 
-后端代码
-
-运行：
+How to run：
 
 ```
 cd server
-npm install (初次)
+npm install
 npm start
 ```
 
 ## trustee
 
-trustee服务进程
-
-运行：
+How to run：
 
 ```
 cd trustee
-npm install (初次)
-npm start <端口号> <账号> <密码> <数据库名>
+npm install
+npm start <port> <username> <password> <database>
 ```
 
-## crypt
+## client
 
-密码学算法
-
-其他3个服务都调用了该模块，复制 `client,server,trustee` 时请将该模块放置于同级文件夹下
-
-
-
-详细的介绍阅读各个子文件下的readme：
+How to run：
 
 ```
-./client/src/README.md
+cd client
+npm install
+npm run serve
+```
+
+## README files of submodules
+
+The README files of the submodules are at the following positions:
+
+```
 ./server/README.md
 ./trustee/README.md
+./client/src/README.md
 ```
 
 

@@ -17,11 +17,11 @@ const VoteController = {
         };
         let result = await VoteService.create(params);
         if (result === -1) {
-            res.send({ error: "参数合法性校验出错" });
+            res.send({ error: "Parameter validity check error" });
         } else if (result === -2) {
-            res.send({ error: "资源不足，请尝试减少trustee数量或稍后再创建投票" });
+            res.send({ error: "Insufficient resources, please try to reduce the number of trustees or create a vote later." });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         } else {
             let token = generateVoteToken({ _id: result._id });
             res.send({
@@ -43,16 +43,16 @@ const VoteController = {
         };
         let result = await VoteService.join(params);
         if (result === -1) {
-            res.send({ error: "凭证无效" });
+            res.send({ error: "Invalid token" });
         } else if (result === -2) {
-            res.send({ error: "投票不存在或已经结束" });
+            res.send({ error: "Election does not exist or has ended" });
         } else if (result === -3) {
-            res.send({ info: "已加入该投票" });
+            res.send({ info: "Already joined the election" });
         } else if (result === -4) {
-            res.send({ info: "不允许投票创建者加入该投票" });
+            res.send({ info: "The creator of this election is not allowed to join the election itself" });
         }
         else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({ ActionType: "ok" });
@@ -69,7 +69,7 @@ const VoteController = {
         };
         let result = await VoteService.countOwnedVote(params);
         if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             let totalVotes = result;
@@ -90,7 +90,7 @@ const VoteController = {
         };
         let result = await VoteService.countJoinedVote(params);
         if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             let totalVotes = result;
@@ -112,7 +112,7 @@ const VoteController = {
         };
         let result = await VoteService.showOwnedVote(params);
         if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         } else {
             let responseData = [];
             await result.forEach((value, index) => {
@@ -138,7 +138,7 @@ const VoteController = {
         };
         let result = await VoteService.showJoinedVote(params);
         if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         } else {
             let responseData = [];
             await result.forEach((value, index) => {
@@ -165,7 +165,7 @@ const VoteController = {
         let exist = VoteService.checkExist(params);
         if (!exist) {
             res.send({
-                error: "请求参数错误"
+                error: "Request parameter error"
             });
         } else {
             let token = generateVoteToken({ _id: params._id });
@@ -188,9 +188,9 @@ const VoteController = {
         };
         let result = await VoteService.getVoteDetails(params);
         if (result === -1) {
-            res.send({ error: "未找到投票" });
+            res.send({ error: "Vote not found" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         } else {
             let responseData = [];
             let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state, voteByOwner } = result;
@@ -213,11 +213,11 @@ const VoteController = {
 
         let result = await VoteService.registrationStep(params);
         if (result === -1) {
-            res.send({ error: "已注册该投票" });
+            res.send({ error: "Already registered in this election" });
         } else if (result === -2) {
-            res.send({ error: "未加入该投票" });
+            res.send({ error: "Did not join this election" });
         } else if (result === -100) {
-            res.send({ error: "数据库错误" });
+            res.send({ error: "Database error" });
         }
         else {
             res.send({ ActionType: "ok" });

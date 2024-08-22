@@ -21,9 +21,9 @@ const TrusteeController = {
         const result = await TrusteeService.register(params);
 
         if (result === -1) {
-            res.send({ error: "连接失败" });
+            res.send({ error: "Connection failed" });
         } else if (result === -2) {
-            res.send({ error: "认证失败，账户名或密码错误" });
+            res.send({ error: "Authentication failed, account name or password is wrong" });
         } else {
             //生成token
             const token = JWT.generate({

@@ -8,10 +8,10 @@
         :hide-required-asterisk="true"
         class="login-form"
     >
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="Username" prop="username">
             <el-input v-model="loginForm.username" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="Password" prop="password">
             <el-input
                 v-model="loginForm.password"
                 autocomplete="off"
@@ -19,10 +19,10 @@
             />
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="submitForm()">登录</el-button>
+            <el-button type="primary" @click="submitForm()">Login</el-button>
         </el-form-item>
         <div>
-            <el-link href="/#/signup" type="primary">还没有账号？</el-link>
+            <el-link href="/#/signup" type="primary">Don't have an account yet?</el-link>
         </div>
     </el-form>
 </template>
@@ -50,7 +50,7 @@ const loginRules = reactive({
     username: [
         {
             required: true,
-            message: "请输入用户名",
+            message: "Please enter username",
             trigger: "blur",
             //required：要求，不符合要求触发message
             //trigger：触发校验的条件，“blur”为失去焦点
@@ -59,7 +59,7 @@ const loginRules = reactive({
     password: [
         {
             required: true,
-            message: "请输入密码",
+            message: "Please enter password",
             trigger: "blur",
         },
     ],
@@ -82,7 +82,7 @@ const submitForm = () => {
                     //5.跳转
                     router.push("/index");
                 } else {
-                    ElMessage.error("用户名和密码不匹配");
+                    ElMessage.error("Username and password do not match");
                 }
             });
         }

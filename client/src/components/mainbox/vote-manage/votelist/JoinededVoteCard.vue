@@ -4,18 +4,18 @@
             <h3>{{ voteName }}</h3>
         </template>
         <el-form label-width="auto">
-            <el-form-item label="投票简介">
+            <el-form-item label="Election introduction">
                 <el-text tag="p" line-clamp="1">
                     {{ voteIntro }}
                 </el-text>
             </el-form-item>
-            <el-form-item label="注册截止时间">
+            <el-form-item label="Registration deadline">
                 {{ dateToString(regEndTime) }}
             </el-form-item>
-            <el-form-item label="投票截止时间">
+            <el-form-item label="Voting deadline">
                 {{ dateToString(voteEndTime) }}
             </el-form-item>
-            <el-form-item label="弃票时间">
+            <el-form-item label="Nullification time">
                 {{
                     dateToString(nulStartTime) +
                     " - " +
@@ -24,9 +24,9 @@
             </el-form-item>
         </el-form>
         <template #footer>
-            <el-button @click="dialogVisible = true">详细信息</el-button>
+            <el-button @click="dialogVisible = true">Details</el-button>
             <el-button type="primary" @click="toVote" :disabled="goingToVote">
-                进入投票
+                Enter election
             </el-button>
         </template>
     </el-card>
@@ -34,31 +34,31 @@
     <!-- 展示投票详细信息 -->
     <el-dialog v-model="dialogVisible" width="700px">
         <template #header>
-            <el-text><h2>投票详情</h2></el-text>
+            <el-text><h2>Election details</h2></el-text>
         </template>
         <el-scrollbar max-height="500px">
             <el-form label-width="auto" class="dialog-form">
-                <el-form-item label="投票名称">
+                <el-form-item label="Election name">
                     <el-text tag="p" line-clamp="100" class="dialogs">
                         {{ voteName }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="投票简介">
+                <el-form-item label="Election introduction">
                     <el-text tag="p" line-clamp="100" class="dialogs">
                         {{ voteIntro }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="注册截止时间">
+                <el-form-item label="Registration deadline">
                     <el-text tag="p" line-clamp="100" class="dialogs">
                         {{ dateToString(regEndTime) }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="投票截止时间">
+                <el-form-item label="Voting deadline">
                     <el-text tag="p" line-clamp="100" class="dialogs">
                         {{ dateToString(voteEndTime) }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="弃票时间">
+                <el-form-item label="Nullification time">
                     <el-text tag="p" line-clamp="100" class="dialogs">
                         {{
                             dateToString(nulStartTime) +
@@ -67,7 +67,7 @@
                         }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="trustee数量">
+                <el-form-item label="Trustee number">
                     <el-text tag="p" line-clamp="100" class="dialogs">
                         {{ EACount }}
                     </el-text>

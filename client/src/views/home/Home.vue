@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 页头 -->
-        <PageHeader content="首页" />
+        <PageHeader content="Home page" />
 
         <!-- 卡片1：头像+欢迎 -->
         <el-card class="box-card">
@@ -13,7 +13,7 @@
                 </el-col>
                 <!-- 欢迎 -->
                 <el-col :span="20" style="display: flex; align-items: center">
-                    <h3>欢迎回来，{{ store.state.userInfo.username }}</h3>
+                    <h3>Welcome back, {{ store.state.userInfo.username }}</h3>
                 </el-col>
             </el-row>
         </el-card>

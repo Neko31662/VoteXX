@@ -1,5 +1,5 @@
 <template>
     <div>
-        <el-empty description="页面不存在哦" />
+        <el-empty description="Page not found" />
     </div>
 </template>

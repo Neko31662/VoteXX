@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 页头 -->
-        <PageHeader content="个人中心" />
+        <PageHeader content="Personal center" />
 
         <el-row :gutter="20">
             <el-col :span="8">
@@ -16,7 +16,7 @@
                     <!-- 卡片头部 -->
                     <template #header>
                         <div class="card-header">
-                            <span>个人信息</span>
+                            <span>Personal information</span>
                         </div>
                     </template>
 
@@ -51,13 +51,13 @@ const avatarUrl = computed(() =>
 const getRole = (role) => {
     switch (role) {
         case 1:
-            return "管理员";
+            return "admin";
         case 2:
-            return "用户";
+            return "user";
         case 3:
             return "trustee";
         default:
-            return "用户权限信息错误";
+            return "User permission information error";
     }
 };
 </script>

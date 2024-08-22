@@ -1,7 +1,7 @@
 <template>
     <el-card>
         <template #header>
-            <h3>投票阶段</h3>
+            <h3>Voting phase</h3>
         </template>
         <el-form
             label-width="auto"
@@ -11,20 +11,20 @@
             status-icon
             :rules="votingRules"
         >
-            <el-form-item label="投票截止时间">
+            <el-form-item label="Voting deadline">
                 <el-text tag="p" line-clamp="10000">
                     {{ dateToString(voteEndTime) }}
                 </el-text>
             </el-form-item>
-            <el-form-item label="请输入投票密钥" prop="sk_string">
+            <el-form-item label="Please enter voting secret key" prop="sk_string">
                 <el-input v-model="votingForm.sk_string" autocomplete="off" />
             </el-form-item>
         </el-form>
         <template #footer>
             <el-button @click="router.push('/vote-manage/votelist')">
-                退出
+                Exit
             </el-button>
-            <el-button type="primary" @click="vote()">投票</el-button>
+            <el-button type="primary" @click="vote()">Vote</el-button>
         </template>
     </el-card>
 </template>
@@ -73,7 +73,7 @@ const votingRules = reactive({
                 const hexRegex = /^[0-9a-f]+$/;
                 return hexRegex.test(value);
             },
-            message: "密钥应当只包含0-9以及小写字母a-f",
+            message: "The key should only contain 0-9 and lowercase letters a-f",
             trigger: "blur",
         },
     ],
@@ -100,7 +100,7 @@ const vote = () => {
                     return;
                 }
             } catch (err) {
-                ElMessage.error("获取公钥失败");
+                ElMessage.error("Failed to get public key");
                 return;
             }
             let election_pk = new ElgamalPublicKey(
@@ -126,14 +126,14 @@ const vote = () => {
                 })
                 .then((res) => {
                     if (res.data.ActionType === "ok") {
-                        ElMessage.success("投票成功");
+                        ElMessage.success("Vote successfully");
                         router.push("/vote-manage/votelist");
                     } else {
                         ElMessage.error(res.data.error);
                     }
                 })
                 .catch((err) => {
-                    ElMessage.error("投票失败");
+                    ElMessage.error("Vote failed");
                 });
         }
     });

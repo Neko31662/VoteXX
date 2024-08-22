@@ -1,7 +1,7 @@
 <template>
     <el-card>
         <template #header>
-            <h3>注册阶段</h3>
+            <h3>Registration phase</h3>
         </template>
         <el-form
             label-width="auto"
@@ -11,7 +11,7 @@
             status-icon
             :rules="registrationRules"
         >
-            <el-form-item label="注册截止时间">
+            <el-form-item label="Registration deadline">
                 <el-text tag="p" line-clamp="10000">
                     {{ dateToString(regEndTime) }}
                 </el-text>
@@ -21,16 +21,16 @@
             <el-card shadow="never" v-if="!confirmKey" class="copy-card">
                 <template #header>
                     <el-text tag="p" line-clamp="10000">
-                        <b>选择一组投票密钥</b>
+                        <b>Choose a set of voting keys</b>
                     </el-text>
                 </template>
                 <el-form label-width="auto">
-                    <el-form-item label="赞成票密钥">
+                    <el-form-item label="sk_yes">
                         <el-text tag="p" line-clamp="10000">
                             {{ sk_yes_string }}
                         </el-text>
                     </el-form-item>
-                    <el-form-item label="反对票密钥">
+                    <el-form-item label="sk_no">
                         <el-text tag="p" line-clamp="10000">
                             {{ sk_no_string }}
                         </el-text>
@@ -39,7 +39,7 @@
 
                 <template #footer>
                     <!-- 刷新按钮 -->
-                    <el-tooltip content="换一组" placement="bottom">
+                    <el-tooltip content="Refresh" placement="bottom">
                         <el-button :icon="Refresh" link @click="generateKeys" />
                     </el-tooltip>
 
@@ -61,18 +61,18 @@
             <div v-if="confirmKey">
                 <el-form-item>
                     <el-text tag="p" line-clamp="10000">
-                        投票密钥对于投票十分重要，且
-                        <b>不可通过任何方式找回</b>
-                        ，请妥善保管您的投票密钥
+                        Voting secret keys are very important, and
+                        <b>cannot be retrieved by any means</b>
+                        , please keep your voting secret keys safe.
                     </el-text>
                 </el-form-item>
                 <el-form-item>
                     <el-text tag="p" line-clamp="10000">
-                        <h3>确认您的投票密钥以继续</h3>
+                        <h3>Confirm your voting key to continue</h3>
                     </el-text>
                 </el-form-item>
                 <el-form-item
-                    label="请输入赞成票密钥"
+                    label="Please enter sk_yes"
                     prop="sk_yes_stringVerify"
                 >
                     <el-input
@@ -81,7 +81,7 @@
                     />
                 </el-form-item>
                 <el-form-item
-                    label="请输入反对票密钥"
+                    label="Please enter sk_no"
                     prop="sk_no_stringVerify"
                 >
                     <el-input
@@ -93,22 +93,22 @@
         </el-form>
         <template #footer>
             <el-button @click="router.push('/vote-manage/votelist')">
-                退出
+                Exit
             </el-button>
             <el-button
                 type="primary"
                 v-if="!confirmKey"
                 @click="confirmKey = !confirmKey"
             >
-                下一步
+                Next
             </el-button>
 
             <el-button v-if="confirmKey" @click="confirmKey = !confirmKey">
-                返回
+                Back
             </el-button>
 
             <el-button type="primary" v-if="confirmKey" @click="submitForm()">
-                注册
+                Register
             </el-button>
         </template>
     </el-card>
@@ -180,7 +180,7 @@ const registrationRules = reactive({
             validator: (rule, value) => {
                 return value === sk_yes_string.value;
             },
-            message: "赞成票密钥输入错误",
+            message: "sk_yes entered incorrectly",
             trigger: "blur",
         },
     ],
@@ -189,7 +189,7 @@ const registrationRules = reactive({
             validator: (rule, value) => {
                 return value === sk_no_string.value;
             },
-            message: "反对票密钥输入错误",
+            message: "sk_no entered incorrectly",
             trigger: "blur",
         },
     ],
@@ -216,7 +216,7 @@ const submitForm = () => {
                     return;
                 }
             } catch (err) {
-                ElMessage.error("获取公钥失败");
+                ElMessage.error("Failed to get public key");
                 return;
             }
             let pk = new ElgamalPublicKey(ec, deserialize(pk_serialized, ec));
@@ -233,21 +233,21 @@ const submitForm = () => {
                 })
                 .then((res) => {
                     if (res.data.ActionType === "ok") {
-                        ElMessage.success("注册成功");
+                        ElMessage.success("Registration successful");
                         router.push("/vote-manage/votelist");
                     } else {
                         ElMessage.error(res.data.error);
                     }
                 })
                 .catch((err) => {
-                    ElMessage.error("注册失败");
+                    ElMessage.error("Registration failed");
                 });
         }
     });
 };
 
 //鼠标悬停在复制投票凭证的按钮上时，显示的提示文字
-const privateKeyCopyTipContent = ref("复制密钥");
+const privateKeyCopyTipContent = ref("Copy secret key");
 
 //日期转换为字符串的格式
 const options = {
@@ -271,16 +271,16 @@ const dateToString = (date) => {
  */
 const copyToken = () => {
     const str =
-        "赞成票密钥：" +
+        "sk_yes: " +
         sk_yes_string.value +
         "\n" +
-        "反对票密钥：" +
+        "sk_no: " +
         sk_no_string.value;
 
     navigator.clipboard.writeText(str).then(() => {
-        privateKeyCopyTipContent.value = "已复制到剪贴板";
+        privateKeyCopyTipContent.value = "Copied to clipboard";
         setTimeout(() => {
-            privateKeyCopyTipContent.value = "复制密钥";
+            privateKeyCopyTipContent.value = "Copy secret key";
         }, 2000);
     });
 };

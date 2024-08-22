@@ -1,5 +1,5 @@
 <template>
-    <PageHeader content="我发布的投票" />
+    <PageHeader content="Elections created by me" />
 
     <el-row
         v-for="i in 5"
