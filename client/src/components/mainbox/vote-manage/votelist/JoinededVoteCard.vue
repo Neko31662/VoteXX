@@ -72,9 +72,9 @@
                         {{ EACount }}
                     </el-text>
                 </el-form-item>
-                <el-form-item label="是否允许创建者投票">
+                <el-form-item label="Allow the creater to vote">
                     <el-text tag="p" line-clamp="10000" class="dialogs">
-                        {{ voteByOwner ? "允许" : "不允许" }}
+                        {{ voteByOwner ? "Allow" : "Not allow" }}
                     </el-text>
                 </el-form-item>
             </el-form>

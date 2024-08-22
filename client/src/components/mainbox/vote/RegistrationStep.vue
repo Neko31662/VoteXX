@@ -298,7 +298,7 @@ onBeforeMount(() => {
 }
 
 .el-card {
-    max-width: 700px;
+    max-width: 800px;
 }
 /*---元素宽度---*/
 

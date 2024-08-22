@@ -53,7 +53,7 @@
                     <el-checkbox
                         prop="voteByOwner"
                         v-model="createVoteForm[0].voteByOwner"
-                        label="允许创建者投票"
+                        label="Allow the creater to vote"
                     />
                 </el-form>
 
