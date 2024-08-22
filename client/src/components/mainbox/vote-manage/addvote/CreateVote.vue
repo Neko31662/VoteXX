@@ -49,6 +49,12 @@
                             type="textarea"
                         />
                     </el-form-item>
+
+                    <el-checkbox
+                        prop="voteByOwner"
+                        v-model="createVoteForm[0].voteByOwner"
+                        label="允许创建者投票"
+                    />
                 </el-form>
 
                 <!-- 第二步 -->
@@ -253,6 +259,7 @@ const createVoteForm = [];
 createVoteForm[0] = reactive({
     voteName: "",
     voteIntro: "",
+    voteByOwner: false
 });
 
 createVoteForm[1] = reactive({

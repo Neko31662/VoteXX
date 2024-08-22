@@ -48,6 +48,8 @@ const VoteController = {
             res.send({ error: "Election does not exist or has ended" });
         } else if (result === -3) {
             res.send({ info: "Already joined the election" });
+        } else if (result === -4) {
+            res.send({ info: "The creator of this election is not allowed to join the election itself" });
         }
         else if (result === -100) {
             res.send({ error: "Database error" });
@@ -114,8 +116,8 @@ const VoteController = {
         } else {
             let responseData = [];
             await result.forEach((value, index) => {
-                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount } = value;
-                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount };
+                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, voteByOwner } = value;
+                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, voteByOwner };
             });
             res.send({
                 ActionType: "ok",
@@ -140,8 +142,8 @@ const VoteController = {
         } else {
             let responseData = [];
             await result.forEach((value, index) => {
-                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount } = value;
-                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount };
+                let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, voteByOwner } = value;
+                responseData[index] = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, voteByOwner };
             });
             res.send({
                 ActionType: "ok",
@@ -191,9 +193,9 @@ const VoteController = {
             res.send({ error: "Database error" });
         } else {
             let responseData = [];
-            let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state } = result;
+            let { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state, voteByOwner } = result;
             let results = result.BB.results;
-            responseData = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state, results };
+            responseData = { _id, voteName, voteIntro, regEndTime, voteEndTime, nulStartTime, nulEndTime, EACount, state, results, voteByOwner };
             res.send({
                 ActionType: "ok",
                 data: responseData

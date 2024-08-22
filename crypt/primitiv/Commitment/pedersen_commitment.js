@@ -66,7 +66,6 @@ class PublicKey {
     }
 
     /**
-     * 特殊的Pedersen's commitment，在一个commitment里承诺多个数，
      * @param {*} values 数组
      * @param {*} reduced_n 数组长度
      * @param {*} randomizer 

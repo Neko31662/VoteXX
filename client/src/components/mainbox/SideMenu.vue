@@ -21,7 +21,7 @@
                 <span>Personal center</span>
             </el-menu-item>
 
-            <el-sub-menu index="/user-manage">
+            <!-- <el-sub-menu index="/user-manage">
                 <template #title>
                     <el-icon>
                         <UserFilled />
@@ -34,7 +34,7 @@
                 <el-menu-item index="/user-manage/userlist">
                     Test path 2
                 </el-menu-item>
-            </el-sub-menu>
+            </el-sub-menu> -->
 
             <el-sub-menu index="/vote-manage">
                 <template #title>

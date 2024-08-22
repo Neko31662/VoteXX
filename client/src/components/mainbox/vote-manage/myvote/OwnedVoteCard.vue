@@ -79,6 +79,11 @@
                         {{ EACount }}
                     </el-text>
                 </el-form-item>
+                <el-form-item label="是否允许创建者投票">
+                    <el-text tag="p" line-clamp="10000" class="dialogs">
+                        {{ voteByOwner ? "允许" : "不允许" }}
+                    </el-text>
+                </el-form-item>
             </el-form>
         </el-scrollbar>
     </el-dialog>
@@ -154,6 +159,7 @@ const props = defineProps({
     nulEndTime: Date,
     EACount: Number,
     _id: String,
+    voteByOwner: Boolean,
 });
 
 const dialogVisible = ref(false);
