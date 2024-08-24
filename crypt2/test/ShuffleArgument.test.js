@@ -113,15 +113,15 @@ describe(`Test of 'ShuffleArgument.js', n=${n}, m=${m}.`, function () {
         });
 
         it("Test of 'VerifiableShuffle.shuffleWithProof'", () => {
-            let tmp = VerifiableShuffle.shuffleWithProof(
+            let [output_ctxts2, proof2] = VerifiableShuffle.shuffleWithProof(
                 ec,
                 pk,
                 ck,
                 global.input_ctxts,
                 m
             );
-            global.output_ctxts2 = tmp.output_ctxts;
-            global.proof2 = tmp.proof;
+            global.output_ctxts2 = output_ctxts2;
+            global.proof2 = proof2;
         });
 
         it("Test of 'VerifiableShuffle.verifyProof'", () => {
@@ -276,15 +276,15 @@ describe(`Test of 'ShuffleArgument.js', n=${n}, m=${m}.`, function () {
         });
 
         it("Test of 'VerifiableShuffle.shuffleWithProof'", () => {
-            let tmp = VerifiableShuffle.shuffleWithProof(
+            let [output_ctxts2, proof2] = VerifiableShuffle.shuffleWithProof(
                 ec,
                 pk,
                 ck,
                 global.input_ctxts,
                 m
             );
-            global.output_ctxts2 = tmp.output_ctxts;
-            global.proof2 = tmp.proof;
+            global.output_ctxts2 = output_ctxts2;
+            global.proof2 = proof2;
         });
 
         it("Test of 'VerifiableShuffle.verifyProof'", () => {
@@ -434,15 +434,15 @@ describe(`Test of 'ShuffleArgument.js', n=${n}, m=${m}.`, function () {
         });
 
         it("Test of 'VerifiableShuffle.shuffleWithProof'", () => {
-            let tmp = VerifiableShuffle.shuffleWithProof(
+            let [output_ctxts2, proof2] = VerifiableShuffle.shuffleWithProof(
                 ec,
                 pk,
                 ck,
                 global.input_ctxts,
                 m
             );
-            global.output_ctxts2 = tmp.output_ctxts;
-            global.proof2 = tmp.proof;
+            global.output_ctxts2 = output_ctxts2;
+            global.proof2 = proof2;
         });
 
         it("Test of 'VerifiableShuffle.verifyProof'", () => {
@@ -605,15 +605,15 @@ describe(`Test of 'ShuffleArgument.js', n=${n}, m=${m}.`, function () {
         });
 
         it("Test of 'VerifiableShuffle.shuffleWithProof'", () => {
-            let tmp = VerifiableShuffle.shuffleWithProof(
+            let [output_ctxts2, proof2] = VerifiableShuffle.shuffleWithProof(
                 ec,
                 pk,
                 ck,
                 global.input_ctxts,
                 m
             );
-            global.output_ctxts2 = tmp.output_ctxts;
-            global.proof2 = tmp.proof;
+            global.output_ctxts2 = output_ctxts2;
+            global.proof2 = proof2;
         });
 
         it("Test of 'VerifiableShuffle.verifyProof'", () => {

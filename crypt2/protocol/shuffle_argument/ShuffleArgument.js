@@ -730,7 +730,7 @@ class VerifiableShuffle {
         let { input_ctxt_matrix, output_ctxt_matrix, pi_matrix, rho_matrix } = transformToMatrix(ec, input_ctxts, output_ctxts, permutation, rho_vector, m);
         let proof = (new ShuffleArgument()).generateShuffleProof(ec, pk, ck, input_ctxt_matrix, output_ctxt_matrix, pi_matrix, rho_matrix);
 
-        return { output_ctxts, proof };
+        return [ output_ctxts, proof ];
     }
 
     /**
@@ -742,7 +742,7 @@ class VerifiableShuffle {
      * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} input_ctxts An array composed of Elgamal ciphertext or Elgamal ciphertext vectors 
      * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} output_ctxts The result obtained by shuffling input_ctxts
      * @param {ShuffleProof} proof The proof of shuffle
-     * @param {*} m The number of columns in the matrix, which defaults to 2
+     * @param {number} m The number of columns in the matrix, which defaults to 2
      * @returns {Boolean}
      */
     verifyProof(ec, pk, ck, input_ctxts, output_ctxts, proof, m = 2) {

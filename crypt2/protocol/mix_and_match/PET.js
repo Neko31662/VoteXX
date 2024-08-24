@@ -160,19 +160,12 @@ class PET_data {
 }
 
 class PET_exec {
-    /**
-     * Add a property 'ctxt_dif' to PETData.
-     * 
-     * ctxt_dif is the difference between ctxt1 and ctxt2, i.e., ctxt1 / ctxt2.
-     * @param {PET_data} PETData 
-     */
-    calDifference(PETData) {
-        let tmp = ElgamalCiphertext_exec.neg(PETData.ctxt2);
-        PETData.ctxt_dif = ElgamalCiphertext_exec.add(PETData.ctxt1, tmp);
-    }
 
     /**
-     * Randomly choose z and calculate ctxt_dif ^ z, then provide a NIZK of it.
+     * Firstly, add a property 'ctxt_dif' to PETData,
+     * which is the difference between ctxt1 and ctxt2, i.e., ctxt1 / ctxt2.
+     * 
+     * Then, randomly choose z and calculate ctxt_dif ^ z, then provide a NIZK of it.
      * 
      * Add properties 'statement', 'witness' and 'proof' to PETData,
      * where 'PETData.statement.new_ctxt' is ctxt_dif ^ z.
@@ -180,7 +173,10 @@ class PET_exec {
      * @param {PedersenPublicKey} ck 
      * @param {PET_data} PETData 
      */
-    raiseToExponentAndProof(ec, ck, PETData) {
+    prepare(ec, ck, PETData) {
+        let tmp = ElgamalCiphertext_exec.neg(PETData.ctxt2);
+        PETData.ctxt_dif = ElgamalCiphertext_exec.add(PETData.ctxt1, tmp);
+
         let old_ctxt = PETData.ctxt_dif;
         let z = ec.randomBN();
         let new_ctxt = ElgamalCiphertext_exec.mul(old_ctxt, z);
@@ -233,10 +229,10 @@ module.exports = {
      * 
      * Step1: Initialize a new PET_data class PETData with ctxt1 and ctxt2.
      * 
-     * Step2: Invoke in function 'calDifference' to calculate the difference between ctxt1 and ctxt2.
+     * Step2: Invoke in function 'prepare' to calculate ctxt_dif ^ z and provide a NIZK of it,
+     * broadcast 'PETData.statement.c_z' firstly.
      * 
-     * Step3: Invoke in function 'raiseToExponentAndProof' to calculate ctxt_dif ^ z and provide a NIZK of it,
-     * broadcast 'PETData.statement' and 'PETData.proof'.
+     * Step3: After all commitments are verified, broadcast 'PETData.statement','PETData.proof'. 
      * 
      * Step4: For each other player, invoke in function 'verifyProof' to check the validity of it's NIZK.
      * 

@@ -50,8 +50,7 @@ describe(`Test of 'PET.js'`, function () {
             let ctxt_list = [];
             for (let i = 0; i < n; i++) {
                 PETData[i] = new PET_data(ctxt1, ctxt2);
-                PET_exec.calDifference(PETData[i]);
-                PET_exec.raiseToExponentAndProof(ec, ck, PETData[i]);
+                PET_exec.prepare(ec, ck, PETData[i]);
 
                 statementList[i] = PETData[i].statement;
                 proofList[i] = PETData[i].proof;
@@ -77,8 +76,7 @@ describe(`Test of 'PET.js'`, function () {
             let ctxt_list = [];
             for (let i = 0; i < n; i++) {
                 PETData[i] = new PET_data(ctxt1, ctxt3);
-                PET_exec.calDifference(PETData[i]);
-                PET_exec.raiseToExponentAndProof(ec, ck, PETData[i]);
+                PET_exec.prepare(ec, ck, PETData[i]);
 
                 statementList[i] = PETData[i].statement;
                 proofList[i] = PETData[i].proof;
@@ -104,8 +102,7 @@ describe(`Test of 'PET.js'`, function () {
             let ctxt_list = [];
             for (let i = 0; i < n; i++) {
                 PETData[i] = new PET_data(ctxt1, ctxt2);
-                PET_exec.calDifference(PETData[i]);
-                PET_exec.raiseToExponentAndProof(ec, ck, PETData[i]);
+                PET_exec.prepare(ec, ck, PETData[i]);
 
                 statementList[i] = deserialize(serialize(PETData[i].statement), ec);
                 proofList[i] = deserialize(serialize(PETData[i].proof), ec);
