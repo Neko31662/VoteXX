@@ -27,26 +27,6 @@ const EAVoteService = {
         }
     },
 
-    /**
-     * 获取该trustee的私钥
-     * @param {{ voteID:String }} params 
-     * 成功返回序列化后的私钥;
-     * 数据库错误返回-100;
-     */
-    getPrivateKey: async (params) => {
-        const { voteID } = params;
-
-        let voteInfo = null;
-        try {
-            voteInfo = await EAVoteModel.findOne({ voteID });
-        } catch (err) {
-            return -100;
-        }
-        let DKG_instance = deserialize(voteInfo.DKG_instance_serialized);
-        let result = serialize(DKG_instance.xi);
-        return result;
-    }
-
 };
 
 module.exports = EAVoteService;

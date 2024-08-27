@@ -76,6 +76,7 @@ class DKG_exec {
      * @param {EC} ec
      * @param {Point[]} yiList 
      * @param {DKG | undefined} item 
+     * @returns {Point}
      */
     calculatePublic(ec, yiList, item) {
         let res = ec.infinitePoint();

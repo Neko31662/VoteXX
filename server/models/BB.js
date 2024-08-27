@@ -5,7 +5,6 @@ const EC = require('elliptic').ec;
 const curve = new EC('secp256k1');
 const BN = require('bn.js');
 
-const { generateRandomNumber } = require('../../crypt/protocol/DKG/dkg');
 const { serialize } = require("../../crypt/util/CryptoSerializer");
 
 const BBType = {

@@ -6,7 +6,6 @@ const DKGRouter = require("./DKGRouter");
 const FinalTallyRouter = require("./FinalTallyRouter");
 
 EAVoteRouter.post("/ea-vote/join-vote", EAVoteController.joinVote);
-EAVoteRouter.post("/ea-vote/get-private-key", EAVoteController.getPrivateKey);
 EAVoteRouter.use(DKGRouter);
 EAVoteRouter.use(FinalTallyRouter);
 
