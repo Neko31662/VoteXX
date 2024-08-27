@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const VoteModel = require("../models/VoteModel");
 const shuffleQuery = require("../querys/ShuffleQuery");
-const DKGQuery = require("../querys/DKGQuery");
+const { generateKeyQuery, decryptQuery } = require("../querys/DKGQuery");
 const provisionalTallyQuery = require("../querys/ProvisionalTallyQuery");
 const FinalTallyQuery = require("../querys/FinalTallyQuery");
+const { deserialize, serialize } = require("../../crypt/util/Serializer");
 
 //数据库连接
 mongoose.connect("mongodb://127.0.0.1:27017/VoteXX_Database");
@@ -53,7 +54,7 @@ const IntervalTask1 = async () => {
 const IntervalTask2 = async () => {
     let voteInfos = await VoteModel.find({ state: 0 });
     for (let voteInfo of voteInfos) {
-        DKGQuery(voteInfo._id).then(() => {
+        generateKeyQuery(voteInfo._id).then(() => {
             VoteModel.updateOne({ _id: voteInfo._id }, {
                 $set: { state: 1 }
             }).then().catch();
@@ -104,7 +105,23 @@ const IntervalTask2 = async () => {
 //开启定时任务
 setInterval(IntervalTask1, updateVoteStateInterval1);
 setInterval(IntervalTask2, updateVoteStateInterval2);
-// IntervalTask2();
+IntervalTask2();
 
+async function test() {
+    const ec = require('../../crypt/primitiv/ec/ec');
+    const { ElgamalEnc } = require('../../crypt/primitiv/encryption/ElGamal');
+    let _id = '66cdcd3e8ab5fe8352c1e34d';
+    let voteInfo = await VoteModel.findById(_id);
+    let pk = voteInfo.BB.election_pk;
+    pk = deserialize(pk, ec);
+
+    let msg = ec.randomPoint();
+    console.log(serialize(msg));
+    let ctxt = ElgamalEnc.encrypt(ec, pk, msg);
+    let plain = await decryptQuery(ec, _id, serialize(ctxt));
+    console.log(serialize(plain));
+
+}
+test();
 
 

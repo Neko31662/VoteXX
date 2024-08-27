@@ -2,7 +2,7 @@ const VoteModel = require("../models/VoteModel");
 const JWT = require("../util/JWT");
 const createVoteQuery = require("../querys/CreateVoteQuery");
 
-const { serialize, deserialize } = require("../../crypt/util/CryptoSerializer");
+const { serialize, deserialize } = require("../../crypt/util/Serializer");
 
 /**
  * 验证创建投票数据的合法性，返回布尔值

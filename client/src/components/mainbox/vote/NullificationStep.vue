@@ -56,13 +56,13 @@ import elliptic from "elliptic";
 const EC = elliptic.ec;
 const ec = require("@/../../crypt/primitiv/ec/ec");
 import BN from "bn.js";
-import { serialize, deserialize } from "@/../../crypt/util/CryptoSerializer";
-import { LiftedElgamalEnc } from "@/../../crypt/primitiv/encryption/ElgamalEncryption";
-import {
-    Statement,
-    Witness,
-    NullificationNIZK,
-} from "@/../../crypt/protocol/NIZKs/nullification";
+import { serialize, deserialize } from "@/../../crypt/util/Serializer";
+import { LiftedElgamalEnc } from "@/../../crypt/primitiv/encryption/LiftedElGamal";
+// import {
+//     Statement,
+//     Witness,
+//     NullificationNIZK,
+// } from "@/../../crypt/protocol/NIZKs/nullification";
 
 const props = defineProps({
     _id: String,

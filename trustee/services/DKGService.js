@@ -73,15 +73,23 @@ const DKGService = {
         let DKG_instance = deserialize(DKG_instance_serialized, ec);
 
         let yiList = [];
+        let cur_index = 0;
         for (let value of data) {
             let { yi_serialized, proof_serialized } = value;
             let yi = deserialize(yi_serialized, ec);
             let proof = deserialize(proof_serialized, ec);
             let res = DKG_exec.verifyDKGProof(ec, yi, proof);
             if (!res) return false;
+
+            if (cur_index === DKG_instance.seq) {
+                yiList.push(DKG_instance.yi);
+            }
             yiList.push(yi);
+            cur_index++;
         }
-        yiList.push(DKG_instance.yi);
+        if (cur_index === DKG_instance.seq) {
+            yiList.push(DKG_instance.yi);
+        }
 
         let result = DKG_exec.calculatePublic(ec, yiList, DKG_instance);
 

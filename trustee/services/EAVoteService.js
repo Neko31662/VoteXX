@@ -1,4 +1,4 @@
-const { serialize, deserialize } = require("../../crypt/util/CryptoSerializer");
+const { serialize, deserialize } = require("../../crypt/util/Serializer");
 const EAVoteModel = require("../models/EAVoteModel");
 
 const EAVoteService = {

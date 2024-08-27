@@ -1,6 +1,6 @@
 const VoteModel = require("../models/VoteModel");
 
-const { serialize, deserialize } = require("../../crypt/util/CryptoSerializer");
+const { serialize, deserialize } = require("../../crypt/util/Serializer");
 
 
 const VotePrivateService = {

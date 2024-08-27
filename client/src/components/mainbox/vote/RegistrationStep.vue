@@ -126,9 +126,9 @@ import { ElMessage } from "element-plus";
 import elliptic from "elliptic";
 const EC = elliptic.ec;
 const ec = new EC("secp256k1");
-const ElgamalPublicKey =
-    require("@/../../crypt/primitiv/encryption/ElgamalEncryption").ElgamalPublicKey;
-import { serialize, deserialize } from "@/../../crypt/util/CryptoSerializer";
+// const ElgamalPublicKey =
+//     require("@/../../crypt/primitiv/encryption/ElGamal").ElgamalPublicKey;
+import { serialize, deserialize } from "@/../../crypt/util/Serializer";
 
 const props = defineProps({
     _id: String,

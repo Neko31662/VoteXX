@@ -1,12 +1,12 @@
-const BN = require('bn.js');
-const elliptic = require('elliptic');
-const EC = elliptic.ec;
-const ec = require("../../crypt/primitiv/ec/ec");
-const crypto = require('crypto');
-var SHA256 = require('crypto-js/sha256');
-const { DKG } = require('../../crypt/protocol/DKG/dkg');
-const { DistributeDecryptor, PET } = require('../../crypt/protocol/MIX_AND_MATCH/mix_and_match');
-const { serialize, deserialize } = require('../../crypt/util/CryptoSerializer');
+// const BN = require('bn.js');
+// const elliptic = require('elliptic');
+// const EC = elliptic.ec;
+// const ec = require("../../crypt/primitiv/ec/ec");
+// const crypto = require('crypto');
+// var SHA256 = require('crypto-js/sha256');
+// const { DKG } = require('../../crypt/protocol/DKG/dkg');
+// const { DistributeDecryptor, PET } = require('../../crypt/protocol/MIX_AND_MATCH/mix_and_match');
+// const { serialize, deserialize } = require('../../crypt/util/CryptoSerializer');
 
 
 const EAVoteModel = require("../models/EAVoteModel");

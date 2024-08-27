@@ -1,17 +1,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const EC = require('elliptic').ec;
-const curve = new EC('secp256k1');
-const BN = require('bn.js');
-
-const { serialize } = require("../../crypt/util/CryptoSerializer");
+const { serialize } = require("../../crypt/util/Serializer");
+const ec = require('../../crypt/primitiv/ec/ec');
+const BN = require('../../crypt/primitiv/bn/bn');
 
 const BBType = {
     generatorH: {
         required: true,
         type: String,
-        default: serialize(curve.g.mul(generateRandomNumber(curve)))
+        default: serialize(ec.curve.g.mul(ec.randomBN()))
     },
     yiList: {
         required: true,

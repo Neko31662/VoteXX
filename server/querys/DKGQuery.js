@@ -148,6 +148,8 @@ const { getAllTrusteeAddress } = require("./methods");
 const { deserialize } = require("../../crypt/util/Serializer");
 const { DKG_exec } = require("../../crypt/protocol/DKG/DKG");
 
+const VoteModel = require("../models/VoteModel");
+
 /**
  * 向所有trustee发送生成DKG密钥的请求
  * @param {String} voteID 投票的_id
@@ -256,6 +258,7 @@ const generateKeyQuery = async (voteID) => {
 
 /**
  * 对一个序列化的密文进行分布式（Lifted）ElGamal解密，返回明文（未被序列化）
+ * @param {EC} ec
  * @param {string} voteID 
  * @param {string} ctxt_serialized 
  * @param {boolean} isLifted 
@@ -264,7 +267,7 @@ const generateKeyQuery = async (voteID) => {
  * @returns {number | false | Point}
  */
 const decryptQuery = async (
-    voteID, ctxt_serialized,
+    ec, voteID, ctxt_serialized,
     isLifted = false, min_val = 0, max_val = 8192
 ) => {
 
