@@ -12,9 +12,9 @@ let a1 = g.mul(new BN(1).tryToRed(red).redNeg());
 let a2 = g.mul(n.subn(1));
 let a3 = g.mul(n.add(n).subn(1));
 
-console.log(a1.encode('hex',1));
-console.log(a2.encode('hex',1));
-console.log(a3.encode('hex',1));
+console.log(a1.encode('hex', 1));
+console.log(a2.encode('hex', 1));
+console.log(a3.encode('hex', 1));
 
 
 

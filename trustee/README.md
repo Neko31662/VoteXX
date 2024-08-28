@@ -14,4 +14,3 @@ npm start 3805 trustee5 neko31662 EADB5
 ```
 
 By default, at least 2 and at most 5 trustees are supported.
-

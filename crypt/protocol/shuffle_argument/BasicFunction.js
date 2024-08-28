@@ -1,5 +1,5 @@
 const BN = require('../../primitiv/bn/bn');
-const {ElgamalCiphertext_exec, ElgamalEnc } = require('../../primitiv/encryption/ElGamal');
+const { ElgamalCiphertext_exec, ElgamalEnc } = require('../../primitiv/encryption/ElGamal');
 
 /**
  * This function DO NOT deep copy elements.

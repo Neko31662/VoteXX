@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const VoteModel = require("../models/VoteModel");
-const shuffleQuery = require("../querys/ShuffleQuery");
+const { shuffleQuery, shuffleAfterRegQuery } = require("../querys/ShuffleQuery");
 const { generateKeyQuery, decryptQuery } = require("../querys/DKGQuery");
 const provisionalTallyQuery = require("../querys/ProvisionalTallyQuery");
 const FinalTallyQuery = require("../querys/FinalTallyQuery");
@@ -66,12 +66,12 @@ const IntervalTask2 = async () => {
 
     voteInfos = await VoteModel.find({ state: 2 });
     for (let voteInfo of voteInfos) {
-        shuffleQuery(voteInfo._id).then(() => {
+        shuffleAfterRegQuery(voteInfo._id).then(() => {
             VoteModel.updateOne({ _id: voteInfo._id }, {
                 $set: { state: 3 }
             }).then().catch();
         }).catch((err) => {
-            console.log("shuffleQueryErr", err);
+            console.log("shuffleAfterRegQueryErr", err);
             // throw err;
         });
     }
@@ -111,17 +111,8 @@ async function test() {
     const ec = require('../../crypt/primitiv/ec/ec');
     const { ElgamalEnc } = require('../../crypt/primitiv/encryption/ElGamal');
     let _id = '66cdcd3e8ab5fe8352c1e34d';
-    let voteInfo = await VoteModel.findById(_id);
-    let pk = voteInfo.BB.election_pk;
-    pk = deserialize(pk, ec);
 
-    let msg = ec.randomPoint();
-    console.log(serialize(msg));
-    let ctxt = ElgamalEnc.encrypt(ec, pk, msg);
-    let plain = await decryptQuery(ec, _id, serialize(ctxt));
-    console.log(serialize(plain));
-
+    shuffleAfterRegQuery(_id);
 }
 test();
-
 

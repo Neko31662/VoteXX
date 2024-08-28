@@ -23,7 +23,9 @@
                         <h3>Please wait</h3>
                     </template>
                     <el-empty description=" ">
-                        <el-text>Trustees are organizing information, please wait.</el-text>
+                        <el-text>
+                            Trustees are organizing information, please wait.
+                        </el-text>
                     </el-empty>
                     <template #footer>
                         <el-button

@@ -80,7 +80,7 @@ const VoteType = {
     /**
      * 是否允许投票者投票
      */
-    voteByOwner:{
+    voteByOwner: {
         required: true,
         type: Boolean,
     },

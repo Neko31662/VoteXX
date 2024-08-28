@@ -103,7 +103,8 @@ const signUpRules = reactive({
                 const hasNonASCII = /[^\x00-\x7F]/.test(value);
                 return hasDigit && hasLetter && !hasNonASCII;
             },
-            message: "Password should contain at least one number and one letter and no non-English characters",
+            message:
+                "Password should contain at least one number and one letter and no non-English characters",
             trigger: "blur",
         },
     ],

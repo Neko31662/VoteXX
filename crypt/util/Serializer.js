@@ -73,20 +73,20 @@ function serialize(obj) {
 
     // string
     if (typeof obj === 'string') {
-        return `"${obj}"`;  
+        return `"${obj}"`;
     }
 
     // number, boolean, null
     else if (typeof obj === 'number' || typeof obj === 'boolean' || obj === null) {
-        return `${obj}`;  
+        return `${obj}`;
     }
-    
+
     // array
     else if (Array.isArray(obj)) {
         const elements = obj.map(element => serialize(element)).join(',');
         return `[${elements}]`;
-    } 
-    
+    }
+
     // object
     else if (typeof obj === 'object') {
         //Curve
@@ -114,8 +114,8 @@ function serialize(obj) {
             }
         }
         return `{${pairs.join(',')}}`;
-    } 
-    
+    }
+
     else {
         return '';
     }
@@ -129,7 +129,7 @@ function serialize(obj) {
  * @param {EC} ec 
  * @returns {Object}
  */
-function deserialize(serializedObj, ec = ec_default){
+function deserialize(serializedObj, ec = ec_default) {
     const revive = (key, value) => {
 
         //Curve
@@ -149,7 +149,7 @@ function deserialize(serializedObj, ec = ec_default){
         //BN
         else if (typeof value === "string" && value.startsWith("<<BN>>")) {
             let [sign, val] = value.split(" ");
-            return new BN(val,"hex");
+            return new BN(val, "hex");
         }
 
         //Other

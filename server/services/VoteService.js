@@ -96,7 +96,7 @@ const VoteService = {
         if (!valid) return -1;
 
         let voteID = valid._id ? valid._id : "###";
-        let voteInfo=null;
+        let voteInfo = null;
         try {
             voteInfo = await VoteModel.findById(voteID);
             if (!voteInfo) return -2;
@@ -105,7 +105,7 @@ const VoteService = {
         }
 
         let userID = params.userID;
-        if(voteInfo.owner == userID && voteInfo.voteByOwner!==true){
+        if (voteInfo.owner == userID && voteInfo.voteByOwner !== true) {
             return -4;
         }
 

@@ -21,8 +21,8 @@
 
 // /**
 //  * 对最终计票进行初始化
-//  * @param {*} voteID 
-//  * @returns 
+//  * @param {*} voteID
+//  * @returns
 //  * 成功返回0;
 //  * 获取trustee服务地址列表失败返回-1;
 //  * 初始化失败返回-2;
@@ -72,9 +72,9 @@
 
 // /**
 //  * 对table（赞成或反对票的弃票列表）进行mix_and_match
-//  * @param {*} table 
-//  * @param {*} voteID 
-//  * @returns 
+//  * @param {*} table
+//  * @param {*} voteID
+//  * @returns
 //  * 成功返回0;
 //  * 获取trustee服务地址列表失败返回-1;
 //  * 第一步失败返回-2;
@@ -317,7 +317,7 @@
 
 // /**
 //  * 发起最终计票请求
-//  * @param {*} voteID 
+//  * @param {*} voteID
 //  * @returns
 //  * 成功返回0;
 //  * doFinalTallyInitQuery失败返回-1;

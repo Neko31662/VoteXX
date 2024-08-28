@@ -92,7 +92,8 @@
         <el-form>
             <el-form-item>
                 <el-text tag="p">
-                    The election token is successfully obtained and users can join the election in the
+                    The election token is successfully obtained and users can
+                    join the election in the
                     <strong>Create/join election</strong>
                     interface:
                     <br />
@@ -132,7 +133,9 @@
         <template #header>
             <el-text type="danger"><h3>You are nullifying a vote</h3></el-text>
         </template>
-        <el-text tag="p">Nullification is irrevocable, please consider carefully</el-text>
+        <el-text tag="p">
+            Nullification is irrevocable, please consider carefully
+        </el-text>
         <template #footer>
             <div class="dialog-footer">
                 <el-button @click="deleteVisible = false">Cancel</el-button>

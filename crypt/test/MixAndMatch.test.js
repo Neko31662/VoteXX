@@ -20,7 +20,7 @@ describe(`Simulation of Mix and Match protocol, ${players} players`, function ()
     let sk = keyPair.getPrivate();
     let ck = new PedersenPublicKey(ec, 2);
 
-    this.timeout(Math.max(4000, times *players* 500));
+    this.timeout(Math.max(4000, times * players * 500));
 
 
     it(`Simulate ${times} times`, () => {
@@ -43,7 +43,7 @@ describe(`Simulation of Mix and Match protocol, ${players} players`, function ()
                 } else {
                     lst = shuffled_tables[i - 1];
                 }
-                let [ tmp1, tmp2 ] = VerifiableShuffle.shuffleWithProof(ec, pk, ck, lst, 2);
+                let [tmp1, tmp2] = VerifiableShuffle.shuffleWithProof(ec, pk, ck, lst, 2);
 
                 shuffled_tables[i] = tmp1;
                 shuffle_proofs[i] = tmp2;

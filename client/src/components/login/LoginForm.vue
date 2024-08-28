@@ -22,7 +22,9 @@
             <el-button type="primary" @click="submitForm()">Login</el-button>
         </el-form-item>
         <div>
-            <el-link href="/#/signup" type="primary">Don't have an account yet?</el-link>
+            <el-link href="/#/signup" type="primary">
+                Don't have an account yet?
+            </el-link>
         </div>
     </el-form>
 </template>

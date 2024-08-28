@@ -1,7 +1,7 @@
 const BN = require('bn.js');
 const elliptic = require('elliptic');
 const EC = elliptic.ec;
-const {class_of} = require('../util/BasicFunction');
+const { class_of } = require('../util/BasicFunction');
 
 /* ----------------------------------------------- */
 // 椭圆曲线
@@ -33,7 +33,7 @@ var is_inf = inf.isInfinity();// 判断是否为无穷远点
 //var inf_x = inf.getX();// 无穷远点不存在x，y坐标，报错
 
 // 生成一个点
-var point_1_2 = ec.curve.point(1,2);
+var point_1_2 = ec.curve.point(1, 2);
 
 // 判断点是否在曲线上
 var valid1 = ec.curve.validate(g);

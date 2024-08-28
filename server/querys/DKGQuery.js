@@ -145,7 +145,7 @@
 
 const axios = require("axios");
 const { getAllTrusteeAddress } = require("./methods");
-const { deserialize } = require("../../crypt/util/Serializer");
+const { serialize, deserialize } = require("../../crypt/util/Serializer");
 const { DKG_exec } = require("../../crypt/protocol/DKG/DKG");
 
 const VoteModel = require("../models/VoteModel");
@@ -252,8 +252,8 @@ const doGenerateKeyQuery = async (voteID) => {
 const generateKeyQuery = async (voteID) => {
     let result = await doGenerateKeyQuery(voteID);
     // console.log("DKGQuery result:", result);
-    if (result <= -2 && result !== -100) throw "generateKeyQueryErr";
-    else if (result !== 0) throw "OtherErr";
+    if (result <= -2 && result !== -100) throw new Error("generateKeyQueryErr");
+    else if (result !== 0) throw new Error("OtherErr");
 };
 
 /**

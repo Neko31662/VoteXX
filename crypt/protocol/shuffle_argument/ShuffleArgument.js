@@ -8,6 +8,10 @@ const { encodePoint } = require('../../util/Serializer');
 const { MultiExponentiationArgument } = require('./MultiExponentiationArgument');
 const { ProductArgument } = require('./ProductArgument');
 
+/**
+ * @typedef {import('../../primitiv/encryption/ElGamal').ElgamalCiphertext} ElgamalCiphertext
+ */
+
 class ShuffleArgument {
     /**
      * 
@@ -721,7 +725,7 @@ class VerifiableShuffle {
      * @param {PedersenPublicKey} ck Pedersen public key 
      * @param {ElgamalCiphertext[] | ElgamalCiphertext[][]} input_ctxts An array composed of Elgamal ciphertext or Elgamal ciphertext vectors
      * @param {number} m The number of columns in the matrix, which defaults to 2
-     * @returns {{output_ctxts: ElgamalCiphertext[] | ElgamalCiphertext[][], proof: ShuffleProof}}
+     * @returns {[ElgamalCiphertext[] | ElgamalCiphertext[][], ShuffleProof]}
      */
     shuffleWithProof(ec, pk, ck, input_ctxts, m = 2) {
         let N = input_ctxts.length;
@@ -730,7 +734,7 @@ class VerifiableShuffle {
         let { input_ctxt_matrix, output_ctxt_matrix, pi_matrix, rho_matrix } = transformToMatrix(ec, input_ctxts, output_ctxts, permutation, rho_vector, m);
         let proof = (new ShuffleArgument()).generateShuffleProof(ec, pk, ck, input_ctxt_matrix, output_ctxt_matrix, pi_matrix, rho_matrix);
 
-        return [ output_ctxts, proof ];
+        return [output_ctxts, proof];
     }
 
     /**

@@ -7,6 +7,6 @@ function class_of(val) {
     }
 }
 
-module.exports={
+module.exports = {
     class_of
-}
+};

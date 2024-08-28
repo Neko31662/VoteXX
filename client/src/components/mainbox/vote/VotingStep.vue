@@ -16,7 +16,10 @@
                     {{ dateToString(voteEndTime) }}
                 </el-text>
             </el-form-item>
-            <el-form-item label="Please enter voting secret key" prop="sk_string">
+            <el-form-item
+                label="Please enter voting secret key"
+                prop="sk_string"
+            >
                 <el-input v-model="votingForm.sk_string" autocomplete="off" />
             </el-form-item>
         </el-form>
@@ -73,7 +76,8 @@ const votingRules = reactive({
                 const hexRegex = /^[0-9a-f]+$/;
                 return hexRegex.test(value);
             },
-            message: "The key should only contain 0-9 and lowercase letters a-f",
+            message:
+                "The key should only contain 0-9 and lowercase letters a-f",
             trigger: "blur",
         },
     ],

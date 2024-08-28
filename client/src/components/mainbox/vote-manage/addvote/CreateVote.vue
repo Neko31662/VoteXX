@@ -43,7 +43,10 @@
                         <el-input v-model="createVoteForm[0].voteName" />
                     </el-form-item>
 
-                    <el-form-item label="Election introduction" prop="voteIntro">
+                    <el-form-item
+                        label="Election introduction"
+                        prop="voteIntro"
+                    >
                         <el-input
                             v-model="createVoteForm[0].voteIntro"
                             type="textarea"
@@ -67,7 +70,10 @@
                     label-width="auto"
                     status-icon
                 >
-                    <el-form-item label="Registration deadline" prop="regEndTime">
+                    <el-form-item
+                        label="Registration deadline"
+                        prop="regEndTime"
+                    >
                         <el-date-picker
                             v-model="createVoteForm[1].regEndTime"
                             type="datetime"
@@ -90,7 +96,10 @@
                         <TimeTips :index="1" />
                     </el-form-item>
 
-                    <el-form-item label="Nullification start time" prop="nulStartTime">
+                    <el-form-item
+                        label="Nullification start time"
+                        prop="nulStartTime"
+                    >
                         <el-date-picker
                             v-model="createVoteForm[1].nulStartTime"
                             type="datetime"
@@ -101,7 +110,10 @@
                         <TimeTips :index="2" />
                     </el-form-item>
 
-                    <el-form-item label="Nullification deadline" prop="nulEndTime">
+                    <el-form-item
+                        label="Nullification deadline"
+                        prop="nulEndTime"
+                    >
                         <el-date-picker
                             v-model="createVoteForm[1].nulEndTime"
                             type="datetime"
@@ -134,11 +146,14 @@
 
                     <el-form-item>
                         <el-text>
-                            The greater the number of trustees, the more secure the election will be, but the tally will also take longer.
+                            The greater the number of trustees, the more secure
+                            the election will be, but the tally will also take
+                            longer.
                             <br />
                             The set of trustees are called EA.
                             <br />
-                            Need to ensure that trustees do not collude with each other.
+                            Need to ensure that trustees do not collude with
+                            each other.
                         </el-text>
                     </el-form-item>
                 </el-form>
@@ -151,7 +166,8 @@
                 >
                     <el-form-item>
                         <el-text tag="p">
-                            The election is created successfully and users can join the election in the
+                            The election is created successfully and users can
+                            join the election in the
                             <strong>Create/join election</strong>
                             interface:
                             <br />
@@ -237,7 +253,11 @@ const active = ref(0); //当前完成的步骤
 const stepNumber = 3; //总步数
 
 //创建投票各个步骤的名称
-const stepMessages = ["Enter election information", "Select time", "Confirm trustee number"];
+const stepMessages = [
+    "Enter election information",
+    "Select time",
+    "Confirm trustee number",
+];
 
 //创建投票后生成的投票凭证
 const joinVoteToken = ref("joinVoteToken");
@@ -259,7 +279,7 @@ const createVoteForm = [];
 createVoteForm[0] = reactive({
     voteName: "",
     voteIntro: "",
-    voteByOwner: false
+    voteByOwner: false,
 });
 
 createVoteForm[1] = reactive({
@@ -328,7 +348,8 @@ createVoteRules[1] = reactive({
             validator: (rule, value) => {
                 return new Date(value) > new Date(createVoteForm[1].regEndTime);
             },
-            message: "The time of this phase should be later than the previous phase",
+            message:
+                "The time of this phase should be later than the previous phase",
             trigger: "blur",
         },
     ],
@@ -344,7 +365,8 @@ createVoteRules[1] = reactive({
                     new Date(value) > new Date(createVoteForm[1].voteEndTime)
                 );
             },
-            message: "The time of this phase should be later than the previous phase",
+            message:
+                "The time of this phase should be later than the previous phase",
             trigger: "blur",
         },
     ],
@@ -360,7 +382,8 @@ createVoteRules[1] = reactive({
                     new Date(value) > new Date(createVoteForm[1].nulStartTime)
                 );
             },
-            message: "The time of this phase should be later than the previous phase",
+            message:
+                "The time of this phase should be later than the previous phase",
             trigger: "blur",
         },
     ],
@@ -431,7 +454,9 @@ const submitForm = async () => {
     try {
         await Promise.all(validatePromises);
     } catch (error) {
-        ElMessage.error("Please check whether there are any errors in the input items of each step");
+        ElMessage.error(
+            "Please check whether there are any errors in the input items of each step"
+        );
         formSubmitting.value = false;
     }
 

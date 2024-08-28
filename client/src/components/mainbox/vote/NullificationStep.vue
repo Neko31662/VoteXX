@@ -39,7 +39,9 @@
             <el-button @click="router.push('/vote-manage/votelist')">
                 Exit
             </el-button>
-            <el-button type="primary" @click="nullify()">Confirm nullification</el-button>
+            <el-button type="primary" @click="nullify()">
+                Confirm nullification
+            </el-button>
         </template>
     </el-card>
 </template>
@@ -92,7 +94,8 @@ const nullificationRules = reactive({
                 const hexRegex = /^[0-9a-f]+$/;
                 return hexRegex.test(value);
             },
-            message: "The key should only contain 0-9 and lowercase letters a-f",
+            message:
+                "The key should only contain 0-9 and lowercase letters a-f",
             trigger: "blur",
         },
     ],

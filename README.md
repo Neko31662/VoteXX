@@ -50,6 +50,3 @@ The README files of the submodules are at the following positions:
 ./trustee/README.md
 ./client/src/README.md
 ```
-
-
-

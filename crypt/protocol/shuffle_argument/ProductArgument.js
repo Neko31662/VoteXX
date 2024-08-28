@@ -92,7 +92,7 @@ class ProductArgument {
         b,
         proof
     ) {
-        let {c_b, HadamardProductProof, SingleValueProductProof} = proof;
+        let { c_b, HadamardProductProof, SingleValueProductProof } = proof;
 
         let invalidList = [];// debug
         let valid = true;
@@ -116,7 +116,7 @@ class ProductArgument {
             c_b,
             b,
             SingleValueProductProof
-        )
+        );
         valid &= cur;
         if (!cur) invalidList.push(2);
 

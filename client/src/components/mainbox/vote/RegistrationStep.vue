@@ -123,11 +123,8 @@ const route = useRoute();
 const router = useRouter();
 import { ElMessage } from "element-plus";
 
-import elliptic from "elliptic";
-const EC = elliptic.ec;
-const ec = new EC("secp256k1");
-// const ElgamalPublicKey =
-//     require("@/../../crypt/primitiv/encryption/ElGamal").ElgamalPublicKey;
+import ec from "@/../../crypt/primitiv/ec/ec";
+import { ElgamalEnc } from "@/../../crypt/primitiv/encryption/ElGamal";
 import { serialize, deserialize } from "@/../../crypt/util/Serializer";
 
 const props = defineProps({
@@ -219,9 +216,9 @@ const submitForm = () => {
                 ElMessage.error("Failed to get public key");
                 return;
             }
-            let pk = new ElgamalPublicKey(ec, deserialize(pk_serialized, ec));
-            let enc_pk_yes = pk.encrypt(pk_yes);
-            let enc_pk_no = pk.encrypt(pk_no);
+            let global_pk = deserialize(pk_serialized, ec);
+            let enc_pk_yes = ElgamalEnc.encrypt(ec, global_pk, pk_yes);
+            let enc_pk_no = ElgamalEnc.encrypt(ec, global_pk, pk_no);
             let enc_pk_yes_serialized = serialize(enc_pk_yes);
             let enc_pk_no_serialized = serialize(enc_pk_no);
 
