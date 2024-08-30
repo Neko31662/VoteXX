@@ -26,6 +26,27 @@ const VotePrivateService = {
     },
 
     /**
+     * 获取Pedersen公钥
+     * @param {{ voteID }} params 
+     * 成功返回公钥ck;
+     * 未找到投票返回-1;
+     * 数据库错误返回-100;
+     */
+    getCk: async (params) => {
+        const { voteID } = params;
+
+        let voteInfo = null;
+        try {
+            voteInfo = await VoteModel.findOne({ _id: voteID });
+        } catch (err) {
+            return -100;
+        }
+        if (!voteInfo) return -1;
+
+        return voteInfo.BB.ck;
+    },
+
+    /**
      * 投票步骤的处理
      * @param {{ voteID, signature, enc_pk }} params 
      * 成功返回0;

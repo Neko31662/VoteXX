@@ -136,7 +136,7 @@ class NullificationArgument {
             redy_pow_k[k] = redy_pow_k[k - 1].redMul(redy);
         }
 
-        let n = Math.ceil(Math.log2(N));
+        let n = Math.max(1,Math.ceil(Math.log2(N)));
         let l_bin = toBinary(index, n);
 
         let {
@@ -287,7 +287,7 @@ class NullificationArgument {
 
         let N = pk_list.length;
         assert.ok(E_list.length === N, "'E_list.length' should be N.");
-        let n = Math.ceil(Math.log2(N));
+        let n = Math.max(1,Math.ceil(Math.log2(N)));
 
         /*----- compute challenge y -----*/
         let msg = [];
@@ -456,16 +456,16 @@ class NullificationArgument {
                 }
             } else if (b === 0) {
                 if (1 - l_bin[j]) {
-                    return [a_vector[j].neg(), new BN(1)];
+                    return [a_vector[j].neg().add(ec.curve.n), new BN(1)];
                 } else {
-                    return [a_vector[j].neg()];
+                    return [a_vector[j].neg().add(ec.curve.n)];
                 }
             } else {
-                throw new Error("'b' should be 0 or 1.");
+                throw new Error(`'b' should be 0 or 1, catch ${b}.`);
             }
         };
 
-        let n = Math.ceil(Math.log2(N));
+        let n = Math.max(1,Math.ceil(Math.log2(N)));
         let polysMap = new Map();
 
         /**
@@ -501,7 +501,7 @@ class NullificationArgument {
     /**
      * 
      * @param {EC} ec 
-     * @param {number} n n = ceil(log2(N)) 
+     * @param {number} n n = ceil(log2(N)), at least 1
      * @returns {{ t:BN, s_prime:BN, t_prime:BN, tau_vector:BN[],a_vector:BN[],
      *  s_vector:BN[], t_vector:BN[], rho_vector:BN[], R_vector:BN[] }}
      */

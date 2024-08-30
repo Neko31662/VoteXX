@@ -54,17 +54,11 @@ const route = useRoute();
 const router = useRouter();
 import { ElMessage } from "element-plus";
 
-import elliptic from "elliptic";
-const EC = elliptic.ec;
-const ec = require("@/../../crypt/primitiv/ec/ec");
-import BN from "bn.js";
-import { serialize, deserialize } from "@/../../crypt/util/Serializer";
+import ec from "@/../../crypt/primitiv/ec/ec";
+import BN from "@/../../crypt/primitiv/bn/bn";
 import { LiftedElgamalEnc } from "@/../../crypt/primitiv/encryption/LiftedElGamal";
-// import {
-//     Statement,
-//     Witness,
-//     NullificationNIZK,
-// } from "@/../../crypt/protocol/NIZKs/nullification";
+import { serialize, deserialize } from "@/../../crypt/util/Serializer";
+import { NullificationArgument } from "@/../../crypt/protocol/nullification/NullificationArgument";
 
 const props = defineProps({
     _id: String,
@@ -140,6 +134,25 @@ const nullify = () => {
                 return;
             }
 
+            //获取Pedersen公钥
+            let ck_serialized = null;
+            try {
+                let res = await axios.get("/serverapi/vote-private/get-ck", {
+                    params: {
+                        _id: route.query._id,
+                    },
+                });
+                if (res.data.ActionType === "ok") {
+                    ck_serialized = res.data.data;
+                } else {
+                    ElMessage.error(res.data.error);
+                    return;
+                }
+            } catch (err) {
+                ElMessage.error("Failed to get Pedersen public key");
+                return;
+            }
+
             //获取yesVotes和noVotes
             let yesVotes_serialized = [];
             let noVotes_serialized = [];
@@ -199,39 +212,52 @@ const nullify = () => {
             }
 
             let election_pk = deserialize(election_pk_serialized, ec);
+            let ck = deserialize(ck_serialized, ec);
             let Votes = Votes_serialized.map((value) => deserialize(value, ec));
             let index = null;
-            let flagList = [];
-            let listSizeLog = Math.log2(Votes_serialized.length);
-            let randomnesses = [];
+            let E_list = [];
+            let r_list = [];
             for (let i = 0; i < Votes_serialized.length; i++) {
                 if (pk_serialized === Votes_serialized[i]) {
                     index = i;
-                    flagList.push(1);
+                    break;
+                }
+            }
+            for (let i = 0; i < Votes_serialized.length; i++) {
+                if (index !== i) {
+                    r_list[i] = ec.randomBN();
+                    E_list[i] = LiftedElgamalEnc.encrypt(
+                        ec,
+                        election_pk,
+                        1,
+                        r_list[i]
+                    );
                 } else {
-                    flagList.push(0);
+                    r_list[i] = ec.randomBN();
+                    E_list[i] = LiftedElgamalEnc.encrypt(
+                        ec,
+                        election_pk,
+                        0,
+                        r_list[i]
+                    );
                 }
             }
 
-            flagList = flagList.map((item) => {
-                let [ctxt, randomness] = LiftedElgamalEnc.encrypt(
-                    election_pk,
-                    item,
-                    ec.curve,
-                    ec
-                );
-                randomnesses.push(randomness);
-                return ctxt;
-            });
-            let st = new Statement(election_pk, Votes, flagList);
-            let witness = new Witness(index, listSizeLog, randomnesses, sk);
-            let nizk = new NullificationNIZK(ec, st);
-            let proof = nizk.prove(witness);
+            let proof = NullificationArgument.generateNullificationProof(
+                ec,
+                election_pk,
+                ck,
+                Votes,
+                E_list,
+                r_list,
+                sk,
+                index
+            );
 
             let data = {
                 voteID: route.query._id,
                 nullifyYes,
-                flagList: flagList.map((item) => serialize(item)),
+                flagList: E_list.map((item) => serialize(item)),
                 proof: serialize(proof),
             };
 

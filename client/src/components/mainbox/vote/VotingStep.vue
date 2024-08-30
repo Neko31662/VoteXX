@@ -40,12 +40,9 @@ const route = useRoute();
 const router = useRouter();
 import { ElMessage } from "element-plus";
 
-import elliptic from "elliptic";
-const EC = elliptic.ec;
-const ec = new EC("secp256k1");
-import BN from "bn.js";
-// const ElgamalPublicKey =
-//     require("@/../../crypt/primitiv/encryption/ElGamal").ElgamalPublicKey;
+import ec from "@/../../crypt/primitiv/ec/ec";
+import BN from "@/../../crypt/primitiv/bn/bn";
+import { ElgamalEnc } from "@/../../crypt/primitiv/encryption/ElGamal";
 import { serialize, deserialize } from "@/../../crypt/util/Serializer";
 
 const props = defineProps({
@@ -107,19 +104,35 @@ const vote = () => {
                 ElMessage.error("Failed to get public key");
                 return;
             }
-            let election_pk = new ElgamalPublicKey(
-                ec,
-                deserialize(pk_serialized, ec)
-            );
+            let election_pk = deserialize(pk_serialized, ec);
 
-            //生成签名
+            //生成签名并加密
             let sk = new BN(votingForm.sk_string, 16);
             let pk = ec.curve.g.mul(sk);
             let sign_privateKey = ec.keyFromPrivate(sk);
             let signature = sign_privateKey.sign(route.query._id);
-            let enc_pk = election_pk.encrypt(pk);
-
+            let encode_r = ElgamalEnc.encode(ec, signature.r);
+            let encode_s = ElgamalEnc.encode(ec, signature.s);
+            signature.r = [];
+            for (let i = 0; i < encode_r.length; i++) {
+                signature.r[i] = ElgamalEnc.encrypt(
+                    ec,
+                    election_pk,
+                    encode_r[i]
+                );
+            }
+            signature.s = [];
+            for (let i = 0; i < encode_s.length; i++) {
+                signature.s[i] = ElgamalEnc.encrypt(
+                    ec,
+                    election_pk,
+                    encode_s[i]
+                );
+            }
             let signature_serialized = serialize(signature);
+
+            //加密投票公钥
+            let enc_pk = ElgamalEnc.encrypt(ec, election_pk, pk);
             let enc_pk_serialized = serialize(enc_pk);
 
             axios

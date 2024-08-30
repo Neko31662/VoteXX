@@ -1,20 +1,25 @@
 const BN = require('../primitiv/bn/bn');
 const ec = require('../primitiv/ec/ec');
-const { serialize, encodePoint } = require('../util/Serializer');
+const { serialize, encodePoint, deserialize } = require('../util/Serializer');
 
 let g = ec.curve.g;
 let n = ec.curve.n;
 let p = ec.curve.p;
 
-let red = BN.red(n);
-let redn = n.tryToRed(red);
-let a1 = g.mul(new BN(1).tryToRed(red).redNeg());
-let a2 = g.mul(n.subn(1));
-let a3 = g.mul(n.add(n).subn(1));
+let key = ec.genKeyPair();
 
-console.log(a1.encode('hex', 1));
-console.log(a2.encode('hex', 1));
-console.log(a3.encode('hex', 1));
+let signature = key.sign("route.query._id");
+
+console.log(signature);
+
+signature = deserialize(serialize(signature), ec);
+console.log(signature);
+
+console.log(key.verify("route.query._id", signature));
+
+
+// let s2 = new ec.Signature()
+
 
 
 

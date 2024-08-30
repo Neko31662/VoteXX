@@ -25,6 +25,28 @@ const VotePrivateController = {
     },
 
     /**
+     * 获取Pedersen公钥
+     */
+    getCk: async (req, res) => {
+        let params = {
+            voteID: req.query._id,
+        };
+        let result = await VotePrivateService.getCk(params);
+
+        if (result === -1) {
+            res.send({ error: "Failed to get Pedersen public key: vote not found" });
+        } else if (result === -100) {
+            res.send({ error: "Failed to get Pedersen public key: database error" });
+        }
+        else {
+            res.send({
+                ActionType: "ok",
+                data: result
+            });
+        }
+    },
+
+    /**
      * 投票步骤的处理
      */
     votingStep: async (req, res) => {

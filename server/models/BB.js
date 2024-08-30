@@ -4,12 +4,13 @@ const Schema = mongoose.Schema;
 const { serialize } = require("../../crypt/util/Serializer");
 const ec = require('../../crypt/primitiv/ec/ec');
 const BN = require('../../crypt/primitiv/bn/bn');
+const { PedersenPublicKey } = require('../../crypt/primitiv/commitment/pedersen_commitment');
 
 const BBType = {
-    generatorH: {
+    ck: {
         required: true,
         type: String,
-        default: serialize(ec.curve.g.mul(ec.randomBN()))
+        default: serialize(new PedersenPublicKey(ec, 1))
     },
     yiList: {
         required: true,

@@ -112,7 +112,7 @@ async function test() {
     const { ElgamalEnc } = require('../../crypt/primitiv/encryption/ElGamal');
     let _id = '66cdcd3e8ab5fe8352c1e34d';
 
-    shuffleAfterRegQuery(_id);
+    provisionalTallyQuery(_id);
 }
-test();
+// test();
 

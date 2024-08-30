@@ -7,7 +7,7 @@ const { NullificationArgument } = require('../protocol/nullification/Nullificati
 
 let chai = require('chai');
 let assert = chai.assert;
-let N = 100;
+let N = 1000;
 
 describe(`Test of 'NullificationArgument.js'`, function () {
     this.timeout(Math.max(4000, N * Math.ceil(Math.log2(N))));
@@ -17,7 +17,7 @@ describe(`Test of 'NullificationArgument.js'`, function () {
     let global_sk = global_keyPair.getPrivate();
     let global_ck = new PedersenPublicKey(ec, 2);
 
-    let index = Math.floor(Math.random() * (N + 1));
+    let index = Math.floor(Math.random() * (N));
 
     let pk_list = [];
     let sk;
