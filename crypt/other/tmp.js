@@ -8,17 +8,12 @@ let p = ec.curve.p;
 
 let key = ec.genKeyPair();
 
-let signature = key.sign("route.query._id");
+let m = new Map();
+m.set("111", { a: 1, b: 2 });
+let tmp = m.get("111");
+m.delete("111");
 
-console.log(signature);
-
-signature = deserialize(serialize(signature), ec);
-console.log(signature);
-
-console.log(key.verify("route.query._id", signature));
-
-
-// let s2 = new ec.Signature()
+console.log(tmp);
 
 
 

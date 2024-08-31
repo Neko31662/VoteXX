@@ -224,7 +224,7 @@ const nullify = () => {
                 }
             }
             for (let i = 0; i < Votes_serialized.length; i++) {
-                if (index !== i) {
+                if (index === i) {
                     r_list[i] = ec.randomBN();
                     E_list[i] = LiftedElgamalEnc.encrypt(
                         ec,

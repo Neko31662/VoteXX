@@ -11,7 +11,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/VoteXX_Database");
 
 //设置定时任务间隔（单位：ms）
 const updateVoteStateInterval1 = 3 * 1000;//更新投票状态
-const updateVoteStateInterval2 = 11 * 1000;//更新投票状态
+const updateVoteStateInterval2 = 5 * 1000;//更新投票状态
 
 
 //设置定时任务内容
@@ -52,50 +52,74 @@ const IntervalTask1 = async () => {
 
 
 const IntervalTask2 = async () => {
-    let voteInfos = await VoteModel.find({ state: 0 });
+    let voteInfos = await VoteModel.find({ processing: false, state: 0 });
     for (let voteInfo of voteInfos) {
+        await VoteModel.updateOne({ _id: voteInfo._id }, {
+            $set: { processing: true }
+        });
         generateKeyQuery(voteInfo._id).then(() => {
             VoteModel.updateOne({ _id: voteInfo._id }, {
-                $set: { state: 1 }
+                $set: { state: 1, processing: false }
             }).then().catch();
         }).catch((err) => {
             console.log("DKGQueryErr", err);
+            VoteModel.updateOne({ _id: voteInfo._id }, {
+                $set: { processing: false }
+            }).then().catch();
             // if (err !== "DKGQueryErr") throw err;
         });
     }
 
-    voteInfos = await VoteModel.find({ state: 2 });
+    voteInfos = await VoteModel.find({ processing: false, state: 2 });
     for (let voteInfo of voteInfos) {
+        await VoteModel.updateOne({ _id: voteInfo._id }, {
+            $set: { processing: true }
+        });
         shuffleAfterRegQuery(voteInfo._id).then(() => {
             VoteModel.updateOne({ _id: voteInfo._id }, {
-                $set: { state: 3 }
+                $set: { state: 3, processing: false }
             }).then().catch();
         }).catch((err) => {
             console.log("shuffleAfterRegQueryErr", err);
+            VoteModel.updateOne({ _id: voteInfo._id }, {
+                $set: { processing: false }
+            }).then().catch();
             // throw err;
         });
     }
 
-    voteInfos = await VoteModel.find({ state: 4, provisionalTallyFinished: false });
+    voteInfos = await VoteModel.find({ processing: false, state: 4, provisionalTallyFinished: false });
     for (let voteInfo of voteInfos) {
+        await VoteModel.updateOne({ _id: voteInfo._id }, {
+            $set: { processing: true }
+        });
         provisionalTallyQuery(voteInfo._id).then(() => {
             VoteModel.updateOne({ _id: voteInfo._id }, {
-                $set: { provisionalTallyFinished: true }
+                $set: { provisionalTallyFinished: true, processing: false }
             }).then().catch();
         }).catch((err) => {
             console.log("provisionalTallyQueryErr", err);
+            VoteModel.updateOne({ _id: voteInfo._id }, {
+                $set: { processing: false }
+            }).then().catch();
             // throw err;
         });
     }
 
-    voteInfos = await VoteModel.find({ state: 6 });
+    voteInfos = await VoteModel.find({ processing: false, state: 6 });
     for (let voteInfo of voteInfos) {
+        await VoteModel.updateOne({ _id: voteInfo._id }, {
+            $set: { processing: true }
+        });
         FinalTallyQuery(voteInfo._id).then(() => {
             VoteModel.updateOne({ _id: voteInfo._id }, {
-                $set: { state: 7 }
+                $set: { state: 7, processing: false }
             }).then().catch();
         }).catch((err) => {
             console.log("FinalTallyQueryErr", err);
+            VoteModel.updateOne({ _id: voteInfo._id }, {
+                $set: { processing: false }
+            }).then().catch();
             // throw err;
         });
     }
@@ -104,15 +128,15 @@ const IntervalTask2 = async () => {
 
 //开启定时任务
 setInterval(IntervalTask1, updateVoteStateInterval1);
-setInterval(IntervalTask2, updateVoteStateInterval2);
-IntervalTask2();
+// setInterval(IntervalTask2, updateVoteStateInterval2);
+IntervalTask2()
 
 async function test() {
     const ec = require('../../crypt/primitiv/ec/ec');
     const { ElgamalEnc } = require('../../crypt/primitiv/encryption/ElGamal');
-    let _id = '66cdcd3e8ab5fe8352c1e34d';
+    let _id = '66d2959ca0abf43341b49a26';
 
-    provisionalTallyQuery(_id);
+    FinalTallyQuery(_id);
 }
 // test();
 

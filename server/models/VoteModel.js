@@ -85,6 +85,14 @@ const VoteType = {
         type: Boolean,
     },
     /**
+     * 代表当前是否在执行某一流程
+     */
+    processing: {
+        required: true,
+        type: Boolean,
+        default: false,
+    },
+    /**
      * 公告板
      */
     BB: {

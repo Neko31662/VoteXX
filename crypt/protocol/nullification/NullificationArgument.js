@@ -136,7 +136,7 @@ class NullificationArgument {
             redy_pow_k[k] = redy_pow_k[k - 1].redMul(redy);
         }
 
-        let n = Math.max(1,Math.ceil(Math.log2(N)));
+        let n = Math.max(1, Math.ceil(Math.log2(N)));
         let l_bin = toBinary(index, n);
 
         let {
@@ -287,7 +287,7 @@ class NullificationArgument {
 
         let N = pk_list.length;
         assert.ok(E_list.length === N, "'E_list.length' should be N.");
-        let n = Math.max(1,Math.ceil(Math.log2(N)));
+        let n = Math.max(1, Math.ceil(Math.log2(N)));
 
         /*----- compute challenge y -----*/
         let msg = [];
@@ -465,7 +465,7 @@ class NullificationArgument {
             }
         };
 
-        let n = Math.max(1,Math.ceil(Math.log2(N)));
+        let n = Math.max(1, Math.ceil(Math.log2(N)));
         let polysMap = new Map();
 
         /**

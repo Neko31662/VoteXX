@@ -16,8 +16,10 @@ const EAVoteService = {
         }
 
         try {
+
             let result = await EAVoteModel.create({
                 voteID: params.voteID,
+                ck: params.ck,
                 seq: params.seq,
                 EACount: params.EACount
             });

@@ -10,7 +10,7 @@ const BBType = {
     ck: {
         required: true,
         type: String,
-        default: serialize(new PedersenPublicKey(ec, 1))
+        default: serialize(new PedersenPublicKey(ec, 2))
     },
     yiList: {
         required: true,

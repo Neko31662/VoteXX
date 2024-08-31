@@ -35,6 +35,7 @@ const createVoteQuery = async (voteInfo) => {
         try {
             let res = await axios.post(address + "/ea-vote/join-vote", {
                 voteID: voteInfo._id,
+                ck:voteInfo.BB.ck,
                 seq: i,
                 EACount: voteInfo.EACount
             });
