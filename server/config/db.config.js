@@ -125,18 +125,19 @@ const IntervalTask2 = async () => {
     }
 };
 
+VoteModel.updateMany({ processing: true }, { processing: false }).then(() => {
+    //开启定时任务
+    setInterval(IntervalTask1, updateVoteStateInterval1);
+    setInterval(IntervalTask2, updateVoteStateInterval2);
+})
 
-//开启定时任务
-setInterval(IntervalTask1, updateVoteStateInterval1);
-// setInterval(IntervalTask2, updateVoteStateInterval2);
-IntervalTask2()
 
-async function test() {
-    const ec = require('../../crypt/primitiv/ec/ec');
-    const { ElgamalEnc } = require('../../crypt/primitiv/encryption/ElGamal');
-    let _id = '66d2959ca0abf43341b49a26';
+// async function test() {
+//     const ec = require('../../crypt/primitiv/ec/ec');
+//     const { ElgamalEnc } = require('../../crypt/primitiv/encryption/ElGamal');
+//     let _id = '66d2959ca0abf43341b49a26';
 
-    FinalTallyQuery(_id);
-}
+//     FinalTallyQuery(_id);
+// }
 // test();
 
