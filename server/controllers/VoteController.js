@@ -216,6 +216,8 @@ const VoteController = {
             res.send({ error: "Already registered in this election" });
         } else if (result === -2) {
             res.send({ error: "Did not join this election" });
+        } else if (result === -3) {
+            res.send({ error: "Registration deadline for this election has been exceeded" });
         } else if (result === -100) {
             res.send({ error: "Database error" });
         }

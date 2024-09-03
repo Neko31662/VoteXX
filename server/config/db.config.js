@@ -133,11 +133,6 @@ VoteModel.updateMany({ processing: true }, { processing: false }).then(() => {
 
 
 // async function test() {
-//     const ec = require('../../crypt/primitiv/ec/ec');
-//     const { ElgamalEnc } = require('../../crypt/primitiv/encryption/ElGamal');
-//     let _id = '66d2959ca0abf43341b49a26';
-
-//     FinalTallyQuery(_id);
 // }
 // test();
 

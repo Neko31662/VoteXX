@@ -21,21 +21,6 @@
                 <span>Personal center</span>
             </el-menu-item>
 
-            <!-- <el-sub-menu index="/user-manage">
-                <template #title>
-                    <el-icon>
-                        <UserFilled />
-                    </el-icon>
-                    <span>Test path</span>
-                </template>
-                <el-menu-item index="/user-manage/adduser">
-                    Test path 1
-                </el-menu-item>
-                <el-menu-item index="/user-manage/userlist">
-                    Test path 2
-                </el-menu-item>
-            </el-sub-menu> -->
-
             <el-sub-menu index="/vote-manage">
                 <template #title>
                     <el-icon>
@@ -53,6 +38,13 @@
                     Created elections
                 </el-menu-item>
             </el-sub-menu>
+
+            <el-menu-item index="/developers">
+                <el-icon>
+                    <Warning />
+                </el-icon>
+                <span>Developers</span>
+            </el-menu-item>
         </el-menu>
     </el-aside>
 </template>
@@ -76,6 +68,7 @@ import {
     MessageBox,
     Reading,
     Pointer,
+    Warning
 } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 const route = useRoute();

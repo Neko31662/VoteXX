@@ -272,10 +272,22 @@ const VoteService = {
      * @param {{ voteID, userID, enc_pk_yes, enc_pk_no }} params 
      * 已注册返回-1;
      * 未加入投票返回-2;
+     * 超过注册截止时间返回-3;
      * 数据库错误返回-100;
      */
     registrationStep: async (params) => {
         let { voteID, userID, enc_pk_yes, enc_pk_no } = params;
+
+        let voteInfo = {};
+        try {
+            voteInfo = await VoteModel.findOne({ _id: params.voteID });
+        } catch (err) {
+            return -100;
+        }
+        if (!voteInfo) return -100;
+
+        let now = new Date();
+        if (now >= voteInfo.regEndTime) return -3;
 
         try {
             let registered = await VoteModel.exists({ _id: voteID, voter_registered: userID });

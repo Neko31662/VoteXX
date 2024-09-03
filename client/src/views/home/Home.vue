@@ -35,10 +35,6 @@ const avatarUrl = computed(() =>
         : "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
 );
 
-//根据时间计算提示词
-// const welcomeText = computed(() =>
-//     new Date().getHours() < 12 ? "要开心每一天" : "喝杯咖啡提提神吧"
-// );
 </script>
 
 <style lang="scss" scoped>

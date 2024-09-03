@@ -1,11 +1,10 @@
 import Home from "../views/home/Home.vue";
 import Center from "../views/center/Center.vue";
-import UserAdd from "../views/user-manage/UserAdd.vue";
-import UserList from "../views/user-manage/UserList.vue";
 import AddVote from "../views/vote-manage/AddVote.vue";
 import VoteList from "../views/vote-manage/VoteList.vue";
 import MyVote from "@/views/vote-manage/MyVote.vue";
 import Vote from "@/views/vote/Vote.vue";
+import Developers from "@/views/developers/Developers.vue";
 import NotFound from "../views/notfound/NotFound.vue";
 
 const routes = [
@@ -44,24 +43,17 @@ const routes = [
         }
     },
     {
-        path: "/user-manage/adduser",
-        component: UserAdd,
-        meta: {
-            title: "Test path 1"
-        }
-    },
-    {
-        path: "/user-manage/userlist",
-        component: UserList,
-        meta: {
-            title: "Test path 2"
-        }
-    },
-    {
         path: "/vote",
         component: Vote,
         meta: {
             title: "Vote"
+        }
+    },
+    {
+        path: "/developers",
+        component: Developers,
+        meta: {
+            title: "Developers"
         }
     },
     //重定向与错误处理

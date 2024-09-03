@@ -56,6 +56,8 @@ const VotePrivateController = {
 
         if (result === -1) {
             res.send({ error: "Failed to vote: pk not found" });
+        } else if (result === -2) {
+            res.send({ error: "Failed to vote: voting deadline for this election has been exceeded" });
         } else if (result === -100) {
             res.send({ error: "Failed to vote: database error" });
         }
@@ -98,6 +100,8 @@ const VotePrivateController = {
 
         if (result === -1) {
             res.send({ error: "Nullification failed: vote not found" });
+        } else if (result === -2) {
+            res.send({ error: "Nullification failed: nullification deadline for this election has been exceeded" });
         } else if (result === -100) {
             res.send({ error: "Nullification failed: database error" });
         }

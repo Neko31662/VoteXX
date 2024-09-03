@@ -51,6 +51,7 @@ const VotePrivateService = {
      * @param {{ voteID, signature, enc_pk }} params 
      * 成功返回0;
      * 未找到投票返回-1;
+     * 超时返回-2;
      * 数据库错误返回-100;
      */
     votingStep: async (params) => {
@@ -63,6 +64,9 @@ const VotePrivateService = {
             return -100;
         }
         if (!voteInfo) return -1;
+
+        let now = new Date();
+        if (now >= voteInfo.voteEndTime) return -2;
 
         try {
             await VoteModel.updateOne({ _id: voteID }, {
@@ -103,6 +107,7 @@ const VotePrivateService = {
      * @param {{ voteID, nullifyYes, flagList, proof }} params
      * 成功返回0;
      * 未找到投票返回-1;
+     * 超时返回-2;
      * 数据库错误返回-100;
      */
     nullify: async (params) => {
@@ -114,6 +119,9 @@ const VotePrivateService = {
             return -100;
         }
         if (!voteInfo) return -1;
+
+        let now = new Date();
+        if (now >= voteInfo.nulEndTime) return -2;
 
         if (nullifyYes) {
             try {

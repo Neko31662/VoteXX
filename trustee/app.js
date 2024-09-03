@@ -11,6 +11,11 @@ const EAVoteRouter = require('./routes/EAVoteRouter');
 
 var app = express();
 
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // application specific logging, throwing an error, or other logic here
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

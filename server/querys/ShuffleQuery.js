@@ -121,6 +121,7 @@ const shuffleAfterRegQuery = async (voteID) => {
     }
 
     let pk_length = voteInfo.BB.pks.length;
+    if (pk_length === 0) return 0;
     let enc_pk_list = [];
     for (let i = 0; i < pk_length; i++) {
         enc_pk_list[i] = [];
