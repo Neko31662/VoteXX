@@ -31,6 +31,15 @@ npm install
 npm start <port> <username> <password> <database>
 ```
 
+You can use the following default commands to run the trustee processes. At least 2 and at most 5 trustees are supported.
+
+```
+npm start 3801 trustee1 neko31662 EADB1
+npm start 3802 trustee2 neko31662 EADB2
+...
+npm start 3805 trustee5 neko31662 EADB5
+```
+
 ## client
 
 How to run：
